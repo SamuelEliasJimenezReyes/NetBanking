@@ -6,7 +6,7 @@ using NetBanking.Core.Domain.Entities;
 
 namespace NetBanking.Core.Application.Services
 {
-    public class TransactionService : GenericService<SaveTransactionVM, TransactionVM, Transactions>, ITransactionService
+    public class TransactionService : GenericService<SaveTransactionVM, TransactionVM, Transaction>, ITransactionService
     {
         private readonly ITransactionRepository _transactionRepository;
         private readonly IMapper _mapper;

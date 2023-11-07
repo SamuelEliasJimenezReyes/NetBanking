@@ -8,7 +8,7 @@ using System.Transactions;
 
 namespace NetBanking.Core.Application.Interfaces.Repositories
 {
-    public interface ITransactionRepository : IGenericRepository<Transactions>
+    public interface ITransactionRepository : IGenericRepository<Domain.Entities.Transaction>
     {
     }
 }
