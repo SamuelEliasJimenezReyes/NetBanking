@@ -52,6 +52,59 @@ namespace NetBanking.Infrastructure.Persistence.Context
             #endregion
 
             #region Properties Configuration
+
+            #region Transaction Type
+
+            #region Data Insertion in Transaction Type
+            modelBuilder.Entity<TransactionType>()
+                .HasData
+                (
+                new TransactionType
+                {
+                    Id = 1,
+                    TransactionTypeName = "Pago Expreso",
+                    Created = DateTime.Now,
+                    CreatedBy = "Admin",
+                },
+                new TransactionType
+                {
+                    Id = 2,
+                    TransactionTypeName = "Pago de Tarjeta de Crédito",
+                    Created = DateTime.Now,
+                    CreatedBy = "Admin",
+                },
+                new TransactionType
+                {
+                    Id = 1,
+                    TransactionTypeName = "Pago de Prestamo",
+                    Created = DateTime.Now,
+                    CreatedBy = "Admin",
+                },
+                 new TransactionType
+                 {
+                     Id = 1,
+                     TransactionTypeName = "Pago para Beneficiario",
+                     Created = DateTime.Now,
+                     CreatedBy = "Admin",
+                 },
+                  new TransactionType
+                  {
+                      Id = 1,
+                      TransactionTypeName = "Avance Efectivo",
+                      Created = DateTime.Now,
+                      CreatedBy = "Admin",
+                  },
+                   new TransactionType
+                   {
+                       Id = 1,
+                       TransactionTypeName = "Transferecia entre Cuentas",
+                       Created = DateTime.Now,
+                       CreatedBy = "Admin",
+                   }
+                );
+            #endregion
+
+            #endregion
             #endregion
 
         }

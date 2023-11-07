@@ -6,4 +6,11 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\NetBanking.Core.Domain\NetBanking.Core.Domain.csproj" />
+    <ProjectReference Include="..\NetBanking.Infrastructure.Identity\NetBanking.Infrastructure.Identity.csproj" />
+    <ProjectReference Include="..\NetBanking.Infrastructure.Persistence\NetBanking.Infrastructure.Persistence.csproj" />
+    <ProjectReference Include="..\NetBanking.Infrastructure.Shared\NetBanking.Infrastructure.Shared.csproj" />
+  </ItemGroup>
+
 </Project>
