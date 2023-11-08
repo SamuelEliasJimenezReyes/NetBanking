@@ -1,0 +1,115 @@
+﻿<div>
+    <div class="container mt-2">
+        <h1 class="text-center">DashBoard</h1>
+        <div class="row col-12">
+            <div class="col-6 mt-2 mb-2">
+                <canvas  id="clientesChart"></canvas>
+           </div>
+            <div class="col-6  mt-2 mb-2">
+                <canvas  id="transaccionesChart"></canvas>
+            </div>
+            <div class="col-6 mt-2">
+                <canvas id="productosChart"></canvas>
+            </div>
+            <div class="col-6 mt-2">
+                <canvas id="pagosChart"></canvas>
+            </div>
+    </div>
+   
+</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    const clientes = document.getElementById('clientesChart');
+    const transacciones = document.getElementById('transaccionesChart');
+    const productos = document.getElementById('productosChart');
+    const pagos = document.getElementById('pagosChart');
+
+    new Chart(clientes, {
+        type :'bar',
+        data: {
+            labels: ['Clientes Activos','Clientes Inactivos',],
+            datasets: [{
+                label: 'Clientes Activos',
+                data: [90, 35],
+                backgroundColor: [
+                    '#0ffff7',
+                    '#0f3047'
+                ],
+                borderColor: [
+                    '#0d566f',
+                    '#0d566f'
+                ],
+                borderWidth: 1
+            }]
+        }
+    });
+
+    new Chart(transacciones, {
+        type: 'bar',
+        data: {
+            labels: ['Totales', 'Hoy',],
+            datasets: [{
+                label: 'Transacciones',
+                data: [350, 25],
+                backgroundColor: [
+                    '#0ffff7',
+                    '#0f3047'
+                ],
+                borderColor: [
+                    '#0d566f',
+                    '#0d566f'
+                ],
+                borderWidth: 1
+            }]
+        }
+    });
+
+
+    new Chart(productos, {
+        type: 'pie',
+        data: {
+            labels: [
+                'Tarjeta de Credito',
+                'Cuentas de Ahorro',
+                'Prestamos'
+            ],
+            datasets: [{
+                label: 'Productos',
+                data: [300, 50, 100],
+                backgroundColor: [
+                    '#06cedb ',
+                    'rgb(54, 162, 235)',
+                    '#6091f5'
+                ],
+                hoverOffset: 4
+            }]
+        }
+    });
+
+    new Chart(pagos, {
+        type: 'doughnut',
+        data: {
+                labels: [
+                    'Totales',
+                    'Hoy'
+                ],
+                datasets: [{
+                    label: 'Pagos',
+                    data: [300, 50],
+                    backgroundColor: [
+                    '#06cedb',
+                        'rgb(54, 162, 235)'
+                    ],
+                    hoverOffset: 4
+                }]
+ 
+        }
+    });
+
+   
+    
+
+</script>
