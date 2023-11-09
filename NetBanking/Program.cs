@@ -1,5 +1,6 @@
 using NetBanking.Infrastructure.Persistence;
 using NetBanking.Core.Application;
+using NetBanking.Infrastructure.Identity;
 //Probando mi rama 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddPersistenceLayer(builder.Configuration);
 builder.Services.AddApplicationLayer();
-
+builder.Services.AddIdentityInfrastructure(builder.Configuration);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

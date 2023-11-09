@@ -1,12 +1,12 @@
-﻿
+﻿using Microsoft.AspNetCore.Identity;
 
 namespace NetBanking.Infrastructure.Identity.Entities
 {
-    public class AppUser 
+    public class AppUser : IdentityUser
     {
-        public string Name { get; set; } = null!;
-        public string LastName { get; set; } = null!;
-        public string Cedula { get; set; } = null!;
+        public string Name { get; set; } 
+        public string LastName { get; set; } 
+        public string Cedula { get; set; } 
         public string? ImagePath { get; set; } 
         public bool IsActive { get; set; } 
     }

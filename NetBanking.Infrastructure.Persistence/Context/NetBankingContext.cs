@@ -75,28 +75,28 @@ namespace NetBanking.Infrastructure.Persistence.Context
                 },
                 new TransactionType
                 {
-                    Id = 1,
+                    Id = 3,
                     TransactionTypeName = "Pago de Prestamo",
                     Created = DateTime.Now,
                     CreatedBy = "Admin",
                 },
                  new TransactionType
                  {
-                     Id = 1,
+                     Id = 4,
                      TransactionTypeName = "Pago para Beneficiario",
                      Created = DateTime.Now,
                      CreatedBy = "Admin",
                  },
                   new TransactionType
                   {
-                      Id = 1,
+                      Id = 5,
                       TransactionTypeName = "Avance Efectivo",
                       Created = DateTime.Now,
                       CreatedBy = "Admin",
                   },
                    new TransactionType
                    {
-                       Id = 1,
+                       Id = 6,
                        TransactionTypeName = "Transferecia entre Cuentas",
                        Created = DateTime.Now,
                        CreatedBy = "Admin",
