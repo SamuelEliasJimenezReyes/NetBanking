@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using NetBanking.Core.Application.Enum;
+using NetBanking.Core.Application.Enums;
 using NetBanking.Infrastructure.Identity.Entities;
 using System;
 using System.Collections.Generic;
@@ -21,6 +21,8 @@ namespace NetBanking.Infrastructure.Identity.Seeds
             defaultUser.LastName = "Ruiz";
             defaultUser.EmailConfirmed = true;
             defaultUser.PhoneNumberConfirmed = true;
+            defaultUser.Cedula = "12345678912";
+            defaultUser.IsActive = true;
 
             if (userManager.Users.All(u => u.Id != defaultUser.Id))
             {

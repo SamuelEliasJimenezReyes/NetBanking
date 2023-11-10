@@ -20,6 +20,7 @@ namespace NetBanking.Core.Application
             services.AddTransient<ICreditCardService, CreditCardService>();
             services.AddTransient<ITransactionService, TransactionService>();
             services.AddTransient<ILoanService, LoanService>();
+            services.AddTransient<IUserService, UserService>();
             #endregion
         }
     }

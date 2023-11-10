@@ -2,14 +2,10 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using NetBanking.Core.Application.Interfaces.Repositories;
+using NetBanking.Application.Interfaces.Services;
 using NetBanking.Infrastructure.Identity.Context;
 using NetBanking.Infrastructure.Identity.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using NetBanking.Infrastructure.Identity.Service;
 
 namespace NetBanking.Infrastructure.Identity
 {
@@ -47,6 +43,8 @@ namespace NetBanking.Infrastructure.Identity
             #endregion
 
             #region Services
+
+            services.AddTransient<IAccountService, AccountService>();
             #endregion
 
 

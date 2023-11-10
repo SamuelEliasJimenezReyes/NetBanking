@@ -1,6 +1,6 @@
 ﻿
 
-using NetBanking.Core.Application.Enum;
+using NetBanking.Core.Application.Enums;
 using System.Transactions;
 
 namespace NetBanking.Core.Application.Interfaces.Repositories

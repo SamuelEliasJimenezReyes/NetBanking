@@ -4260,7 +4260,7 @@ Data.prototype = {
 				if ( owner.nodeType ) {
 					owner[ this.expando ] = value;
 
-				// Otherwise secure it in a non-enumerable property
+				// Otherwise secure it in a non-Enumserable property
 				// configurable must be true to allow the property to be
 				// deleted when data is removed
 				} else {
@@ -5507,7 +5507,7 @@ jQuery.event = {
 
 	addProp: function( name, hook ) {
 		Object.defineProperty( jQuery.Event.prototype, name, {
-			enumerable: true,
+			Enumserable: true,
 			configurable: true,
 
 			get: isFunction( hook ) ?
@@ -5524,7 +5524,7 @@ jQuery.event = {
 
 			set: function( value ) {
 				Object.defineProperty( this, name, {
-					enumerable: true,
+					Enumserable: true,
 					configurable: true,
 					writable: true,
 					value: value
@@ -6692,7 +6692,7 @@ var
 		fontWeight: "400"
 	};
 
-function setPositiveNumber( _elem, value, subtract ) {
+function setPositivEnumsber( _elem, value, subtract ) {
 
 	// Any relative (+/-) values have already been
 	// normalized at this point
@@ -7076,7 +7076,7 @@ jQuery.each( [ "height", "width" ], function( _i, dimension ) {
 				value = jQuery.css( elem, dimension );
 			}
 
-			return setPositiveNumber( elem, value, subtract );
+			return setPositivEnumsber( elem, value, subtract );
 		}
 	};
 } );
@@ -7118,7 +7118,7 @@ jQuery.each( {
 	};
 
 	if ( prefix !== "margin" ) {
-		jQuery.cssHooks[ prefix + suffix ].set = setPositiveNumber;
+		jQuery.cssHooks[ prefix + suffix ].set = setPositivEnumsber;
 	}
 } );
 

@@ -1,4 +1,5 @@
-﻿
+﻿@using NetBanking.Core.Application.ViewModels.User
+@model LoginViewModel
 @{
     ViewData["Title"] = "Login";
 }
@@ -9,23 +10,23 @@
     <div class="row justify-content-center pt-5 mt-5 m-1">
         <div class="col-md-6 col-sm-8 col-xl-4 col-lg-5 mb-4 formulario">
                 @Html.ValidationSummary(false, "", new { @class = "text-danger" })
-               @*  @if (Model.HasError)
+                @if (Model.HasError)
                 {
                     <div class="alert alert-danger alert-dismissible fade show" role="alert"> 
                         <p>@Model.Error</p>
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
-                } *@
+                }
                 <form method="post" asp-controller="User" asp-action="Index">
                     <div class="form-group text-center pt-3">
                         <h1 class="text-light">Sign In</h1>
                     </div>
                     <div class="form-group mx-sm-4 pt-3 mt-2 mb-2">
-                    <input@*  asp-for="Email" *@ type="text" class="form-control bg-white" placeholder="Ingrese su Email">
+                    <input asp-for="Email" type="text" class="form-control bg-white" placeholder="Ingrese su Email">
                     </div>
                 <div class="form-group mx-sm-4 pb-3 mb-4">
-                    <input @* asp-for="Password *@ class="form-control bg-white col-6" placeholder="Enter your Password" id="passwordInput">
-                    <span @* asp-validation-for="Password *@ class="text-danger"></span>
+                    <input asp-for="Password" class="form-control bg-white col-6" placeholder="Enter your Password" id="passwordInput">
+                    <span asp-validation-for="Password" class="text-danger"></span>
                     <i class="fa fa-eye-slash" id="togglePassword"></i>
                 </div>
 

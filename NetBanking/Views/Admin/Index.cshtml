@@ -1,0 +1,49 @@
+﻿@using NetBanking.Core.Application.Dtos.User;
+@model List<UserDTO>
+
+<section>
+    <div class="container mt-2">
+        <div class="row">
+            <div class="col-10 offset-1">
+                <h2 class="bg-primary text-center">Users</h2>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Name</th>
+                            <th>Last Name</th>
+                            <th>Email</th>
+                            <th>Cedula</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Count() > 0)
+                        {
+                            @foreach (var user in Model)
+                            {
+                                <tr>
+                                    <td>@user.UserName</td>
+                                    <td>@user.FirstName</td>
+                                    <td>@user.LastName</td>
+                                    <td>@user.Email</td>
+                                    <td>@user.Cedula</td>
+                                    <td>
+                                        @if (user.IsActive)
+                                        {
+                                            <a class="btn btn-danger">Inactivar</a>
+                                        }
+                                        else
+                                        {
+                                            <a class="btn btn-success">Activar</a>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
