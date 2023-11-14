@@ -4,18 +4,25 @@ using NetBanking.Core.Application.Interfaces.Services;
 using NetBanking.Core.Application.ViewModels.User;
 using NetBanking.Core.Application.Dtos.User;
 using NetBanking.Application.Interfaces.Services;
-
+using NetBanking.Core.Application.ViewModel.SavingAccount;
 namespace NetBanking.Core.Application.Services
 {
     public class UserService : IUserService
     {
         private readonly IAccountService _accountService;
         private readonly IMapper _mapper;
+        private readonly ISavingAccountService _savingAccountService;
 
-        public UserService(IAccountService accountService, IMapper mapper)
+        public UserService(IAccountService accountService, IMapper mapper, ISavingAccountService savingAccountService)
         {
             _accountService = accountService;
             _mapper = mapper;
+            _savingAccountService = savingAccountService;
+        }
+
+        public async Task ChangeUserStatus(string userName)
+        {
+            await _accountService.ChangeUserStatus(userName);
         }
 
         public async Task<AuthenticationResponse> LoginAsync(LoginViewModel vm)
@@ -36,8 +43,23 @@ namespace NetBanking.Core.Application.Services
 
         public async Task<RegisterResponse> RegisterAsync(SaveUserViewModel vm, string origin)
         {
+          
             RegisterRequest registerRequest = _mapper.Map<RegisterRequest>(vm);
-            return await _accountService.RegisterBasicUserAsync(registerRequest, origin);
+            var response = await _accountService.RegisterBasicUserAsync(registerRequest, origin);
+
+            if (!vm.IsAdmin && !response.HasError)
+            {
+                await _savingAccountService.Add(new SaveSavingAccountVM
+                {
+                    Amount = vm.InitialAmount,
+                    IsPrincipal = true,
+                    UserNameofOwner = vm.Username,
+
+                });
+            }
+
+            return response;
+
         }
 
         public async Task<string> ConfirmEmailAsync(string userId, string token)

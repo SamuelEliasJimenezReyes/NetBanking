@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using NetBanking.Core.Application.Dtos.Account;
 using NetBanking.Core.Application.Dtos.User;
+using NetBanking.Core.Application.ViewModel.SavingAccount;
 using NetBanking.Core.Application.ViewModels.User;
+using NetBanking.Core.Domain.Entities;
 
 namespace NetBanking.Core.Application.Mapping
 {
@@ -33,6 +35,12 @@ namespace NetBanking.Core.Application.Mapping
 
             #region Users
 
+            #region SavingAccount
+
+            CreateMap<SavingAccount, SaveSavingAccountVM>()
+                .ReverseMap();
+
+            #endregion
 
             #endregion
         }

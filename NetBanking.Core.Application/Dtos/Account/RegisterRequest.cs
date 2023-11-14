@@ -15,5 +15,6 @@ namespace NetBanking.Core.Application.Dtos.Account
         public string Password { get; set; }
         public string ConfirmPassword { get; set; }
         public string Phone { get; set; }
+        public string Cedula { get; set; } = null!;
     }
 }

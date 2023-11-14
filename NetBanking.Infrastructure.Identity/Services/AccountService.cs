@@ -47,6 +47,22 @@ namespace NetBanking.Infrastructure.Identity.Service
             return userDTOList;
         }
 
+        public async Task ChangeUserStatus(string userName)
+        {
+            var user = await _userManager.FindByNameAsync(userName);
+            if (user.IsActive == true)
+            {
+                user.IsActive = false;
+                await _userManager.UpdateAsync(user);
+            }
+            else
+            {
+                user.IsActive = true;
+                await _userManager.UpdateAsync(user);
+            }
+           
+        }
+
         public async Task<AuthenticationResponse> AuthenticateAsync(AuthenticationRequest request)
         {
             AuthenticationResponse response = new();
@@ -72,6 +88,12 @@ namespace NetBanking.Infrastructure.Identity.Service
             {
                 response.HasError = true;
                 response.Error = $"Account no confirmed for {request.Email}";
+                return response;
+            }
+            if (!user.IsActive)
+            {
+                response.HasError = true;
+                response.Error = $"Account Is Inactived for {request.Email}. You need to Contact The Admin 'domingoadmin@email.com'";
                 return response;
             }
 
@@ -103,6 +125,8 @@ namespace NetBanking.Infrastructure.Identity.Service
             return true;
         }
 
+
+        //TENGO QUE USAR AUTOMAPPER EN ESTE METODO QUE NO SE ME OLVIDE
         public async Task<UserDTO> GetUserByUserName(string UserName)
         {
             var user = await _userManager.FindByNameAsync(UserName);
@@ -146,27 +170,14 @@ namespace NetBanking.Infrastructure.Identity.Service
                 Email = request.Email,
                 Name = request.FirstName,
                 LastName = request.LastName,
+                EmailConfirmed = true,
+                Cedula = request.Cedula,
                 UserName = request.UserName
+               
             };
 
             var result = await _userManager.CreateAsync(user, request.Password);
-            if (result.Succeeded)
-            {
-                await _userManager.AddToRoleAsync(user, Roles.Client.ToString());
-                var verificationUri = await SendVerificationEmailUri(user, origin);
-                await _emailService.SendAsync(new Core.Application.DTOs.Email.EmailRequest()
-                {
-                    To = user.Email,
-                    Body = $"Please confirm your account visiting this URL {verificationUri}",
-                    Subject = "Confirm registration"
-                });
-            }
-            else
-            {
-                response.HasError = true;
-                response.Error = $"An error occurred trying to register the user.";
-                return response;
-            }
+          
 
             return response;
         }

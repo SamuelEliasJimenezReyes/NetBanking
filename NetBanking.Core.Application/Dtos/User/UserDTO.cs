@@ -10,5 +10,6 @@ namespace NetBanking.Core.Application.Dtos.User
         public string Cedula { get; set; }
         public string? ProfileImagePath { get; set; }
         public bool IsActive { get; set; }
+        public bool IsAdmin { get; set; }
     }
 }

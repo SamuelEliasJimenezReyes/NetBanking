@@ -25,5 +25,29 @@ namespace NetBanking.Controllers
         {
             return View();
         }
+
+        public async Task<IActionResult> ChangeUserStatus(string userName)
+        {
+            await _userService.ChangeUserStatus(userName);
+            var list = await _userService.GetAllUsers();
+            return View("Index",list);
+        }
+
+        public async Task<IActionResult> UpdateFilter(bool newFilter)
+        {
+            bool filter;
+            if (newFilter == true)
+            {
+                filter = true;
+            }
+            else
+            {
+                filter = false;
+            }
+            ViewBag.Filter = filter;
+            var list = await _userService.GetAllUsers();
+            return View("Index",list);
+        }
+
     }
 }

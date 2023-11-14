@@ -38,7 +38,10 @@ namespace NetBanking.Core.Application.ViewModels.User
 
         [DataType(DataType.ImageUrl)]
         public IFormFile? File { get; set; } = null!;
-
+        [Required(ErrorMessage = "Debe ingresar su Cedula")]
+        public bool IsAdmin { get; set; }
+        public string Cedula { get; set; } = null!;
+        public decimal InitialAmount { get; set; }
         public bool HasError { get; set; }
         public string? Error { get; set; }
     }

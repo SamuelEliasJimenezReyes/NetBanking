@@ -16,6 +16,7 @@ namespace NetBanking.Core.Application.Interfaces.Services
         Task<UserDTO> GetUserDTOAsync(string UserName);
          Task<bool> IsaValidUser(string UserName);
         Task<List<UserDTO>> GetAllUsers();
+        Task ChangeUserStatus(string userName);
 
     }
 }

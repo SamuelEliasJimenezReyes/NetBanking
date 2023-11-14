@@ -55,13 +55,11 @@ namespace WebApp.NetBanking.Controllers
             return RedirectToRoute(new { controller = "User", action = "Index" });
         }
 
-        [ServiceFilter(typeof(LoginAuthorize))]
         public IActionResult Register()
         {
             return View(new SaveUserViewModel());
         }
 
-        [ServiceFilter(typeof(LoginAuthorize))]
         [HttpPost]
         public async Task<IActionResult> Register(SaveUserViewModel vm)
         {
@@ -73,12 +71,7 @@ namespace WebApp.NetBanking.Controllers
             {
                 response = await _userService.RegisterAsync(vm, origin);
             }
-            if (vm.Username != null && vm.Password != null)
-            {
-                vm.ImagePath = FileManager.Upload(vm.File, vm.Username, "Users");
-
-                await _userService.UpdateUser(vm);
-            }
+         
 
             if (response.HasError)
             {

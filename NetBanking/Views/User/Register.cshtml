@@ -1,6 +1,9 @@
-﻿
+﻿@using NetBanking.Core.Application.ViewModels.User;
+@model SaveUserViewModel
+
 @{
     ViewData["Title"] = "Registro";
+    bool IsAdmin = false;
 }
                        
 <body>
@@ -17,52 +20,58 @@
                 <form method="post" asp-controller="User" asp-action="Register" enctype="multipart/form-data">
 
                     <div class="form-group text-center pt-3">
-                        <h1 class="text-light">Login</h1>
+                        <h1 class="text-light">Create User</h1>
                     </div>
-           @*          <div class="form-group mx-sm-4 pt-3 mt-1 mb-2">
-                        <input type="text" asp-for="Username" class="form-control" placeholder="Enter your UserName">
+                    <div class="form-group mx-sm-4 pt-3 mt-1 mb-2">
+                        <input type="text" asp-for="Username" class="form-control" placeholder="Enter the UserName">
                         <span asp-validation-for="Username" class="text-white"></span>
                     </div>
                     <div class="form-group mx-sm-4 pt-3 mb-2">
-                        <input asp-for="FirstName" class="form-control" placeholder="Enter your Name">
+                        <input asp-for="FirstName" class="form-control" placeholder="Enter the Name">
                         <span asp-validation-for="FirstName" class="text-white"></span>
                     </div>
                     <div class="form-group mx-sm-4 pt-3 mb-2">
-                        <input asp-for="LastName" class="form-control" placeholder="Enter your LastName">
+                        <input asp-for="LastName" class="form-control" placeholder="Enter the LastName">
                         <span asp-validation-for="LastName" class="text-white"></span>
                     </div>
                     <div class="form-group mx-sm-4 pt-3 mb-3">
-                        <input asp-for="Email" class="form-control" placeholder="Enter your Email">
+                        <input asp-for="Email" class="form-control" placeholder="Enter the Email">
                         <span asp-validation-for="Email" class="text-white"></span>
                     </div>
+                    <div class="form-group mx-sm-4 pt-3 mb-3">
+                        <input asp-for="Cedula" class="form-control" placeholder="Enter the Cedula">
+                        <span asp-validation-for="Cedula" class="text-white"></span>
+                    </div>
                     <div class="form-group mx-sm-4 pb-3 mb-2">
-                        <input asp-for="Password" class="form-control" placeholder="Enter your Password" id="passwordInput">
+                        <input asp-for="Password" class="form-control" placeholder="Enter the Password" id="passwordInput">
                         <span asp-validation-for="Password" class="text-white"></span>
                         <i class="fa fa-eye-slash" id="togglePassword"></i>
                     </div>
                     <div class="form-group mx-sm-4 pb-3 mb-1">
-                        <input asp-for="ConfirmPassword" class="form-control" placeholder="Enter your Password" id="passwordInput">
+                        <input asp-for="ConfirmPassword" class="form-control" placeholder="Confirm the Password" id="passwordInput">
                         <span asp-validation-for="ConfirmPassword" class="text-white"></span>
                         <i class="fa fa-eye-slash" id="togglePassword"></i>
                     </div>
                     <div class="form-group mx-sm-4 pt-3 mb-2">
-                        <input asp-for="Phone" class="form-control" placeholder="Enter your Phone Number">
+                        <input asp-for="Phone" class="form-control" placeholder="Enter the Phone Number">
                         <span asp-validation-for="Phone" class="text-white"></span>
                     </div>
-                    <div class="form-group mb-1 mt-3">
-                        <label asp-for="File" class="control-label offset-1">Select An Image</label>
-                        <input type="File" asp-for="File" class="d-none mb-2" id="image"  />
-                        <button type="button" class="btn btn-outline-white btn-lg btn-block btn-outline-light" onclick="document.getElementById('image').click()"><i class="fa-regular fa-image text-white"></i></button>
-                        <span asp-validation-for="File" class="text-white mb-2"></span>
-                    </div> *@
-
-           <div class="form-group text-center mt-4 mb-5">
-                        <button type="submit" class="btn btn-primary btn-outline-dark">Guardar</button>
-                        <a asp-controller="User" asp-action="Index" class="btn btn-warning">Volver atras</a>
+                    <div class="form-group mx-sm-4 pt-3 mb-2">
+                        <label class="form-label text-black"> Select the Type of User: </label>
+                        <select asp-for="IsAdmin" class="form-control" id="isAdminSelect" onchange="toggleAdminSection()">
+                            <option value="true">Admin</option>
+                            <option value="false">Client</option>
+                        </select>
+                    </div>
+                    <div class="form-group mx-sm-4 pt-3 mb-2 mt-2" id="clientSection" style="display: @(!IsAdmin ? "block" : "none")">
+                        <label class="form-control">Enter The InitialAmount</label>
+                        <input asp-for="InitialAmount" type="number" class="form-control mt-3" placeholder="Enter the Initial Amount">
+                    </div>
+                    <div class="form-group text-center mt-4 mb-5">
+                        <button type="submit" class="btn btn-primary btn-outline-dark" style="background-color: #2f5b75; color: white;">Crear Usuario</button>
+                        <a asp-controller="User" asp-action="Index" class="btn btn-dark">Volver atras</a>
                     </div>
                     <label class="mb-5"></label> 
-
-
                 </form>
         </div>
     </div>
@@ -73,10 +82,18 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </body>
 
+<script>
+        function toggleAdminSection() {
+            var isAdminSelect = document.getElementById('isAdminSelect');
+            var clientSection = document.getElementById('clientSection');
+            clientSection.style.display = isAdminSelect.value === 'false' ? 'block' : 'none';
+        }
+        toggleAdminSection();
+</script>
 
 <style>
     body {
-        background-color: blue;
+        background-color: #dcd2ff;
     }
 
     .formulario {
@@ -88,7 +105,6 @@
     }
 
     .form-control {
-        background: white;
         border-style: none;
         transition: 0.5s ease-in;
         outline: none;
