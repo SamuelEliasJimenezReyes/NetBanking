@@ -34,7 +34,6 @@ namespace NetBanking.Core.Application.ViewModels.User
 
         [RegularExpression(@"^\d{3}-\d{3}-\d{4}$", ErrorMessage = "El formato del teléfono de ser de Republica Dominica con 809, 829 o 849 -000 -0000")]
         public string Phone { get; set; }
-        public string? ImagePath { get; set; } = null!;
 
         [DataType(DataType.ImageUrl)]
         public IFormFile? File { get; set; } = null!;

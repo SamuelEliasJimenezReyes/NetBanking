@@ -38,10 +38,10 @@ namespace NetBanking.Infrastructure.Identity.Service
                 userDto.UserName = user.UserName;
                 userDto.LastName = user.LastName;
                 userDto.FirstName = user.Name;
-                userDto.ProfileImagePath = user.ImagePath;
                 userDto.Cedula = user.Cedula;
                 userDto.IsActive = user.IsActive;
                 userDto.Email = user.Email;
+                userDto.Roles = _userManager.GetRolesAsync(user).Result.ToList();
                 userDTOList.Add(userDto);
             }
             return userDTOList;
@@ -100,7 +100,6 @@ namespace NetBanking.Infrastructure.Identity.Service
             response.Id = user.Id;
             response.Email = user.Email;
             response.UserName = user.UserName;
-            response.ImagePath = user.ImagePath;
 
             var rolesList = await _userManager.GetRolesAsync(user).ConfigureAwait(false);
 
@@ -135,7 +134,6 @@ namespace NetBanking.Infrastructure.Identity.Service
                 return null;
             }
             UserDTO userDTO = new();
-            userDTO.ProfileImagePath = user.ImagePath;
             userDTO.UserName = user.UserName;
             userDTO.LastName = user.LastName;
             userDTO.FirstName = user.Name;
@@ -263,7 +261,6 @@ namespace NetBanking.Infrastructure.Identity.Service
         public async Task UpdateUser(SaveUserViewModel user)
         {
             var oldUser = await _userManager.FindByEmailAsync(user.Email);
-            oldUser.ImagePath = user.ImagePath;
             await _userManager.UpdateAsync(oldUser);
         }
 

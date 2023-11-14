@@ -8,17 +8,17 @@
 @{
     ViewData["Title"] = "Home";
     var userInSession = httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>("user");
-    bool filter;
+    string filter = "Admin";
     string userType = "";
 }
 @{
-    filter = ViewBag.Filter != null ? ViewBag.Filter : true;
-    userType = filter ? "Admins" : "Clients";
+    filter = ViewBag.Filter != null ? ViewBag.Filter : "Admin";
+    userType = filter == "Admin" ? "Admin" : "Client";
 
-    string adminUrlWithParam = Url.Action("UpdateFilter", "Admin", new { newFilter = true });
-    string clientUrlWithParam = Url.Action("UpdateFilter", "Admin", new { newFilter = false });
+    string adminUrlWithParam = Url.Action("UpdateFilter", "Admin", new { newFilter = "Client"});
+    string clientUrlWithParam = Url.Action("UpdateFilter", "Admin", new { newFilter = "Admin" });
 
-    }
+}
 
 
 <section>
@@ -47,7 +47,7 @@
                     <tbody>
                         @if (Model.Count() > 0)
                         {
-                            @foreach (var user in Model.Where(x => x.IsActive == filter))
+                            @foreach (var user in Model.Where(x => x.Roles.Contains(filter)))
                             {
                                 <tr>
                                     <td>@user.UserName</td>

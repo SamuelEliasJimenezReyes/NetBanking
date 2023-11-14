@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using NetBanking.Core.Application.Helpers;
 using NetBanking.Core.Application.Interfaces.Services;
 using NetBanking.Core.Application.Dtos.Account;
-using NetBanking.Application.Helpers;
 using NetBanking.NetBanking.Middlewares;
 
 namespace WebApp.NetBanking.Controllers
