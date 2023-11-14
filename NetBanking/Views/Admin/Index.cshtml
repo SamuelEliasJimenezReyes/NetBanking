@@ -57,15 +57,38 @@
                                     <td>@user.Cedula</td>
                                     <td>
                                         @if (user.UserName != userInSession.UserName && user.UserName != "mingo")
-                                        { 
-                                        @if (user.IsActive)
                                         {
-                                            <a asp-controller="Admin" asp-action="ChangeUserStatus" asp-route-userName="@user.UserName" class="btn-sm btn-outline-danger">Inactivar</a>
-                                        }
-                                        else
-                                        {
-                                            <a asp-controller="Admin" asp-action="ChangeUserStatus" asp-route-userName="@user.UserName" class="btn-sm btn-outline-success">Activar</a>
-                                        }
+                                            <form id="userStatusForm" asp-controller="Admin" asp-action="ChangeUserStatus" method="post">
+                                                <input type="hidden" name="userName" id="userNameInput" value="@user.UserName" />
+                                                <button type="submit" id="userStatusButton" class="btn btn-sm btn-outline-danger">
+                                                    @if (user.IsActive)
+                                                    {
+                                                        <span>Inactivar</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span>Activar</span>
+                                                    }
+                                                </button>
+                                            </form>
+                                            <div class="modal fade" id="statusChangeModal" tabindex="-1" aria-labelledby="statusChangeModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header bg-danger">
+                                                            <h5 class="modal-title" id="statusChangeModalLabel">Confirmar cambio de estado</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            ¿Está seguro de que desea cambiar el estado del usuario?
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                                            <button type="button" id="confirmStatusChangeButton" class="btn btn-primary">Confirmar</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                         }
                                     </td>
                                 </tr>
@@ -84,6 +107,16 @@
         var selectedValue = filterSelect.options[filterSelect.selectedIndex].value;
         window.location.href = selectedValue; 
     }
+
+    document.getElementById('userStatusButton').addEventListener('click', function (e) {
+        e.preventDefault();
+        $('#statusChangeModal').modal('show');
+    });
+
+    document.getElementById('confirmStatusChangeButton').addEventListener('click', function (e) {
+        document.getElementById('userStatusForm').submit();
+    });
+
 </script>
 
 
