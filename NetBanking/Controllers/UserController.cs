@@ -5,6 +5,7 @@ using NetBanking.Core.Application.Helpers;
 using NetBanking.Core.Application.Interfaces.Services;
 using NetBanking.Core.Application.Dtos.Account;
 using NetBanking.NetBanking.Middlewares;
+using NetBanking.Core.Application.Dtos.User;
 
 namespace WebApp.NetBanking.Controllers
 {
@@ -149,6 +150,15 @@ namespace WebApp.NetBanking.Controllers
             return View();
         }
 
+        public IActionResult Update()
+        {
+            return View();
+        }
+
+        public async Task Update(UserDTO dtO)
+        {
+             await _userService.UpdateUserByEmail(dtO);
+        }
     }
 }
 

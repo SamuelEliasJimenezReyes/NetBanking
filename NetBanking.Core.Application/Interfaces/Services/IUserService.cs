@@ -18,5 +18,7 @@ namespace NetBanking.Core.Application.Interfaces.Services
         Task<List<UserDTO>> GetAllUsers();
         Task ChangeUserStatus(string userName);
 
+        Task UpdateUserByEmail(UserDTO dto);
+
     }
 }
