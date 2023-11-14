@@ -30,6 +30,7 @@ namespace NetBanking.Infrastructure.Identity.Service
 
         public async Task<List<UserDTO>> GetAllUsers()
         {
+            
            var userList = await _userManager.Users.ToListAsync();
             List<UserDTO> userDTOList = new();
             foreach(var user in userList)
@@ -288,6 +289,19 @@ namespace NetBanking.Infrastructure.Identity.Service
 
             return verificationUri;
         }
+
+        public async Task UpdateUserByEmail(UserDTO dto)
+        {
+            AppUser value = await _userManager.FindByEmailAsync(dto.Email);
+            value.Email = dto.Email;
+            value.Name = dto.FirstName;
+            value.LastName = dto.LastName;
+            value.Cedula = dto.Cedula;
+            value.UserName = dto.UserName;
+            
+            await _userManager.UpdateAsync(value);
+        }
+
     }
 
 }
