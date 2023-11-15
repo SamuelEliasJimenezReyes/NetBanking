@@ -43,6 +43,7 @@ namespace NetBanking.Infrastructure.Identity.Service
                 userDto.Cedula = user.Cedula;
                 userDto.IsActive = user.IsActive;
                 userDto.Email = user.Email;
+                userDto.Phone = user.PhoneNumber;
                 userDto.Roles = _userManager.GetRolesAsync(user).Result.ToList();
                 userDTOList.Add(userDto);
             }
@@ -139,6 +140,22 @@ namespace NetBanking.Infrastructure.Identity.Service
             userDTO.UserName = user.UserName;
             userDTO.LastName = user.LastName;
             userDTO.FirstName = user.Name;
+            userDTO.Phone = user.PhoneNumber;
+            return userDTO;
+        }
+
+        public async Task<UserDTO> GetUserByUserEmail(string Email)
+        {
+            var user = await _userManager.FindByEmailAsync(Email);
+            if (user == null)
+            {
+                return null;
+            }
+            UserDTO userDTO = new();
+            userDTO.UserName = user.UserName;
+            userDTO.LastName = user.LastName;
+            userDTO.FirstName = user.Name;
+            userDTO.Phone = user.PhoneNumber;
             return userDTO;
         }
 

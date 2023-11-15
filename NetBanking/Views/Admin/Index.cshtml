@@ -2,10 +2,12 @@
 @using NetBanking.Core.Application.Dtos.Account;
 @using NetBanking.Core.Application.Dtos.User;
 @using NetBanking.Core.Application.Helpers;
+@using Microsoft.AspNetCore.Http
 @inject IHttpContextAccessor httpContextAccessor
 @model List<UserDTO>
 
 @{
+    
     ViewData["Title"] = "Home";
     var userInSession = httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>("user");
     string filter = "Admin";
@@ -56,7 +58,7 @@
                                     <td>@user.LastName</td>
                                     <td>@user.Email</td>
                                     <td>@user.Cedula</td>
-                                    @if (user.UserName != userInSession.UserName && user.UserName != "mingo")
+                                    @if ( user.UserName != "mingo")
                                     {
                                     <td>
                                       
@@ -98,7 +100,18 @@
                                     <td>
                                             <a asp-controller="User" asp-action="ResetPassword" asp-route-email="@user.Email" class="text-primary mb-3">Change Password</a>
                                     </td>
+
                                     }
+                                    <td>
+                                    @if (user.Roles.Contains("Client"))
+                                    {
+                                            <a class="btn btn-outline-info" asp-controller="User" asp-action="UpdateClient" asp-route-email="@user.Email">Editar</a>
+                                    }
+                                    else
+                                    {
+                                            <a class="btn btn-outline-info" asp-controller="Admin" asp-action="UpdateAdmin">Editar</a>
+                                    }
+                                    </td>
                                 </tr>
                             }
                         }
