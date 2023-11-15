@@ -49,5 +49,10 @@ namespace NetBanking.Controllers
             return View("Index",list);
         }
 
+        public async Task<IActionResult> Products()
+        {
+            return View();
+        }
+
     }
 }
