@@ -361,3 +361,7 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/NetBanking/Controllers/UserController.cs
+/NetBanking.Core.Application/Interfaces/Services/IAccountService.cs
+/EditUserViewModel.cs
+/NetBanking.Core.Application/ViewModel/User/EditUserViewModel.cs

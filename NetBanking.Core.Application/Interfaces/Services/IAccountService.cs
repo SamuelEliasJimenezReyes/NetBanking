@@ -1,5 +1,6 @@
 ﻿using NetBanking.Core.Application.Dtos.Account;
 using NetBanking.Core.Application.Dtos.User;
+using NetBanking.Core.Application.ViewModel.User;
 using NetBanking.Core.Application.ViewModels.User;
 
 namespace NetBanking.Application.Interfaces.Services

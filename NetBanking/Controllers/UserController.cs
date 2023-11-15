@@ -6,6 +6,7 @@ using NetBanking.Core.Application.Interfaces.Services;
 using NetBanking.Core.Application.Dtos.Account;
 using NetBanking.NetBanking.Middlewares;
 using NetBanking.Core.Application.Dtos.User;
+using NetBanking.Core.Application.ViewModel.User;
 
 namespace WebApp.NetBanking.Controllers
 {
