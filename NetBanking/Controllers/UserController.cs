@@ -7,12 +7,15 @@ using NetBanking.Core.Application.Dtos.Account;
 using NetBanking.NetBanking.Middlewares;
 using NetBanking.Core.Application.Dtos.User;
 using NetBanking.Core.Application.ViewModel.User;
+using NetBanking.Core.Application.Services;
+using NetBanking.Core.Application.ViewModel.SavingAccount;
 
 namespace WebApp.NetBanking.Controllers
 {
     public class UserController : Controller
     {
         private readonly IUserService _userService;
+
 
         public UserController(IUserService userService)
         {
@@ -137,45 +140,43 @@ namespace WebApp.NetBanking.Controllers
             return View();
         }
 
-        public IActionResult Update()
-        {
-            return View();
-        }
+            public IActionResult UpdateUser() => View();
 
-        public async Task Update(UserDTO dtO)
-        {
-             await _userService.UpdateUserByEmail(dtO);
-        }
 
-        public async Task<IActionResult> UpdateClient(string email)
-        {
-           var user = await _userService.GetUserDTOAsync(email);
-            var editUser = new EditUserViewModel()
+            public async Task Update(UserDTO dtO)
             {
-                Cedula = user.Cedula,
-                Email = user.Email,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Phone = user.Phone,
-                Username = user.UserName,
-            };
-            return View(editUser);
-        }
+                 await _userService.UpdateUserByEmail(dtO);
+            }
 
-        [HttpPost]
-        public async Task UpdateClient(EditUserViewModel vm)
-        {
-            UserDTO value = new();
+            public async Task<IActionResult> UpdateClient(string email)
+            {
+               var user = await _userService.GetUserDTOAsync(email);
+                var editUser = new EditUserViewModel()
+                {
+                    Cedula = user.Cedula,
+                    Email = user.Email,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Phone = user.Phone,
+                    Username = user.UserName,
+                };
+                return View(editUser);
+            }
+
+            [HttpPost]
+            public async Task UpdateClient(EditUserViewModel vm)
+            {
+                UserDTO value = new();
             
-            value.Cedula= vm.Cedula;
-            value.Phone= vm.Phone;
-            value.Email= vm.Email;
-            value.FirstName = value.FirstName;
-            value.LastName= value.LastName;
+                value.Cedula= vm.Cedula;
+                value.Phone= vm.Phone;
+                value.Email= vm.Email;
+                value.FirstName = vm.FirstName;
+                value.LastName= vm.LastName;
 
-            await _userService.UpdateUserByEmail(value);
+                await _userService.UpdateUserByEmail(value);
 
-        }
+            }
     }
 }
 

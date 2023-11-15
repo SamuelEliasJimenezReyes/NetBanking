@@ -1,4 +1,5 @@
-﻿using NetBanking.Core.Application.Helpers;
+﻿using Microsoft.EntityFrameworkCore;
+using NetBanking.Core.Application.Helpers;
 using NetBanking.Core.Application.Interfaces.Repositories;
 using NetBanking.Core.Domain.Entities;
 using NetBanking.Infrastructure.Persistence.Context;
@@ -23,6 +24,12 @@ namespace NetBanking.Infrastructure.Persistence.Repositories
             entity.IdentifyingNumber = ProductNumberGenerator.AlgorithmForProductNumber<SavingAccount>("002", list);
 
             return await base.AddAsync(entity);
+        }
+
+        public async Task<SavingAccount> GetSavingAccountByOwner(string ownerUserName)
+        {
+            var allAccounts = await GetAllAsync();
+            return allAccounts.FirstOrDefault(sa => sa.UserNameofOwner == ownerUserName);
         }
     }
 }
