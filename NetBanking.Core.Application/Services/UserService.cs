@@ -79,9 +79,9 @@ namespace NetBanking.Core.Application.Services
             return await _accountService.ResetPasswordAsync(resetRequest);
         }
 
-        public async Task<UserDTO> GetUserDTOAsync(string UserName)
+        public async Task<UserDTO> GetUserDTOAsync(string email)
         {
-            return await _accountService.GetUserByUserName(UserName);
+            return await _accountService.GetUserByUserEmail(email);
         }
 
         public async Task<bool> IsaValidUser(string UserName)

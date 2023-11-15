@@ -145,6 +145,38 @@ namespace WebApp.NetBanking.Controllers
         {
              await _userService.UpdateUserByEmail(dtO);
         }
+
+        public async Task<IActionResult> UpdateClient(string email)
+        {
+           var user = await _userService.GetUserDTOAsync(email);
+            var editUser = new EditUserViewModel()
+            {
+                Cedula = user.Cedula,
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Phone = user.Phone,
+                Username = user.UserName,
+            };
+            return View(editUser);
+        }
+
+        [HttpPost]
+        public async Task UpdateClient(EditUserViewModel vm)
+        {
+            SaveUserViewModel value = new();
+            var sum = value.InitialAmount + vm.InitialAmount;
+            
+            value.Cedula= vm.Cedula;
+            value.Phone= vm.Phone;
+            value.Email= vm.Email;
+            value.InitialAmount= sum;
+            value.FirstName = value.FirstName;
+            value.LastName= value.LastName;
+
+            await _userService.UpdateUserByUserName(vm);
+
+        }
     }
 }
 
