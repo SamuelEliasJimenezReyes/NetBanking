@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace NetBanking.Infrastructure.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class initial : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -149,12 +149,12 @@ namespace NetBanking.Infrastructure.Persistence.Migrations
                 columns: new[] { "Id", "Created", "CreatedBy", "LastModified", "LastModifiedBy", "Status", "TransactionTypeName" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2023, 11, 9, 15, 41, 27, 627, DateTimeKind.Local).AddTicks(20), "Admin", null, null, false, "Pago Expreso" },
-                    { 2, new DateTime(2023, 11, 9, 15, 41, 27, 627, DateTimeKind.Local).AddTicks(42), "Admin", null, null, false, "Pago de Tarjeta de Crédito" },
-                    { 3, new DateTime(2023, 11, 9, 15, 41, 27, 627, DateTimeKind.Local).AddTicks(44), "Admin", null, null, false, "Pago de Prestamo" },
-                    { 4, new DateTime(2023, 11, 9, 15, 41, 27, 627, DateTimeKind.Local).AddTicks(45), "Admin", null, null, false, "Pago para Beneficiario" },
-                    { 5, new DateTime(2023, 11, 9, 15, 41, 27, 627, DateTimeKind.Local).AddTicks(47), "Admin", null, null, false, "Avance Efectivo" },
-                    { 6, new DateTime(2023, 11, 9, 15, 41, 27, 627, DateTimeKind.Local).AddTicks(48), "Admin", null, null, false, "Transferecia entre Cuentas" }
+                    { 1, new DateTime(2023, 11, 14, 18, 1, 25, 390, DateTimeKind.Local).AddTicks(7021), "Admin", null, null, false, "Pago Expreso" },
+                    { 2, new DateTime(2023, 11, 14, 18, 1, 25, 390, DateTimeKind.Local).AddTicks(7037), "Admin", null, null, false, "Pago de Tarjeta de Crédito" },
+                    { 3, new DateTime(2023, 11, 14, 18, 1, 25, 390, DateTimeKind.Local).AddTicks(7038), "Admin", null, null, false, "Pago de Prestamo" },
+                    { 4, new DateTime(2023, 11, 14, 18, 1, 25, 390, DateTimeKind.Local).AddTicks(7040), "Admin", null, null, false, "Pago para Beneficiario" },
+                    { 5, new DateTime(2023, 11, 14, 18, 1, 25, 390, DateTimeKind.Local).AddTicks(7041), "Admin", null, null, false, "Avance Efectivo" },
+                    { 6, new DateTime(2023, 11, 14, 18, 1, 25, 390, DateTimeKind.Local).AddTicks(7043), "Admin", null, null, false, "Transferecia entre Cuentas" }
                 });
 
             migrationBuilder.CreateIndex(

@@ -12,8 +12,8 @@ using NetBanking.Infrastructure.Persistence.Context;
 namespace NetBanking.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(NetBankingContext))]
-    [Migration("20231109194128_initial")]
-    partial class initial
+    [Migration("20231114220125_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -281,7 +281,7 @@ namespace NetBanking.Infrastructure.Persistence.Migrations
                         new
                         {
                             Id = 1,
-                            Created = new DateTime(2023, 11, 9, 15, 41, 27, 627, DateTimeKind.Local).AddTicks(20),
+                            Created = new DateTime(2023, 11, 14, 18, 1, 25, 390, DateTimeKind.Local).AddTicks(7021),
                             CreatedBy = "Admin",
                             Status = false,
                             TransactionTypeName = "Pago Expreso"
@@ -289,7 +289,7 @@ namespace NetBanking.Infrastructure.Persistence.Migrations
                         new
                         {
                             Id = 2,
-                            Created = new DateTime(2023, 11, 9, 15, 41, 27, 627, DateTimeKind.Local).AddTicks(42),
+                            Created = new DateTime(2023, 11, 14, 18, 1, 25, 390, DateTimeKind.Local).AddTicks(7037),
                             CreatedBy = "Admin",
                             Status = false,
                             TransactionTypeName = "Pago de Tarjeta de Crédito"
@@ -297,7 +297,7 @@ namespace NetBanking.Infrastructure.Persistence.Migrations
                         new
                         {
                             Id = 3,
-                            Created = new DateTime(2023, 11, 9, 15, 41, 27, 627, DateTimeKind.Local).AddTicks(44),
+                            Created = new DateTime(2023, 11, 14, 18, 1, 25, 390, DateTimeKind.Local).AddTicks(7038),
                             CreatedBy = "Admin",
                             Status = false,
                             TransactionTypeName = "Pago de Prestamo"
@@ -305,7 +305,7 @@ namespace NetBanking.Infrastructure.Persistence.Migrations
                         new
                         {
                             Id = 4,
-                            Created = new DateTime(2023, 11, 9, 15, 41, 27, 627, DateTimeKind.Local).AddTicks(45),
+                            Created = new DateTime(2023, 11, 14, 18, 1, 25, 390, DateTimeKind.Local).AddTicks(7040),
                             CreatedBy = "Admin",
                             Status = false,
                             TransactionTypeName = "Pago para Beneficiario"
@@ -313,7 +313,7 @@ namespace NetBanking.Infrastructure.Persistence.Migrations
                         new
                         {
                             Id = 5,
-                            Created = new DateTime(2023, 11, 9, 15, 41, 27, 627, DateTimeKind.Local).AddTicks(47),
+                            Created = new DateTime(2023, 11, 14, 18, 1, 25, 390, DateTimeKind.Local).AddTicks(7041),
                             CreatedBy = "Admin",
                             Status = false,
                             TransactionTypeName = "Avance Efectivo"
@@ -321,7 +321,7 @@ namespace NetBanking.Infrastructure.Persistence.Migrations
                         new
                         {
                             Id = 6,
-                            Created = new DateTime(2023, 11, 9, 15, 41, 27, 627, DateTimeKind.Local).AddTicks(48),
+                            Created = new DateTime(2023, 11, 14, 18, 1, 25, 390, DateTimeKind.Local).AddTicks(7043),
                             CreatedBy = "Admin",
                             Status = false,
                             TransactionTypeName = "Transferecia entre Cuentas"

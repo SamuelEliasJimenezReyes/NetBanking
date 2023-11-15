@@ -12,7 +12,7 @@ using NetBanking.Infrastructure.Identity.Context;
 namespace NetBanking.Infrastructure.Identity.Migrations
 {
     [DbContext(typeof(IdentityContext))]
-    [Migration("20231110033559_InitialMigration")]
+    [Migration("20231114215910_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -181,9 +181,6 @@ namespace NetBanking.Infrastructure.Identity.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
-
-                    b.Property<string>("ImagePath")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");

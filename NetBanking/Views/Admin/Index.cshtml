@@ -8,17 +8,17 @@
 @{
     ViewData["Title"] = "Home";
     var userInSession = httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>("user");
-    bool filter;
+    string filter = "Admin";
     string userType = "";
 }
 @{
-    filter = ViewBag.Filter != null ? ViewBag.Filter : true;
-    userType = filter ? "Admins" : "Clients";
+    filter = ViewBag.Filter != null ? ViewBag.Filter : "Admin";
+    userType = filter == "Admin" ? "Admin" : "Client";
 
-    string adminUrlWithParam = Url.Action("UpdateFilter", "Admin", new { newFilter = true });
-    string clientUrlWithParam = Url.Action("UpdateFilter", "Admin", new { newFilter = false });
+    string adminUrlWithParam = Url.Action("UpdateFilter", "Admin", new { newFilter = "Client"});
+    string clientUrlWithParam = Url.Action("UpdateFilter", "Admin", new { newFilter = "Admin" });
 
-    }
+}
 
 
 <section>
@@ -48,7 +48,7 @@
                     <tbody>
                         @if (Model.Count() > 0)
                         {
-                            @foreach (var user in Model.Where(x => x.IsActive == filter))
+                            @foreach (var user in Model.Where(x => x.Roles.Contains(filter)))
                             {
                                 <tr>
                                     <td>@user.UserName</td>
@@ -56,21 +56,25 @@
                                     <td>@user.LastName</td>
                                     <td>@user.Email</td>
                                     <td>@user.Cedula</td>
+                                    @if (user.UserName != userInSession.UserName && user.UserName != "mingo")
+                                    {
                                     <td>
-                                        @if (user.UserName != userInSession.UserName && user.UserName != "mingo")
-                                        {
+                                      
                                             <form id="userStatusForm" asp-controller="Admin" asp-action="ChangeUserStatus" method="post">
                                                 <input type="hidden" name="userName" id="userNameInput" value="@user.UserName" />
-                                                <button type="submit" id="userStatusButton" class="btn btn-sm btn-outline-danger">
                                                     @if (user.IsActive)
                                                     {
+                                                        <button type="submit" id="userStatusButton" class="btn btn-sm btn-outline-danger">
                                                         <span>Inactivar</span>
+                                                    </button>
                                                     }
                                                     else
                                                     {
+                                                        <button type="submit" id="userStatusButton" class="btn btn-sm btn-outline-success">
                                                         <span>Activar</span>
+
+                                                    </button>
                                                     }
-                                                </button>
                                             </form>
                                             <div class="modal fade" id="statusChangeModal" tabindex="-1" aria-labelledby="statusChangeModalLabel" aria-hidden="true">
                                                 <div class="modal-dialog modal-dialog-centered">
@@ -90,18 +94,11 @@
                                                 </div>
                                             </div>
 
-                                        }
                                     </td>
                                     <td>
-                                        @if (!user.IsAdmin)
-                                        {
-                                            <a class="btn btn-outline-info" asp-controller="User" asp-action="UpdateClient" asp-route="@user.Email">Editar</a>
-                                        }
-                                        else
-                                        {
-                                            <a class="btn btn-outline-info" asp-controller="UpdateAdmin" asp-action="UpdateAdmin" asp-route="@user.Email">Editar</a>
-                                        }
+                                            <a asp-controller="User" asp-action="ResetPassword" asp-route-email="@user.Email" class="text-primary mb-3">Change Password</a>
                                     </td>
+                                    }
                                 </tr>
                             }
                         }

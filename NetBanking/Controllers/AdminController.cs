@@ -33,16 +33,16 @@ namespace NetBanking.Controllers
             return View("Index",list);
         }
 
-        public async Task<IActionResult> UpdateFilter(bool newFilter)
+        public async Task<IActionResult> UpdateFilter(string newFilter)
         {
-            bool filter;
-            if (newFilter == true)
+            string filter;
+            if (newFilter == "Admin")
             {
-                filter = true;
+                filter = "Client";
             }
             else
             {
-                filter = false;
+                filter = "Admin";
             }
             ViewBag.Filter = filter;
             var list = await _userService.GetAllUsers();
