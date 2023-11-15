@@ -17,7 +17,7 @@ namespace NetBanking.Core.Application.Helpers
             }
 
             string fullNumber;
-            string randomNumber = random.Next(1000, 10000).ToString("D4");
+            string randomNumber = random.Next(100000, 999999).ToString("d4");
             fullNumber = $"{prefix}{randomNumber}";
 
             if (products.Count > 0)

@@ -10,7 +10,7 @@ namespace NetBanking.Core.Application.ViewModels.User
 
         [Required(ErrorMessage = "Debe tener un token")]
         [DataType(DataType.Text)]
-        public string Token { get; set; }
+        public string? Token { get; set; }
 
         [Required(ErrorMessage = "Debe colocar una contraseña")]
         [DataType(DataType.Password)]

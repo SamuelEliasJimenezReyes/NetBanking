@@ -176,6 +176,15 @@ namespace NetBanking.Infrastructure.Identity.Service
             };
 
             var result = await _userManager.CreateAsync(user, request.Password);
+
+            if(request.IsAdmin)
+            {
+                await _userManager.AddToRoleAsync(user, Roles.Admin.ToString());
+            }
+            else
+            {
+                await _userManager.AddToRoleAsync(user, Roles.Client.ToString());
+            }
           
 
             return response;
@@ -230,6 +239,15 @@ namespace NetBanking.Infrastructure.Identity.Service
             return response;
         }
 
+        public async Task UpdatePassword(ResetPasswordRequest request)
+        {
+            var user = await _userManager.FindByEmailAsync(request.Email);
+
+
+            user.PasswordHash = request.Password;
+
+        }
+
         public async Task<ResetPasswordResponse> ResetPasswordAsync(ResetPasswordRequest request)
         {
             ResetPasswordResponse response = new()
@@ -246,7 +264,7 @@ namespace NetBanking.Infrastructure.Identity.Service
                 return response;
             }
 
-            request.Token = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(request.Token));
+            request.Token = await _userManager.GeneratePasswordResetTokenAsync(user);
             var result = await _userManager.ResetPasswordAsync(user, request.Token, request.Password);
 
             if (!result.Succeeded)

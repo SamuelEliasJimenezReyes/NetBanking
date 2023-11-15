@@ -42,6 +42,7 @@
                             <th>Email</th>
                             <th>Cedula</th>
                             <th></th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -55,21 +56,25 @@
                                     <td>@user.LastName</td>
                                     <td>@user.Email</td>
                                     <td>@user.Cedula</td>
+                                    @if (user.UserName != userInSession.UserName && user.UserName != "mingo")
+                                    {
                                     <td>
-                                        @if (user.UserName != userInSession.UserName && user.UserName != "mingo")
-                                        {
+                                      
                                             <form id="userStatusForm" asp-controller="Admin" asp-action="ChangeUserStatus" method="post">
                                                 <input type="hidden" name="userName" id="userNameInput" value="@user.UserName" />
-                                                <button type="submit" id="userStatusButton" class="btn btn-sm btn-outline-danger">
                                                     @if (user.IsActive)
                                                     {
+                                                        <button type="submit" id="userStatusButton" class="btn btn-sm btn-outline-danger">
                                                         <span>Inactivar</span>
+                                                    </button>
                                                     }
                                                     else
                                                     {
+                                                        <button type="submit" id="userStatusButton" class="btn btn-sm btn-outline-success">
                                                         <span>Activar</span>
+
+                                                    </button>
                                                     }
-                                                </button>
                                             </form>
                                             <div class="modal fade" id="statusChangeModal" tabindex="-1" aria-labelledby="statusChangeModalLabel" aria-hidden="true">
                                                 <div class="modal-dialog modal-dialog-centered">
@@ -89,8 +94,11 @@
                                                 </div>
                                             </div>
 
-                                        }
                                     </td>
+                                    <td>
+                                            <a asp-controller="User" asp-action="ResetPassword" asp-route-email="@user.Email" class="text-primary mb-3">Change Password</a>
+                                    </td>
+                                    }
                                 </tr>
                             }
                         }
