@@ -1,5 +1,6 @@
 ﻿using NetBanking.Core.Application.Dtos.Account;
 using NetBanking.Core.Application.Dtos.User;
+using NetBanking.Core.Application.ViewModel.User;
 using NetBanking.Core.Application.ViewModels.User;
 
 namespace NetBanking.Core.Application.Interfaces.Services
@@ -19,6 +20,7 @@ namespace NetBanking.Core.Application.Interfaces.Services
         Task ChangeUserStatus(string userName);
 
         Task UpdateUserByEmail(UserDTO dto);
+        Task UpdateUserByUserName(EditUserViewModel value);
 
     }
 }

@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NetBanking.Core.Application.ViewModels.User;
-using System.Threading.Tasks;
 using NetBanking.Core.Application.Helpers;
 using NetBanking.Core.Application.Interfaces.Services;
 using NetBanking.Core.Application.Dtos.Account;
 using NetBanking.NetBanking.Middlewares;
 using NetBanking.Core.Application.Dtos.User;
+using NetBanking.Core.Application.ViewModel.User;
 
 namespace WebApp.NetBanking.Controllers
 {
@@ -141,9 +141,25 @@ namespace WebApp.NetBanking.Controllers
             return View();
         }
 
-        public async Task Update(UserDTO dtO)
+        public async Task UpdateAdmin(UserDTO dtO)
         {
-             await _userService.UpdateUserByEmail(dtO);
+           await _userService.UpdateUserByEmail(dtO);
+        }
+
+        public async Task UpdateClient(EditUserViewModel vm)
+        {
+            SaveUserViewModel value = new();
+            var sum = value.InitialAmount + vm.InitialAmount;
+            
+            value.Cedula= vm.Cedula;
+            value.Phone= vm.Phone;
+            value.Email= vm.Email;
+            value.InitialAmount= sum;
+            value.FirstName = value.FirstName;
+            value.LastName= value.LastName;
+
+            await _userService.UpdateUserByUserName(vm);
+
         }
     }
 }
