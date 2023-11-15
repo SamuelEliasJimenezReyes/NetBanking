@@ -32,19 +32,14 @@ namespace NetBanking.Core.Application.ViewModels.User
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "Debe de estar en formato de Republica Dominicana")]
-        [RegularExpression(@"^\d{3}-\d{3}-\d{4}$", ErrorMessage = "El formato del teléfono de ser de Republica Dominica con 809, 829 o 849 -000 -0000")]
+        //[Required(ErrorMessage = "Debe de estar en formato de Republica Dominicana")]
+        //[RegularExpression(@"^\d{3}-\d{3}-\d{4}$", ErrorMessage = "El formato del teléfono de ser de Republica Dominica con 809, 829 o 849 -000 -0000")]
         public string Phone { get; set; }
-
-        [DataType(DataType.ImageUrl)]
-        public IFormFile? File { get; set; } = null!;
         public bool IsAdmin { get; set; }
         [RegularExpression(@"^\d{11}$", ErrorMessage = "Debe de colocar su cedula sin guiones")]
         [Required(ErrorMessage = "Debe ingresar su Cedula")]
         public string Cedula { get; set; } = null!;
 
         public decimal InitialAmount { get; set; }
-        public bool HasError { get; set; }
-        public string? Error { get; set; }
     }
 }

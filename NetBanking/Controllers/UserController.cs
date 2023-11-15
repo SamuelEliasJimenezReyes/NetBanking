@@ -67,25 +67,13 @@ namespace WebApp.NetBanking.Controllers
 
             RegisterResponse response = new();
 
-            if (vm.Username != null && vm.Password != null && vm.ConfirmPassword != null && vm.Email != null && vm.Phone != null)
+            if (ModelState.IsValid)
             {
                 response = await _userService.RegisterAsync(vm, origin);
-            }
-         
-
-            if (response.HasError)
-            {
-                vm.HasError = response.HasError;
-                vm.Error = response.Error;
-                return View(vm);
+                return RedirectToRoute(new { controller = "User", action = "Index" });
             }
 
-            if (!ModelState.IsValid)
-            {
-                return View(vm);
-            }
-
-            return RedirectToRoute(new { controller = "User", action = "Index" });
+            return View(vm);
         }
 
         [ServiceFilter(typeof(LoginAuthorize))]
@@ -120,17 +108,15 @@ namespace WebApp.NetBanking.Controllers
             return RedirectToRoute(new { controller = "User", action = "Index" });
         }
 
-        [ServiceFilter(typeof(LoginAuthorize))]
-        public IActionResult ResetPassword(string token)
+        public IActionResult ResetPassword(string token, string email)
         {
-            return View(new ResetPasswordViewModel { Token = token });
+            return View(new ResetPasswordViewModel { Token = token, Email = email });
         }
 
-        [ServiceFilter(typeof(LoginAuthorize))]
         [HttpPost]
         public async Task<IActionResult> ResetPassword(ResetPasswordViewModel vm)
         {
-            if (!ModelState.IsValid)
+            if (vm.Email == null && vm.Password == null && vm.ConfirmPassword == null)
             {
                 return View(vm);
             }
