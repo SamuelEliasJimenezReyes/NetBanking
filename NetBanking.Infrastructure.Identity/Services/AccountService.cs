@@ -10,6 +10,7 @@ using System.Text;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using NetBanking.Application.Interfaces.Services;
+using NetBanking.Core.Application.ViewModel.User;
 
 namespace NetBanking.Infrastructure.Identity.Service
 {
@@ -333,7 +334,17 @@ namespace NetBanking.Infrastructure.Identity.Service
             
             await _userManager.UpdateAsync(value);
         }
+        public async Task UpdateUserByUserName(EditUserViewModel vm)
+        {
+            AppUser value = await _userManager.FindByNameAsync(vm.Username);
+            value.Email = vm.Email;
+            value.Name = vm.FirstName;
+            value.LastName = vm.LastName;
+            value.Cedula = vm.Cedula;
+            value.UserName = vm.Username;
 
+            await _userManager.UpdateAsync(value);
+        }
     }
 
 }

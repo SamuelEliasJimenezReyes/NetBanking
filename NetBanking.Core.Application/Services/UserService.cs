@@ -5,6 +5,8 @@ using NetBanking.Core.Application.ViewModels.User;
 using NetBanking.Core.Application.Dtos.User;
 using NetBanking.Application.Interfaces.Services;
 using NetBanking.Core.Application.ViewModel.SavingAccount;
+using NetBanking.Core.Application.ViewModel.User;
+
 namespace NetBanking.Core.Application.Services
 {
     public class UserService : IUserService
@@ -97,6 +99,11 @@ namespace NetBanking.Core.Application.Services
         public async Task UpdateUserByEmail(UserDTO dto)
         {
             await _accountService.UpdateUserByEmail(dto);
+        }
+
+        public async Task UpdateUserByUserName(EditUserViewModel vm)
+        {
+            await _accountService.UpdateUserByUserName(vm);
         }
     }
 }
