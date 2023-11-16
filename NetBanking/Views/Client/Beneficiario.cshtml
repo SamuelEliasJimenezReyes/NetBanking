@@ -1,0 +1,120 @@
+﻿@using NetBanking.Core.Application.ViewModel;
+@model List<BeneficiaryVi>
+
+<h1>Listado de Beneficiarios</h1>
+
+<a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#agregarModal">Agregar Beneficiario</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Número de Cuenta</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var beneficiario in Model)
+        {
+            <tr>
+                <td>@beneficiario.Nombre</td>
+                <td>@beneficiario.Apellido</td>
+                <td>@beneficiario.NumeroCuenta</td>
+                <td>
+                    <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#eliminarModal-@beneficiario.Id">Eliminar</button>
+                </td>
+            </tr>
+            <!-- Modal para confirmar eliminación de beneficiario -->
+            <div class="modal fade" id="eliminarModal-@beneficiario.Id" tabindex="-1" role="dialog" aria-labelledby="eliminarModalLabel-@beneficiario.Id" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="eliminarModalLabel-@beneficiario.Id">Eliminar Beneficiario</h5>
+                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Cerrar">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            ¿Está seguro que desea eliminar a este beneficiario?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <a class="btn btn-danger" asp-action="EliminarBeneficiario" asp-route-id="@beneficiario.Id">Eliminar</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </tbody>
+</table>
+
+<div class="modal fade" id="agregarModal" tabindex="-1" role="dialog" aria-labelledby="agregarModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="agregarModalLabel">Agregar Beneficiario</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Cerrar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form asp-action="AgregarBeneficiario">
+                    <div class="form-group">
+                        <label>Número de Cuenta:</label>
+                        <input type="text" class="form-control" name="NumeroCuenta" required />
+                    </div>
+                    <button type="submit" class="btn btn-primary">Agregar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+            <script>
+    $(document).ready(function () {
+        $('#agregarModal').on('shown.bs.modal', function () {
+            $(this).find('input[name="NumeroCuenta"]').focus();
+        });
+
+        $('#agregarModal, #eliminarModal').on('hidden.bs.modal', function () {
+            $(this).find('form')[0].reset(); 
+        });
+    });
+
+    $('#agregarModal form').submit(function (e) {
+        e.preventDefault();
+        var formData = $(this).serialize();
+
+        $.post({
+            url: '/Admin/AgregarBeneficiario',
+            data: formData,
+            success: function (response) {
+                location.reload();
+            },
+            error: function (xhr, status, error) {
+                alert('Hubo un error al agregar el beneficiario.');
+                console.error(xhr.responseText);
+            }
+        });
+    });
+
+    $('#eliminarModal a').click(function (e) {
+        e.preventDefault();
+        var url = $(this).attr('href');
+
+        if (confirm('¿Está seguro que desea eliminar a este beneficiario?')) {
+            $.post({
+                url: url,
+                success: function (response) {
+                    location.reload();
+                },
+                error: function (xhr, status, error) {
+                    alert('Hubo un error al eliminar el beneficiario.');
+                    console.error(xhr.responseText);
+                }
+            });
+        }
+    });
+
+            </script>

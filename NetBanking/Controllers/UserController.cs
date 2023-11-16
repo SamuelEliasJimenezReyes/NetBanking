@@ -138,15 +138,39 @@ namespace WebApp.NetBanking.Controllers
             return View();
         }
 
-            public IActionResult UpdateUser() => View();
-
-
-            public async Task Update(UserDTO dtO)
+            public async Task<IActionResult> UpdateUser(string Email)
             {
-                 await _userService.UpdateUserByEmail(dtO);
-            }
+                var user = await _userService.GetUserDTOAsync(Email);
+                var editUser = new EditUserViewModel()
+                {
+                    Cedula = user.Cedula,
+                    Email = Email,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Phone = user.Phone,
+                    Username = user.UserName,
+                };
+            return View(editUser);
+        }
 
-            public async Task<IActionResult> UpdateClient(string email)
+        [HttpPost]
+        public async Task<IActionResult> UpdateUser(EditUserViewModel vm)
+        {
+            UserDTO value = new();
+
+            value.Cedula = vm.Cedula;
+            value.Phone = vm.Phone;
+            value.Email = vm.Email;
+            value.FirstName = vm.FirstName;
+            value.LastName = vm.LastName;
+            value.UserName = vm.Username;
+
+            await _userService.UpdateUserByEmail(value);
+            return RedirectToRoute(new { controller = "Admin", action = "Dashboard" });
+        }
+
+
+        public async Task<IActionResult> UpdateClient(string email)
             {
                var user = await _userService.GetUserDTOAsync(email);
                 var editUser = new EditUserViewModel()
@@ -173,8 +197,12 @@ namespace WebApp.NetBanking.Controllers
                 value.LastName= vm.LastName;
                 value.UserName = vm.Username;
 
+                await _savingAccountService.AddAmountToSavingAccount(value.UserName, vm.InitialAmount);
               var user = await _userService.UpdateUserByEmail(value);
 
+                await _userService.UpdateUserByEmail(value);
+  
+                return RedirectToRoute(new {controller = "Admin", action= "Dashboard" });
 
             await _savingAccountService.AddAmountToSavingAccount(user.UserId, vm.InitialAmount);
 

@@ -1,10 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace NetBanking.Core.Application.ViewModel.User
 {
@@ -29,12 +23,13 @@ namespace NetBanking.Core.Application.ViewModel.User
         [Required(ErrorMessage = "Debe de estar en formato de Republica Dominicana")]
         [RegularExpression(@"^\d{3}-\d{3}-\d{4}$", ErrorMessage = "El formato del teléfono de ser de Republica Dominica con 809, 829 o 849 -000 -0000")]
         public string Phone { get; set; }
-        public bool IsAdmin { get; set; }
+        public List<string> Roles { get; set; }
+
         [RegularExpression(@"^\d{11}$", ErrorMessage = "Debe de colocar su cedula sin guiones")]
         [Required(ErrorMessage = "Debe ingresar su Cedula")]
         public string Cedula { get; set; } = null!;
 
-        public decimal InitialAmount { get; set; }
+        public decimal InitialAmount { get; set; } 
         public bool HasError { get; set; }
         public string? Error { get; set; }
     }
