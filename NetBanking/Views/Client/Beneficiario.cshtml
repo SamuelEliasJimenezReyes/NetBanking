@@ -1,5 +1,5 @@
-﻿@using NetBanking.Core.Application.ViewModel;
-@model List<BeneficiaryVi>
+﻿@using NetBanking.Core.Application.ViewModel.Beneficiary;
+@model List<BeneficiaryVM>
 
 <h1>Listado de Beneficiarios</h1>
 
@@ -18,9 +18,9 @@
         @foreach (var beneficiario in Model)
         {
             <tr>
-                <td>@beneficiario.Nombre</td>
-                <td>@beneficiario.Apellido</td>
-                <td>@beneficiario.NumeroCuenta</td>
+                <td>@beneficiario.Name</td>
+                <td>@beneficiario.LastName</td>
+                <td>@beneficiario.IdentifyingNumberofProduct</td>
                 <td>
                     <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#eliminarModal-@beneficiario.Id">Eliminar</button>
                 </td>
