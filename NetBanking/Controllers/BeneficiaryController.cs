@@ -17,6 +17,7 @@ namespace NetBanking.Controllers
             _accountService = accountService;
         }
 
+
         public IActionResult AddBeneficiary()
         {
             var viewModel = new SaveBeneficiaryVM();
