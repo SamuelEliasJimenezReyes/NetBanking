@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
+﻿
 namespace NetBanking.Core.Application.DTOs.Email
 {
     public class EmailRequest

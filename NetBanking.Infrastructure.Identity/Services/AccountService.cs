@@ -156,6 +156,7 @@ namespace NetBanking.Infrastructure.Identity.Service
             userDTO.LastName = user.LastName;
             userDTO.FirstName = user.Name;
             userDTO.Phone = user.PhoneNumber;
+            userDTO.Cedula = user.Cedula;
             return userDTO;
         }
 

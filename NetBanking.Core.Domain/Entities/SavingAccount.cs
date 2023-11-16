@@ -4,7 +4,7 @@ namespace NetBanking.Core.Domain.Entities
 {
     public class SavingAccount : Product
     {
-        public bool IsPrincipal { get; set; }
+        public bool IsPrincipal { get; set; } = false;
         public decimal Amount { get; set; }
     }
 }

@@ -15,11 +15,12 @@ namespace WebApp.NetBanking.Controllers
     public class UserController : Controller
     {
         private readonly IUserService _userService;
+        private readonly ISavingAccountService _savingAccountService;
 
-
-        public UserController(IUserService userService)
+        public UserController(IUserService userService, ISavingAccountService savingAccountService)
         {
             _userService = userService;
+            _savingAccountService = savingAccountService;
         }
 
         [ServiceFilter(typeof(LoginAuthorize))]
@@ -164,7 +165,7 @@ namespace WebApp.NetBanking.Controllers
             }
 
             [HttpPost]
-            public async Task UpdateClient(EditUserViewModel vm)
+            public async Task<IActionResult> UpdateClient(EditUserViewModel vm)
             {
                 UserDTO value = new();
             
@@ -173,9 +174,15 @@ namespace WebApp.NetBanking.Controllers
                 value.Email= vm.Email;
                 value.FirstName = vm.FirstName;
                 value.LastName= vm.LastName;
+                value.UserName = vm.Username;
 
-                await _userService.UpdateUserByEmail(value);
+            await _savingAccountService.AddAmountToSavingAccount(value.UserName, vm.InitialAmount);
 
+            await _userService.UpdateUserByEmail(value);
+
+                
+
+                return RedirectToRoute(new {controller = "Admin", action= "Dashboard" });
             }
     }
 }

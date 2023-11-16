@@ -36,11 +36,11 @@ namespace NetBanking.Infrastructure.Persistence.Repositories
 
         public virtual async Task UpdateAsync(T entity, int id)
         {
-            var entry = GetByIdAsync(id);
+            var entry = await GetByIdAsync(id);
            _dbContext.Entry(entry).CurrentValues.SetValues(entity);
             await _dbContext.SaveChangesAsync();
         }
-
+        
         public virtual async Task DeleteAsync(int id)
         {
             var entity = await GetByIdAsync(id);
