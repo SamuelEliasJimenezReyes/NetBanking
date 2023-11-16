@@ -11,7 +11,7 @@
                 <form method="post" asp-controller="User" asp-action="UpdateUser" enctype="multipart/form-data">
 
                     <div class="form-group text-center pt-3">
-                        <h1 class="text-light">Edit User</h1>
+                        <h1 class="text-light">Edit Admin</h1>
                     </div>
                     <div class="form-group mx-sm-4 pt-3 mt-1 mb-2">
                         <input type="text" asp-for="Username" class="form-control" placeholder="Enter the UserName">
@@ -41,6 +41,7 @@
                         <button type="submit" class="btn btn-primary btn-outline-dark" style="background-color: #2f5b75; color: white;">Actualizar Usuario</button>
                         <a asp-controller="User" asp-action="Index" class="btn btn-dark">Volver atras</a>
                     </div>
+                    <input asp-for="UserId" class="form-control" hidden>
                     <label class="mb-5"></label>
                 </form> 
             </div>

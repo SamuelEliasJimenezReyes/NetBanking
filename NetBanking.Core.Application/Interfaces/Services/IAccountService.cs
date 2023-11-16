@@ -19,7 +19,7 @@ namespace NetBanking.Application.Interfaces.Services
         Task<bool> IsaValidUser(string UserName);
         Task<List<UserDTO>> GetAllUsers();
         Task ChangeUserStatus(string userName);
-        Task<UserDTO> UpdateUserByEmail(UserDTO dto);
+        Task<UserDTO> UpdateUser(UserDTO dto);
         Task UpdateUserByUserName(EditUserViewModel value);
         Task<UserDTO> GetUserByUserEmail(string Email);
 

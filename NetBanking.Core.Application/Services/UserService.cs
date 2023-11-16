@@ -82,9 +82,9 @@ namespace NetBanking.Core.Application.Services
             return await _accountService.ResetPasswordAsync(resetRequest);
         }
 
-        public async Task<UserDTO> GetUserDTOAsync(string email)
+        public async Task<RegisterRequest> GetUserDTOAsync(string userId)
         {
-            return await _accountService.GetUserByUserEmail(email);
+            return await _accountService.GetUserById(userId);
         }
 
         public async Task<bool> IsaValidUser(string UserName)
@@ -97,16 +97,9 @@ namespace NetBanking.Core.Application.Services
            return await _accountService.GetAllUsers();
         }
 
-        public async Task<UserDTO> UpdateUserByEmail(UserDTO dto)
+        public async Task<UserDTO> UpdateUserByUserId(UserDTO dto)
         {
-            return await _accountService.UpdateUserByEmail(dto);
+            return await _accountService.UpdateUser(dto);
         }
-
-        public async Task UpdateUserByUserName(EditUserViewModel vm)
-        {
-            await _accountService.UpdateUserByUserName(vm);
-        }
-
-       
     }
 }

@@ -15,15 +15,10 @@ namespace NetBanking.Core.Application.Interfaces.Services
         Task<ResetPasswordResponse> ResetPasswordAsync(ResetPasswordViewModel vm);
         Task SignOutAsync();
         Task UpdateUser(SaveUserViewModel user);
-        Task<UserDTO> GetUserDTOAsync(string UserName);
+        Task<RegisterRequest> GetUserDTOAsync(string UserName);
          Task<bool> IsaValidUser(string UserName);
         Task<List<UserDTO>> GetAllUsers();
         Task ChangeUserStatus(string userName);
-
-        Task<UserDTO> UpdateUserByEmail(UserDTO dto);
-        Task UpdateUserByUserName(EditUserViewModel value);
-        
-        
-
+        Task<UserDTO> UpdateUserByUserId(UserDTO dto);
     }
 }

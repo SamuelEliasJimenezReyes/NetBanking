@@ -194,8 +194,9 @@ namespace NetBanking.Infrastructure.Identity.Service
                 LastName = request.LastName,
                 EmailConfirmed = true,
                 Cedula = request.Cedula,
-                UserName = request.UserName
-               
+                UserName = request.UserName,
+                PhoneNumber = request.Phone,
+                PhoneNumberConfirmed = true
             };
 
             var result = await _userManager.CreateAsync(user, request.Password);
@@ -328,15 +329,16 @@ namespace NetBanking.Infrastructure.Identity.Service
             return verificationUri;
         }
 
-        public async Task<UserDTO> UpdateUserByEmail(UserDTO dto)
+        public async Task<UserDTO> UpdateUser(UserDTO dto)
         {
-            AppUser value = await _userManager.FindByEmailAsync(dto.Email);
+            AppUser value = await _userManager.FindByIdAsync(dto.UserId);
             value.UserName = dto.UserName;  
             value.Email = dto.Email;
             value.Name = dto.FirstName;
             value.LastName = dto.LastName;
             value.Cedula = dto.Cedula;
             value.UserName = dto.UserName;
+            value.PhoneNumber = dto.Phone;
 
             //lo Hago para obtener el Id
 
@@ -345,12 +347,10 @@ namespace NetBanking.Infrastructure.Identity.Service
             await _userManager.UpdateAsync(value);
 
             return dto;
-            
-            var updatedUser =await _userManager.UpdateAsync(value);
         }
         public async Task UpdateUserByUserName(EditUserViewModel vm)
         {
-            AppUser value = await _userManager.FindByNameAsync(vm.Username);
+            AppUser value = await _userManager.FindByIdAsync(vm.UserId);
             value.Email = vm.Email;
             value.Name = vm.FirstName;
             value.LastName = vm.LastName;
@@ -369,14 +369,15 @@ namespace NetBanking.Infrastructure.Identity.Service
             {
                 return null;
             }
+            RegisterRequest userDTO = new();
+            userDTO.Email = user.Email;
+            userDTO.UserName = user.UserName;
+            userDTO.LastName = user.LastName;
+            userDTO.FirstName = user.Name;
+            userDTO.Phone = user.PhoneNumber;
+            userDTO.Cedula = user.Cedula;
 
-            RegisterRequest DTO = new();
-            DTO.UserName = user.UserName;
-            DTO.LastName = user.LastName;
-            DTO.FirstName = user.Name;
-
-
-            return DTO;
+            return userDTO;
 
         }
     }

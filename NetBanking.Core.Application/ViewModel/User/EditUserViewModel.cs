@@ -15,6 +15,7 @@ namespace NetBanking.Core.Application.ViewModel.User
         [Required(ErrorMessage = "Debe colocar un nombre de usuario")]
         [DataType(DataType.Text)]
         public string Username { get; set; }
+        public string UserId { get; set; }
 
         [Required(ErrorMessage = "Debe colocar un correo")]
         [DataType(DataType.EmailAddress)]
