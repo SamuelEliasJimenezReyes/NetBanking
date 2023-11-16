@@ -21,5 +21,12 @@ namespace NetBanking.Core.Application.Services
             _beneficiaryRepository = beneficiaryRepository;
             _mapper = mapper;
         }
+
+        public async Task<bool> AddBeneficiary(string identifyingNumber)
+        {
+            
+            var addedSuccessfully = await _beneficiaryRepository.AddBeneficiary(identifyingNumber);
+            return addedSuccessfully;
+        }
     }
 }

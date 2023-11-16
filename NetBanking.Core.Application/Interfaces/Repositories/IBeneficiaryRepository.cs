@@ -6,5 +6,6 @@ namespace NetBanking.Core.Application.Interfaces.Repositories
 {
     public interface IBeneficiaryRepository : IGenericRepository<Beneficiary>
     {
+        Task<bool> AddBeneficiary(string identifyingNumber);
     }
 }
