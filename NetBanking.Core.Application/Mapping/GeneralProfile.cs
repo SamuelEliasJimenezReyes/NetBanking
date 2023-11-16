@@ -39,7 +39,19 @@ namespace NetBanking.Core.Application.Mapping
             #region SavingAccount
 
             CreateMap<SavingAccount, SaveSavingAccountVM>()
-                .ReverseMap();
+                .ReverseMap()
+                .ForMember(x => x.LastModified, opt => opt.Ignore())
+                .ForMember(x => x.LastModifiedBy, opt => opt.Ignore())
+                .ForMember(x => x.Created, opt => opt.Ignore())
+                .ForMember(x => x.CreatedBy, opt => opt.Ignore());
+
+            CreateMap<SavingAccount, SavingAccountVM>()
+            .ReverseMap()
+            .ForMember(x => x.LastModified, opt => opt.Ignore())
+            .ForMember(x => x.LastModifiedBy, opt => opt.Ignore())
+            .ForMember(x => x.Created, opt => opt.Ignore())
+            .ForMember(x => x.CreatedBy, opt => opt.Ignore());
+
 
             CreateMap<SavingAccount, SaveSavingAccountVM>()
                 .ReverseMap();

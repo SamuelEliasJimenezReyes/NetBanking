@@ -25,15 +25,15 @@ namespace NetBanking.Core.Application.Services
             _loanRepository = loanREpository;
         }
 
-        public async Task<ProductVM> GetAllProductsByUserName(string userName)
+        public async Task<ProductVM> GetAllProductsByUserName(string userId)
         {
             var credictCardList = await _creditCardRepository.GetAllAsync();
             var savingAccountList = await _savingAccountRepository.GetAllAsync();
             var loanList = await _loanRepository.GetAllAsync();
 
-            credictCardList = credictCardList.Where(x => x.UserNameofOwner == userName).ToList();
-            savingAccountList = savingAccountList.Where(x => x.UserNameofOwner == userName).ToList();
-            loanList = loanList.Where(x => x.UserNameofOwner == userName).ToList();
+            credictCardList = credictCardList.Where(x => x.UserNameofOwner == userId).ToList();
+            savingAccountList = savingAccountList.Where(x => x.UserNameofOwner == userId).ToList();
+            loanList = loanList.Where(x => x.UserNameofOwner == userId).ToList();
 
             var product = new ProductVM
             {

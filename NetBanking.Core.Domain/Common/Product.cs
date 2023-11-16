@@ -7,5 +7,7 @@ namespace NetBanking.Core.Domain.Common
         public string IdentifyingNumber { get; set; } = null!;
         public string UserNameofOwner { get; set; } = null!;
 
+
+
     }
 }

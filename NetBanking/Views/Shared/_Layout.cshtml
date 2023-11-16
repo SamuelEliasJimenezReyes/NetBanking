@@ -41,9 +41,18 @@
                             <a class="nav-link text-dark" asp-controller="Admin" asp-action="Index">Lista de Usuarios</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Admin" asp-action="Products">Productos</a>
+                            <div class="dropdown">
+                                <a class="nav-link text-dark dropdown-toggle" href="#" role="button" id="productDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Products
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="productDropdown" style="background-color: #f6eaff;">
+                                    <li><a class="dropdown-item" href="@Url.Action("CreditCards", "Admin")">Tarjetas de Crédito</a></li>
+                                    <li><a class="dropdown-item" href="@Url.Action("SavingAccounts", "Admin")">Cuentas de Ahorro</a></li>
+                                    <li><a class="dropdown-item" href="@Url.Action("Loans", "Admin")">Préstamos</a></li>
+                                </ul>
+                            </div>
                         </li>
-                         
+
                     </ul>
 
                     <ul class="navbar-nav">
@@ -74,3 +83,4 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+

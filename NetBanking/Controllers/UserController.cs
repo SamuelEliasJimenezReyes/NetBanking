@@ -1,15 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NetBanking.Core.Application.ViewModels.User;
-using System.Threading.Tasks;
 using NetBanking.Core.Application.Helpers;
 using NetBanking.Core.Application.Interfaces.Services;
 using NetBanking.Core.Application.Dtos.Account;
 using NetBanking.NetBanking.Middlewares;
 using NetBanking.Core.Application.Dtos.User;
 using NetBanking.Core.Application.ViewModel.User;
-using NetBanking.Core.Application.Services;
-using NetBanking.Core.Application.ViewModel.SavingAccount;
-using Humanizer;
 
 namespace WebApp.NetBanking.Controllers
 {
@@ -202,10 +198,16 @@ namespace WebApp.NetBanking.Controllers
                 value.UserName = vm.Username;
 
                 await _savingAccountService.AddAmountToSavingAccount(value.UserName, vm.InitialAmount);
+              var user = await _userService.UpdateUserByEmail(value);
 
                 await _userService.UpdateUserByEmail(value);
   
                 return RedirectToRoute(new {controller = "Admin", action= "Dashboard" });
+
+            await _savingAccountService.AddAmountToSavingAccount(user.UserId, vm.InitialAmount);
+
+
+            return RedirectToRoute(new {controller = "Admin", action= "Dashboard" });
             }
     }
 }
