@@ -6,6 +6,7 @@ using NetBanking.Core.Application.Dtos.User;
 using NetBanking.Application.Interfaces.Services;
 using NetBanking.Core.Application.ViewModel.SavingAccount;
 using NetBanking.Core.Application.ViewModel.User;
+using System.Security.Principal;
 
 namespace NetBanking.Core.Application.Services
 {
@@ -45,7 +46,7 @@ namespace NetBanking.Core.Application.Services
 
         public async Task<RegisterResponse> RegisterAsync(SaveUserViewModel vm, string origin)
         {
-          
+
             RegisterRequest registerRequest = _mapper.Map<RegisterRequest>(vm);
             var response = await _accountService.RegisterBasicUserAsync(registerRequest, origin);
 

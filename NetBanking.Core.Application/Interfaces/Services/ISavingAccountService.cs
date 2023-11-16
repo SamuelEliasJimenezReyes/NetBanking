@@ -11,5 +11,7 @@ namespace NetBanking.Core.Application.Interfaces.Services
 {
     public interface ISavingAccountService : IGenericService<SaveSavingAccountVM, SavingAccountVM, SavingAccount>
     {
+        Task<bool> AddAmountToSavingAccount(SaveSavingAccountVM vm); 
+
     }
 }

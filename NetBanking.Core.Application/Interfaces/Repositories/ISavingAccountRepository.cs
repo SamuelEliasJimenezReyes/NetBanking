@@ -9,5 +9,6 @@ namespace NetBanking.Core.Application.Interfaces.Repositories
 {
     public interface ISavingAccountRepository : IGenericRepository<SavingAccount>
     {
+        Task<SavingAccount> GetSavingAccountByOwner(string ownerUserName);
     }
 }

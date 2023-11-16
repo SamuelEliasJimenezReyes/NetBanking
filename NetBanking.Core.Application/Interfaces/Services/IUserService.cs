@@ -2,6 +2,7 @@
 using NetBanking.Core.Application.Dtos.User;
 using NetBanking.Core.Application.ViewModel.User;
 using NetBanking.Core.Application.ViewModels.User;
+using System.ComponentModel;
 
 namespace NetBanking.Core.Application.Interfaces.Services
 {
@@ -21,6 +22,8 @@ namespace NetBanking.Core.Application.Interfaces.Services
 
         Task UpdateUserByEmail(UserDTO dto);
         Task UpdateUserByUserName(EditUserViewModel value);
+        
+        
 
     }
 }
