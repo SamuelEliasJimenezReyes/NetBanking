@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NetBanking.Core.Application.Dtos.User;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,8 @@ namespace NetBanking.Core.Application.ViewModel.CreditCard
 {
     public class SaveCreditCardVM
     {
+        
+        
+        public List<UserDTO>? users;
     }
 }

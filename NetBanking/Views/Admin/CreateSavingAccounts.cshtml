@@ -11,7 +11,7 @@
         <div class="row justify-content-center pt-5 mt-5 m-1">
             <div class="col-md-6 col-sm-8 col-xl-4 col-lg-5 formulario">
               
-                <form method="post" asp-controller="Admin" asp-action="CreateSavingAccount" enctype="multipart/form-data">
+                <form method="post" asp-controller="Admin" asp-action="CreateSavingAccounts" enctype="multipart/form-data">
 
                     <div class="form-group text-center pt-3">
                         <h1 class="text-light">Create Saving Account</h1>
@@ -20,7 +20,7 @@
                     <div class="mb-3">
                         <label asp-for="UserNameofOwner" class="form-label">Usuarios</label>
 
-                        <select asp-for="UserNameofOwner" asp-items="@(new SelectList(Model.users,"UserName", "UserName"))" type="text" class="form-select mb-3">
+                        <select asp-for="UserNameofOwner" asp-items="@(new SelectList(Model.users.Where(a => a.Roles.Contains("Client")),"UserId", "UserName"))" type="text" class="form-select mb-3">
                             <option value="0">Seleccione un Usuario</option>
 
                         </select>

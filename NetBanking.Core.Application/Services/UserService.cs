@@ -99,7 +99,7 @@ namespace NetBanking.Core.Application.Services
 
         public async Task<UserDTO> UpdateUserByEmail(UserDTO dto)
         {
-            await _accountService.UpdateUserByEmail(dto);
+            return await _accountService.UpdateUserByEmail(dto);
         }
 
         public async Task UpdateUserByUserName(EditUserViewModel vm)
