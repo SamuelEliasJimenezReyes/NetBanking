@@ -1,4 +1,5 @@
-﻿using NetBanking.Core.Application.Interfaces.Repositories;
+﻿using Microsoft.EntityFrameworkCore;
+using NetBanking.Core.Application.Interfaces.Repositories;
 using NetBanking.Core.Domain.Entities;
 using NetBanking.Infrastructure.Persistence.Context;
 using System;
@@ -13,6 +14,11 @@ namespace NetBanking.Infrastructure.Persistence.Repositories
     {
         public BeneficiaryRepository(NetBankingContext dbContext) : base(dbContext)
         {
+        }
+
+        public Task<bool> AddBeneficiary(string identifyingNumber)
+        {
+            return true;
         }
     }
 }
