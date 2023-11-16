@@ -21,6 +21,7 @@ namespace NetBanking.Controllers
         {
             var viewModel = new SaveBeneficiaryVM();
             return View(viewModel);
+
         }
 
     //    [HttpPost]
