@@ -39,6 +39,7 @@ namespace NetBanking.Core.Application.Mapping
             #region SavingAccount
 
             CreateMap<SavingAccount, SaveSavingAccountVM>()
+                 .ForMember(x => x.UserName, opt => opt.Ignore())
                 .ReverseMap()
                 .ForMember(x => x.LastModified, opt => opt.Ignore())
                 .ForMember(x => x.LastModifiedBy, opt => opt.Ignore())
@@ -53,25 +54,45 @@ namespace NetBanking.Core.Application.Mapping
             .ForMember(x => x.CreatedBy, opt => opt.Ignore());
 
 
-            CreateMap<SavingAccount, SaveSavingAccountVM>()
-                .ReverseMap();
+           
 
             #endregion
 
             #region Loans
 
             CreateMap<Loan, LoanVM>()
-                .ReverseMap();
+                .ForMember(x => x.UserName, opt => opt.Ignore())
+                .ReverseMap()
+                .ForMember(x => x.LastModified, opt => opt.Ignore())
+            .ForMember(x => x.LastModifiedBy, opt => opt.Ignore())
+            .ForMember(x => x.Created, opt => opt.Ignore())
+            .ForMember(x => x.CreatedBy, opt => opt.Ignore()); 
 
             CreateMap<Loan, SaveLoanVM>()
-                .ReverseMap();
+                .ReverseMap()
+                .ForMember(x => x.LastModified, opt => opt.Ignore())
+            .ForMember(x => x.LastModifiedBy, opt => opt.Ignore())
+            .ForMember(x => x.Created, opt => opt.Ignore())
+            .ForMember(x => x.CreatedBy, opt => opt.Ignore());
 
             #endregion
 
             #region Credit Cards
 
             CreateMap<CreditCard, CreditCardVM>()
-                .ReverseMap();
+                .ForMember(x => x.UserName, opt => opt.Ignore())
+                .ReverseMap()
+                .ForMember(x => x.LastModified, opt => opt.Ignore())
+            .ForMember(x => x.LastModifiedBy, opt => opt.Ignore())
+            .ForMember(x => x.Created, opt => opt.Ignore())
+            .ForMember(x => x.CreatedBy, opt => opt.Ignore());
+
+            CreateMap<CreditCard, SaveCreditCardVM>()
+              .ReverseMap()
+              .ForMember(x => x.LastModified, opt => opt.Ignore())
+          .ForMember(x => x.LastModifiedBy, opt => opt.Ignore())
+          .ForMember(x => x.Created, opt => opt.Ignore())
+          .ForMember(x => x.CreatedBy, opt => opt.Ignore());
 
             #endregion
 

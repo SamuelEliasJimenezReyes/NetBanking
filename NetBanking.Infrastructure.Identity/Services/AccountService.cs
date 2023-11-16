@@ -209,8 +209,9 @@ namespace NetBanking.Infrastructure.Identity.Service
             {
                 await _userManager.AddToRoleAsync(user, Roles.Client.ToString());
             }
-          
+            var userForId = await _userManager.FindByEmailAsync(request.Email);
 
+            response.UserId = userForId.Id;
             return response;
         }
 

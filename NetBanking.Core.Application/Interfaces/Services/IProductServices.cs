@@ -4,6 +4,6 @@ namespace NetBanking.Core.Application.Interfaces.Services
 {
     public interface IProductServices
     {
-        Task<ProductVM> GetAllProductsByUserName(string userName);
+        Task<ProductVM> GetAllProducts();
     }
 }
