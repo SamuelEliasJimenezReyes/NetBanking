@@ -152,6 +152,7 @@ namespace NetBanking.Infrastructure.Identity.Service
                 return null;
             }
             UserDTO userDTO = new();
+            userDTO.Email=user.Email;
             userDTO.UserName = user.UserName;
             userDTO.LastName = user.LastName;
             userDTO.FirstName = user.Name;
@@ -327,13 +328,13 @@ namespace NetBanking.Infrastructure.Identity.Service
         public async Task UpdateUserByEmail(UserDTO dto)
         {
             AppUser value = await _userManager.FindByEmailAsync(dto.Email);
+            value.UserName = dto.UserName;  
             value.Email = dto.Email;
             value.Name = dto.FirstName;
             value.LastName = dto.LastName;
             value.Cedula = dto.Cedula;
-            value.UserName = dto.UserName;
             
-            await _userManager.UpdateAsync(value);
+            var updatedUser =await _userManager.UpdateAsync(value);
         }
         public async Task UpdateUserByUserName(EditUserViewModel vm)
         {

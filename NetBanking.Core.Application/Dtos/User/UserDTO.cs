@@ -10,6 +10,8 @@ namespace NetBanking.Core.Application.Dtos.User
         public string Cedula { get; set; }
         public bool IsActive { get; set; }
         public string Phone { get; set; }
-        public List<string> Roles { get; set; }
+        public List<string>? Roles { get; set; }
+        public bool HasError { get; set; }
+        public string? Error { get; set; }
     }
 }
