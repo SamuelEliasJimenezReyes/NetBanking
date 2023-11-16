@@ -1,0 +1,50 @@
+﻿@* Strong type views *@
+@model List<NetBanking.Core.Application.ViewModel.Loan.LoanVM>
+
+<div class="row align-content-center">
+    <div class="col-8 offset-2">
+
+        <div class="card">
+            <div class="card-header bg-dark text-light">
+                  Préstamos
+                <div class="text-end">
+                    <a class="btn btn-success float-end text-black" style="background-color: #f6eaff; color: white;" asp-controller="Admin" asp-action="Create">Nuevo Préstamo</a>
+                </div>
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Usuario</th>
+                            <th scope="col">Numero de Préstamo</th>
+                            <th scope="col">Cantidad de Préstamo</th>
+                            <th scope="col">Monto a Pagar</th>
+                            <th scope="col">Eliminar Préstamo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.UserName</td>
+                                <td>@item.IdentifyingNumber</td>
+                                <td>@item.LoanQuantity</td>
+                                <td>@item.PaidQuantity</td>
+
+                                <td>
+                                    <a asp-controller="Admin" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">
+                                        <i class="fa-solid fa-eraser"></i>
+                                    </a>
+                                </td>
+                            </tr>
+
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <script src="https://kit.fontawesome.com/47ea8ef61d.js" crossorigin="anonymous"></script>
+    </div>
+</div>
+

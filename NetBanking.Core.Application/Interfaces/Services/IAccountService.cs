@@ -23,5 +23,8 @@ namespace NetBanking.Application.Interfaces.Services
         Task UpdateUserByUserName(EditUserViewModel value);
         Task<UserDTO> GetUserByUserEmail(string Email);
 
+        Task<RegisterRequest> GetUserById(string UserId);
+
+
     }
 }

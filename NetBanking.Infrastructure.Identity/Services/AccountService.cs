@@ -37,6 +37,7 @@ namespace NetBanking.Infrastructure.Identity.Service
             foreach(var user in userList)
             {
                 var userDto = new UserDTO();
+          
                 userDto.UserName = user.UserName;
                 userDto.LastName = user.LastName;
                 userDto.FirstName = user.Name;
@@ -353,6 +354,26 @@ namespace NetBanking.Infrastructure.Identity.Service
             value.UserName = vm.Username;
 
             await _userManager.UpdateAsync(value);
+        }
+
+        public async Task<RegisterRequest> GetUserById(string UserId)
+        {
+
+            var user = await _userManager.FindByIdAsync(UserId);
+
+            if (user == null)
+            {
+                return null;
+            }
+
+            RegisterRequest DTO = new();
+            DTO.UserName = user.UserName;
+            DTO.LastName = user.LastName;
+            DTO.FirstName = user.Name;
+
+
+            return DTO;
+
         }
     }
 
