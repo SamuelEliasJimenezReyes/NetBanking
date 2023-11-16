@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using NetBanking.Core.Application.Dtos.Account;
+using NetBanking.Core.Application.ViewModel.CreditCard;
+using NetBanking.Core.Application.ViewModel.Loan;
 using NetBanking.Core.Application.ViewModel.SavingAccount;
 using NetBanking.Core.Application.ViewModels.User;
 using NetBanking.Core.Domain.Entities;
@@ -11,6 +13,7 @@ namespace NetBanking.Core.Application.Mapping
         public GeneralProfile()
         {
             #region UserProfile
+
             CreateMap<AuthenticationRequest, LoginViewModel>()
                 .ForMember(x => x.HasError, opt => opt.Ignore())
                 .ForMember(x => x.Error, opt => opt.Ignore())
@@ -28,6 +31,7 @@ namespace NetBanking.Core.Application.Mapping
                 .ForMember(x => x.HasError, opt => opt.Ignore())
                 .ForMember(x => x.Error, opt => opt.Ignore())
                 .ReverseMap();
+
             #endregion
 
             #region Users
@@ -35,6 +39,26 @@ namespace NetBanking.Core.Application.Mapping
             #region SavingAccount
 
             CreateMap<SavingAccount, SaveSavingAccountVM>()
+                .ReverseMap();
+
+            CreateMap<SavingAccount, SaveSavingAccountVM>()
+                .ReverseMap();
+
+            #endregion
+
+            #region Loans
+
+            CreateMap<Loan, LoanVM>()
+                .ReverseMap();
+
+            CreateMap<Loan, SaveLoanVM>()
+                .ReverseMap();
+
+            #endregion
+
+            #region Credit Cards
+
+            CreateMap<CreditCard, CreditCardVM>()
                 .ReverseMap();
 
             #endregion

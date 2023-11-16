@@ -12,6 +12,7 @@ namespace NetBanking.Core.Application
         public static void AddApplicationLayer(this IServiceCollection services)
         {
             #region Services
+           
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             services.AddTransient((typeof(IGenericService<,,>)), (typeof(GenericService<,,>)));
 
@@ -21,6 +22,8 @@ namespace NetBanking.Core.Application
             services.AddTransient<ITransactionService, TransactionService>();
             services.AddTransient<ILoanService, LoanService>();
             services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IProductServices, ProductServices>();
+            
             #endregion
         }
     }

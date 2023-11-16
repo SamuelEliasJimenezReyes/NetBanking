@@ -1,0 +1,167 @@
+﻿@using Microsoft.JSInterop;
+@using NetBanking.Core.Application.Dtos.Account;
+@using NetBanking.Core.Application.Dtos.User;
+@using NetBanking.Core.Application.Helpers;
+@using Microsoft.AspNetCore.Http
+@using NetBanking.Core.Application.ViewModel.Products;
+@model List<ProductVM>
+@inject IHttpContextAccessor httpContextAccessor
+
+
+@{
+    
+    ViewData["Title"] = "Home";
+    var userInSession = httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>("user");
+    string filter = "Admin";
+    string userType = "";
+}
+@{
+    filter = ViewBag.Filter != null ? ViewBag.Filter : "Admin";
+    userType = filter == "Admin" ? "Admin" : "Client";
+
+    string adminUrlWithParam = Url.Action("UpdateFilter", "Admin", new { newFilter = "Client"});
+    string clientUrlWithParam = Url.Action("UpdateFilter", "Admin", new { newFilter = "Admin" });
+
+}
+
+@if(Model == null || Model.Count < 0)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <h2>No Hay Productos Disponibles </h2>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+@if (Model.Count > 1)
+{
+    @foreach (var productList in Model)
+    {
+        <section>
+            <div class="container mt-2">
+                <div class="row">
+                    <div class="card">
+                        <div class="card-header bg-primary text-white">
+                            Listado de Productos
+                        </div>
+                        <div class="card-body">
+                        </div>
+                        <div class="col-10 offset-1">
+                            <h2 class="bg-primary text-center">Principal Saving Account</h2>
+                            @foreach (var principalSavingAccount in productList.SavingAccounts)
+                            {
+
+                            }
+                            <table class="table mt-2">
+                                <thead>
+                                    <tr>
+                                        <th> IdentifyingNumber </th>
+                                        <th> Amount< /th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-10 offset-1">
+                            <h2 class="bg-primary text-center">Saving Accounts</h2>
+                            @foreach (var principalSavingAccount in productList.SavingAccounts)
+                            {
+
+                            }
+                            <table class="table mt-2">
+                                <thead>
+                                    <tr>
+                                        <th> IdentifyingNumber </th>
+                                        <th> Amount< /th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-10 offset-1">
+                            <h2 class="bg-primary text-center">Credit Cards</h2>
+                            @foreach (var principalSavingAccount in productList.SavingAccounts)
+                            {
+
+                            }
+                            <table class="table mt-2">
+                                <thead>
+                                    <tr>
+                                        <th> IdentifyingNumber </th>
+                                        <th>Quantity < /th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-10 offset-1">
+                            <h2 class="bg-primary text-center">Loans</h2>
+                            @foreach (var principalSavingAccount in productList.LoanVMs)
+                            {
+
+                            }
+                            <table class="table mt-2">
+                                <thead>
+                                    <tr>
+                                        <th> IdentifyingNumber </th>
+                                        <th>Quatity To Pay< /th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+    }
+}
+
+
+<script>
+    function updateFilter() {
+        var filterSelect = document.getElementById('filterSelect');
+        var selectedValue = filterSelect.options[filterSelect.selectedIndex].value;
+        window.location.href = selectedValue; 
+    }
+
+    document.getElementById('userStatusButton').addEventListener('click', function (e) {
+        e.preventDefault();
+        $('#statusChangeModal').modal('show');
+    });
+
+    document.getElementById('confirmStatusChangeButton').addEventListener('click', function (e) {
+        document.getElementById('userStatusForm').submit();
+    });
+
+</script>
+
+
+

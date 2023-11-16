@@ -1,4 +1,5 @@
-﻿using NetBanking.Core.Application.Helpers;
+﻿using NetBanking.Core.Application.Dictionary;
+using NetBanking.Core.Application.Helpers;
 using NetBanking.Core.Application.Interfaces.Repositories;
 using NetBanking.Core.Domain.Entities;
 using NetBanking.Infrastructure.Persistence.Context;
@@ -20,7 +21,7 @@ namespace NetBanking.Infrastructure.Persistence.Repositories
         {
             var list = await GetAllAsync();
 
-            entity.IdentifyingNumber = ProductNumberGenerator.AlgorithmForProductNumber<SavingAccount>("002", list);
+            entity.IdentifyingNumber = ProductNumberGenerator.AlgorithmForProductNumber<SavingAccount>(ProductPrefixis.ProductPrefixDictionary["SavingAccount"], list);
 
             return await base.AddAsync(entity);
         }
