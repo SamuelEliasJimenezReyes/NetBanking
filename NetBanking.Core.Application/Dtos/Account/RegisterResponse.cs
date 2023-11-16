@@ -6,5 +6,6 @@ namespace NetBanking.Core.Application.Dtos.Account
     {
         public bool HasError { get; set; }
         public string? Error { get; set; }   
+        public string? UserId { get; set; }
     }
 }

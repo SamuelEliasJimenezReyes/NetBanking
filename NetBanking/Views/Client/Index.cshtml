@@ -1,13 +1,11 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿
 @using Microsoft.JSInterop;
 @using NetBanking.Core.Application.Dtos.Account;
 @using NetBanking.Core.Application.Dtos.User;
 @using NetBanking.Core.Application.Helpers;
 @using Microsoft.AspNetCore.Http
 @using NetBanking.Core.Application.ViewModel.Products;
-@model List<ProductVM>
+@model ProductVM
 @inject IHttpContextAccessor httpContextAccessor
 
 
@@ -17,6 +15,7 @@
     var userInSession = httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>("user");
     string filter = "Admin";
     string userType = "";
+    string principal = null;
 }
 @{
     filter = ViewBag.Filter != null ? ViewBag.Filter : "Admin";
@@ -27,126 +26,122 @@
 
 }
 
-@if(Model == null || Model.Count < 0)
+@if(Model == null)
 {
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
         <h2>No Hay Productos Disponibles </h2>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 }
-@if (Model.Count > 1)
-{
-    @foreach (var productList in Model)
-    {
-        <section>
+<section>
             <div class="container mt-2">
                 <div class="row">
                     <div class="card">
-                        <div class="card-header bg-primary text-white">
+                <div class="card-header bg-dark text-light">
                             Listado de Productos
                         </div>
                         <div class="card-body">
-                        </div>
-                        <div class="col-10 offset-1">
-                            <h2 class="bg-primary text-center">Principal Saving Account</h2>
-                            @foreach (var principalSavingAccount in productList.SavingAccounts)
-                            {
+                    <div class="col-6 offset-3">
+                        <h2 class="bg-dark text-light text-center">Principal Saving Account</h2>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Numero de Cuenta</th>
+                                    <th scope="col">Categoría de la Cuenta</th>
+                                    <th scope="col">Monto</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.SavingAccounts)
+                                {
+                                    <tr>
+                                        <td>@item.IdentifyingNumber</td>
+                                        @if (item.IsPrincipal == true)
+                                        {
+                                            principal = "Principal";
+                                        }
+                                        else
+                                        {
+                                            principal = "Secundaria";
+                                        }
+                                        <td>@principal</td>
+                                        <td>@item.Amount</td>
+                                    </tr>
 
-                            }
-                            <table class="table mt-2">
-                                <thead>
-                                    <tr>
-                                        <th> IdentifyingNumber </th>
-                                        <th> Amount< /th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    }
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="col-10 offset-1">
-                            <h2 class="bg-primary text-center">Saving Accounts</h2>
-                            @foreach (var principalSavingAccount in productList.SavingAccounts)
-                            {
-
-                            }
-                            <table class="table mt-2">
-                                <thead>
-                                    <tr>
-                                        <th> IdentifyingNumber </th>
-                                        <th> Amount< /th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    }
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="col-10 offset-1">
-                            <h2 class="bg-primary text-center">Credit Cards</h2>
-                            @foreach (var principalSavingAccount in productList.SavingAccounts)
-                            {
-
-                            }
-                            <table class="table mt-2">
-                                <thead>
-                                    <tr>
-                                        <th> IdentifyingNumber </th>
-                                        <th>Quantity < /th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    }
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="col-10 offset-1">
-                            <h2 class="bg-primary text-center">Loans</h2>
-                            @foreach (var principalSavingAccount in productList.LoanVMs)
-                            {
-
-                            }
-                            <table class="table mt-2">
-                                <thead>
-                                    <tr>
-                                        <th> IdentifyingNumber </th>
-                                        <th>Quatity To Pay< /th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    }
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
-
+                                }
+                            </tbody>
+                        </table>
                     </div>
+                    <div class="row">
+                    <div class="col-6">
+                        <h2 class="bg-dark text-light text-center">Credit Cards</h2>
+                        @if (Model.CreditCards.Count > 0)
+                        {
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Numero de Tarjeta</th>
+                                        <th scope="col">Limite</th>
+                                        <th scope="col">Monto Adeudado</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var creditCard in Model.CreditCards)
+                                    {
+                                        <tr>
+                                            <td>@creditCard.IdentifyingNumber</td>
+                                            <td>@creditCard.Limit</td>
+                                            <td>@creditCard.CurrentAmount</td>
+                                        </tr>
+
+                                    }
+
+                                </tbody>
+                            </table>
+                        }
+                        else
+                        {
+                            <h2 class="text-center">There is not Credit Card</h2>
+                        }
+                    </div>
+                <div class="col-6">
+                    <h2 class="bg-dark text-light text-center">Loans</h2>
+                    @if (Model.LoanVMs.Count > 0)
+                    {
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Numero de Préstamo</th>
+                                    <th scope="col">Cantidad de Préstamo</th>
+                                    <th scope="col">Monto a Pagar</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.LoanVMs)
+                                {
+                                    <tr>
+                                        <td>@item.IdentifyingNumber</td>
+                                        <td>@item.LoanQuantity</td>
+                                        <td>@item.PaidQuantity</td>
+                                    </tr>
+
+                                }
+
+                            </tbody>
+                        </table>
+
+                    }
+                    else
+                    {
+                        <h2 class="text-center">There is not Loan</h2>
+                    }
+                </div>
+                </div>
                 </div>
             </div>
-        </section>
-    }
-}
-
+        </div>
+            </div>
+</section>
 
 <script>
     function updateFilter() {

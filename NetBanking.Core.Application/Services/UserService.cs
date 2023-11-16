@@ -56,7 +56,7 @@ namespace NetBanking.Core.Application.Services
                 {
                     Amount = vm.InitialAmount,
                     IsPrincipal = true,
-                    UserNameofOwner = vm.Username,
+                    UserNameofOwner = response.UserId,
 
                 });
             }
