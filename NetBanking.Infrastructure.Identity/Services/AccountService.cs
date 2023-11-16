@@ -44,6 +44,7 @@ namespace NetBanking.Infrastructure.Identity.Service
                 userDto.IsActive = user.IsActive;
                 userDto.Email = user.Email;
                 userDto.Phone = user.PhoneNumber;
+                userDto.UserId = user.Id;
                 userDto.Roles = _userManager.GetRolesAsync(user).Result.ToList();
                 userDTOList.Add(userDto);
             }
@@ -141,6 +142,7 @@ namespace NetBanking.Infrastructure.Identity.Service
             userDTO.LastName = user.LastName;
             userDTO.FirstName = user.Name;
             userDTO.Phone = user.PhoneNumber;
+            userDTO.UserId = user.Id;
             return userDTO;
         }
 
@@ -324,7 +326,7 @@ namespace NetBanking.Infrastructure.Identity.Service
             return verificationUri;
         }
 
-        public async Task UpdateUserByEmail(UserDTO dto)
+        public async Task<UserDTO> UpdateUserByEmail(UserDTO dto)
         {
             AppUser value = await _userManager.FindByEmailAsync(dto.Email);
             value.Email = dto.Email;
@@ -332,8 +334,14 @@ namespace NetBanking.Infrastructure.Identity.Service
             value.LastName = dto.LastName;
             value.Cedula = dto.Cedula;
             value.UserName = dto.UserName;
+
+            //lo Hago para obtener el Id
+
+            dto.UserId = value.Id;
             
             await _userManager.UpdateAsync(value);
+
+            return dto;
         }
         public async Task UpdateUserByUserName(EditUserViewModel vm)
         {

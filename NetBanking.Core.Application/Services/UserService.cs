@@ -97,7 +97,7 @@ namespace NetBanking.Core.Application.Services
            return await _accountService.GetAllUsers();
         }
 
-        public async Task UpdateUserByEmail(UserDTO dto)
+        public async Task<UserDTO> UpdateUserByEmail(UserDTO dto)
         {
             await _accountService.UpdateUserByEmail(dto);
         }
@@ -106,5 +106,7 @@ namespace NetBanking.Core.Application.Services
         {
             await _accountService.UpdateUserByUserName(vm);
         }
+
+       
     }
 }
