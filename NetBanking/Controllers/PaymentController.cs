@@ -21,8 +21,13 @@ namespace NetBanking.Controllers
         }
 
         [HttpPost]
-        public IActionResult PaymentExpress(SaveTransactionVM svm)
+        public async Task<IActionResult> PaymentExpress(SaveTransactionVM svm)
         {
+            if (!ModelState.IsValid)
+            {
+                ViewBag.SavingAccounts = await _savingAccountService.GetAllVMbyUserId();
+                return View(new SaveTransactionVM());
+            }
             return View();
         }
 

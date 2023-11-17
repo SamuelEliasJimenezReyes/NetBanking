@@ -23,11 +23,11 @@
 
                     <div class="mb-3">
                         <input asp-for="DestinationAccountNumber" class="form-control" placeholder="#Cuenta al que le realizara el Deposito">
-                       @*  <span asp-validation-for="DestinationAccountNumber" class="text-danger"> </span> *@
+                        <span asp-validation-for="DestinationAccountNumber" class="text-white"> </span>
                     </div>
                     <div class="form-group mx-sm-4 pt-3 mb-2">
                         <input asp-for="Amount" class="form-control" placeholder="Ingrese la Cantidad">
-                        @* <span asp-validation-for="Amount" class="text-white"></span> *@
+                        <span asp-validation-for="Amount" class="text-white"></span>
                     </div> 
                     <div class="form-group mx-sm-4 pt-3 mb-2">
                         <select asp-for="OriginAccountNumber" asp-items="@(new SelectList(savingAccountVMs,"IdentifyingNumber", "IdentifyingNumber"))" type="text" class="form-select mb-3">
