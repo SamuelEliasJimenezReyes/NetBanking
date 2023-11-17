@@ -39,10 +39,39 @@ namespace NetBanking.Core.Application.Services
 
         public override async Task<SaveBeneficiaryVM> Add(SaveBeneficiaryVM vm)
         {
-            var savingAccounts = await _savingAccountService.GetAllViewModel();
+            var beneficiary = new Beneficiary();
 
-            savingAccounts.Where(x =>x.IdentifyingNumber == vm.IdentifyingNumberofProduct);
-            return base.Add(vm);
+            var savingAccounts = await _savingAccountService.GetAllViewModel();
+            var matchingSavingAccount = savingAccounts.FirstOrDefault(x => x.IdentifyingNumber == vm.IdentifyingNumberofProduct);
+
+            if (matchingSavingAccount != null)
+            {
+                var userId = userSession?.Id;
+
+                if (userId != null)
+                {
+                    beneficiary.IdentifyingNumberofProduct = matchingSavingAccount.IdentifyingNumber;
+                    beneficiary.UserName = userId;
+
+                    beneficiary.IdentifyingNumberofProduct = vm.IdentifyingNumberofProduct;
+                    beneficiary.BeneficiaryUserName = vm.BeneficiaryUserName ?? string.Empty;
+                    beneficiary.UserName = vm.UserName ?? string.Empty;
+
+                    beneficiary.UserName = matchingSavingAccount.UserName; 
+
+                    var addedBeneficiary = await _beneficiaryRepository.AddAsync(beneficiary);
+
+                    return _mapper.Map<SaveBeneficiaryVM>(addedBeneficiary);
+                }
+                else
+                {
+                    throw new InvalidOperationException("No se pudo obtener el ID del usuario en sesión");
+                }
+            }
+            else
+            {
+                throw new InvalidOperationException("El número de cuenta de ahorro no existe");
+            }
         }
     }
 }

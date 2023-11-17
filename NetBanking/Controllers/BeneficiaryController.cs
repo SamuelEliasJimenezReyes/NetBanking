@@ -39,31 +39,19 @@ namespace NetBanking.Controllers
         {
             if (ModelState.IsValid)
             {
-                var add = await _service.Add(viewModel);
-                
-                //var accountExists = await _accountService.CheckAccountExists(viewModel.IdentifyingNumberofProduct);
+                try
+                {
+                    var addedBeneficiary = await _service.Add(viewModel);
 
-                //if (accountExists)
-                //{
-                //    var addedSuccessfully = await _service.AddBeneficiary(viewModel.IdentifyingNumberofProduct);
-
-                //    if (addedSuccessfully)
-                //    {
-                //        return RedirectToAction("Index");
-                //    }
-                //    else
-                //    {
-                //        ModelState.AddModelError(string.Empty, "No se pudo agregar el beneficiario");
-                //    }
-                //}
-                //else
-                //{
-                //    ModelState.AddModelError(nameof(viewModel.IdentifyingNumberofProduct), "El número de cuenta no existe");
-                //}
+                    return RedirectToAction("AddBeneficiary");
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError(string.Empty, "Hubo un error al agregar el beneficiario: " + ex.Message);
+                }
             }
 
             return View(viewModel);
         }
-
     }
 }
