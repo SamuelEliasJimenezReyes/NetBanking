@@ -10,11 +10,14 @@ namespace NetBanking.Controllers
     {
         private readonly IBeneficiaryService _service;
         private readonly IAccountService _accountService;
+        private readonly ISavingAccountService _savingAccountService;
 
-        public BeneficiaryController(IBeneficiaryService service, IAccountService accountService)
+        public BeneficiaryController(IAccountService accountService, ISavingAccountService savingAccountService, IBeneficiaryService service)
         {
-            _service = service;
+
             _accountService = accountService;
+            _savingAccountService = savingAccountService;
+            _service = service;
         }
 
         public IActionResult Index()
@@ -29,35 +32,34 @@ namespace NetBanking.Controllers
 
         }
 
-    //    [HttpPost]
-    //    public async Task<IActionResult> AddBeneficiary(SaveBeneficiaryVM viewModel)
-    //    {
-    //        if (ModelState.IsValid)
-    //        {
-    //            // Verifica si el número de cuenta existe
-    //            //var accountExists = await _accountService.CheckAccountExists(viewModel.IdentifyingNumberofProduct);
+        //[HttpPost]
+        //public async Task<IActionResult> AddBeneficiary(SaveBeneficiaryVM viewModel)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //       var accountExists = await _accountService.CheckAccountExists(viewModel.IdentifyingNumberofProduct);
 
-    //        //    if (accountExists)
-    //        //    {
-    //        //                           var addedSuccessfully = await _service.AddBeneficiary(viewModel.IdentifyingNumberofProduct);
+        //        if (accountExists)
+        //        {
+        //            var addedSuccessfully = await _service.AddBeneficiary(viewModel.IdentifyingNumberofProduct);
 
-    //        //        if (addedSuccessfully)
-    //        //        {
-    //        //            return RedirectToAction("Index");
-    //        //        }
-    //        //        else
-    //        //        {
-    //        //            ModelState.AddModelError(string.Empty, "No se pudo agregar el beneficiario");
-    //        //        }
-    //        //    }
-    //        //    else
-    //        //    {
-    //        //        ModelState.AddModelError(nameof(viewModel.IdentifyingNumberofProduct), "El número de cuenta no existe");
-    //        //    }
-    //        //}
+        //            if (addedSuccessfully)
+        //            {
+        //                return RedirectToAction("Index");
+        //            }
+        //            else
+        //            {
+        //                ModelState.AddModelError(string.Empty, "No se pudo agregar el beneficiario");
+        //            }
+        //        }
+        //        else
+        //        {
+        //            ModelState.AddModelError(nameof(viewModel.IdentifyingNumberofProduct), "El número de cuenta no existe");
+        //        }
+        //    }
 
-    //        return View(viewModel);
-    //    }
+        //    return View(viewModel);
+        //}
 
     }
 }

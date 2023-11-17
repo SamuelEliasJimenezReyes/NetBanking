@@ -14,7 +14,7 @@ namespace NetBanking.Infrastructure.Persistence.Repositories
 
         public async Task<bool> AddBeneficiary(string identifyingNumber)
         {
-            return true;
+            return true;            
         }
     }
 }
