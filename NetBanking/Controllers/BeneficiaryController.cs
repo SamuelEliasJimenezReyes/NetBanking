@@ -22,6 +22,7 @@ namespace NetBanking.Controllers
             return View("Beneficiary",new List<BeneficiaryVM>());
         }
 
+
         public IActionResult AddBeneficiary()
         {
             var viewModel = new SaveBeneficiaryVM();
