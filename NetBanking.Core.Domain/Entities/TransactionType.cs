@@ -1,6 +1,4 @@
-﻿
-
-using NetBanking.Core.Domain.Common;
+﻿using NetBanking.Core.Domain.Common;
 
 namespace NetBanking.Core.Domain.Entities
 {

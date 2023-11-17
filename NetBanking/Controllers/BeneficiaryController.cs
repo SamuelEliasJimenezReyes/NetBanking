@@ -10,16 +10,22 @@ namespace NetBanking.Controllers
     {
         private readonly IBeneficiaryService _service;
         private readonly IAccountService _accountService;
+        private readonly ISavingAccountService _savingAccountService;
+        private readonly IUserService _userService;
 
-        public BeneficiaryController(IBeneficiaryService service, IAccountService accountService)
+        public BeneficiaryController(IAccountService accountService, ISavingAccountService savingAccountService, IBeneficiaryService service, IUserService userService)
         {
-            _service = service;
+
             _accountService = accountService;
+            _savingAccountService = savingAccountService;
+            _service = service;
+            _userService = userService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View("Beneficiary",new List<BeneficiaryVM>());
+            var list = await _service.GetAllViewModel();
+            return View("Beneficiary", list);
         }
 
 
@@ -27,37 +33,35 @@ namespace NetBanking.Controllers
         {
             var viewModel = new SaveBeneficiaryVM();
             return View(viewModel);
+
         }
 
-    //    [HttpPost]
-    //    public async Task<IActionResult> AddBeneficiary(SaveBeneficiaryVM viewModel)
-    //    {
-    //        if (ModelState.IsValid)
-    //        {
-    //            // Verifica si el número de cuenta existe
-    //            //var accountExists = await _accountService.CheckAccountExists(viewModel.IdentifyingNumberofProduct);
+        [HttpPost]
+        public async Task<IActionResult> AddBeneficiary(SaveBeneficiaryVM viewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var addedBeneficiary = await _service.Add(viewModel);
 
-    //        //    if (accountExists)
-    //        //    {
-    //        //                           var addedSuccessfully = await _service.AddBeneficiary(viewModel.IdentifyingNumberofProduct);
+                    return RedirectToAction("AddBeneficiary");
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError(string.Empty, "Hubo un error al agregar el beneficiario: " + ex.Message);
+                }
+            }
 
-    //        //        if (addedSuccessfully)
-    //        //        {
-    //        //            return RedirectToAction("Index");
-    //        //        }
-    //        //        else
-    //        //        {
-    //        //            ModelState.AddModelError(string.Empty, "No se pudo agregar el beneficiario");
-    //        //        }
-    //        //    }
-    //        //    else
-    //        //    {
-    //        //        ModelState.AddModelError(nameof(viewModel.IdentifyingNumberofProduct), "El número de cuenta no existe");
-    //        //    }
-    //        //}
+            return View(viewModel);
+        }
 
-    //        return View(viewModel);
-    //    }
+        [HttpPost]
+        public async Task<IActionResult> DeleteBeneficiary(int ID)
+        {
+            await _service.Delete(ID);
+            return View("Beneficiary",await _service.GetAllViewModel());
+        }
 
     }
 }

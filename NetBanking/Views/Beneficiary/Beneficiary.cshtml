@@ -25,7 +25,6 @@
                     <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#eliminarModal-@beneficiario.Id">Eliminar</button>
                 </td>
             </tr>
-            <!-- Modal para confirmar eliminación de beneficiario -->
             <div class="modal fade" id="eliminarModal-@beneficiario.Id" tabindex="-1" role="dialog" aria-labelledby="eliminarModalLabel-@beneficiario.Id" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -59,7 +58,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form asp-action="AgregarBeneficiario">
+                <form asp-action="AddBeneficiary">
                     <div class="form-group">
                         <label>Número de Cuenta:</label>
                         <input type="text" class="form-control" name="NumeroCuenta" required />
