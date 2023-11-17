@@ -41,6 +41,7 @@ namespace NetBanking.Controllers
         {
             if (ModelState.IsValid)
             {
+
                 try
                 {
                     var addedBeneficiary = await _service.Add(viewModel);
