@@ -22,9 +22,10 @@ namespace NetBanking.Controllers
             _userService = userService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View("Beneficiary",new List<BeneficiaryVM>());
+            var list = await _service.GetAllViewModel();
+            return View("Beneficiary", list);
         }
 
         public IActionResult AddBeneficiary()
@@ -53,5 +54,13 @@ namespace NetBanking.Controllers
 
             return View(viewModel);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteBeneficiary(int ID)
+        {
+            await _service.Delete(ID);
+            return View("Beneficiary",await _service.GetAllViewModel());
+        }
+
     }
 }
