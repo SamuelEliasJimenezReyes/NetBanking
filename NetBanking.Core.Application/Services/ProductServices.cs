@@ -16,21 +16,21 @@ namespace NetBanking.Core.Application.Services
 {
     public class ProductServices : IProductServices
     {
-        private readonly ICreditCardRepository _creditCardRepository;
-        private readonly ISavingAccountRepository _savingAccountRepository;
-        private readonly ILoanRepository _loanRepository;
+        private readonly ICreditCardService _creditCardService;
+        private readonly ISavingAccountService _savingAccountService;
+        private readonly ILoanService _loanService;
         private readonly IMapper _mapper;
         private readonly AuthenticationResponse userSession;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public ProductServices(ICreditCardRepository creditCardRepository, 
-            ISavingAccountRepository savingAccountRepository, 
-            ILoanRepository loanRepository, IMapper mapper, 
+        public ProductServices(ICreditCardService creditCardService, 
+            ISavingAccountService savingAccountService, 
+            ILoanService loanService, IMapper mapper, 
             IHttpContextAccessor httpContextAccessor)
         {
-            _creditCardRepository = creditCardRepository;
-            _savingAccountRepository = savingAccountRepository;
-            _loanRepository = loanRepository;
+            _creditCardService = creditCardService;
+            _savingAccountService = savingAccountService;
+            _loanService = loanService;
             _mapper = mapper;
             _httpContextAccessor = httpContextAccessor;
             userSession = _httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>("user");
@@ -38,19 +38,16 @@ namespace NetBanking.Core.Application.Services
       
         public async Task<ProductVM> GetAllProducts()
         {
-            var credictCardList = await _creditCardRepository.GetAllAsync();
-            var savingAccountList = await _savingAccountRepository.GetAllAsync();
-            var loanList = await _loanRepository.GetAllAsync();
+            var credictCardList = await _creditCardService.GetAllVMbyUserId();
+            var savingAccountList = await _savingAccountService.GetAllVMbyUserId();
+            var loanList = await _loanService.GetAllVMbyUserId();
 
-            credictCardList = credictCardList.Where(x => x.UserNameofOwner == userSession.Id).ToList();
-            savingAccountList = savingAccountList.Where(x => x.UserNameofOwner == userSession.Id).ToList();
-            loanList = loanList.Where(x => x.UserNameofOwner == userSession.Id).ToList();
-
+            
             var product = new ProductVM
             {
-                CreditCards = _mapper.Map<List<CreditCardVM>>(credictCardList),
-                SavingAccounts = _mapper.Map<List<SavingAccountVM>>(savingAccountList),
-                LoanVMs = _mapper.Map<List<LoanVM>>(loanList)
+                CreditCards = credictCardList,
+                SavingAccounts = savingAccountList,
+                LoanVMs = loanList
             };
 
             return product;

@@ -4,7 +4,7 @@ namespace NetBanking.Core.Application.Enums
 {
    public enum TransactionType
     {
-        PagoExpreso,
+        PagoExpreso = 1,
         PagoDeTarjetaDeCredito,
         PagoDePrestamo,
         PagoParaBeneficiario,

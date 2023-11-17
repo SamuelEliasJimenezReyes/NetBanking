@@ -1,15 +1,12 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using NetBanking.Application.Interfaces.Services;
+using NetBanking.Core.Application.Dtos.Account;
+using NetBanking.Core.Application.Helpers;
 using NetBanking.Core.Application.Interfaces.Repositories;
 using NetBanking.Core.Application.Interfaces.Services;
-using NetBanking.Core.Application.ViewModel.CreditCard;
 using NetBanking.Core.Application.ViewModel.Loan;
 using NetBanking.Core.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NetBanking.Core.Application.Services
 {
@@ -18,12 +15,17 @@ namespace NetBanking.Core.Application.Services
         private readonly ILoanRepository _loanRepository;
         private readonly IMapper _mapper;
         private readonly IAccountService _accountServices;
+        private readonly AuthenticationResponse userSession;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public LoanService(ILoanRepository loanRepository, IMapper mapper, IAccountService accountServices) : base(loanRepository, mapper)
+        public LoanService(IHttpContextAccessor httpContextAccessor,ILoanRepository loanRepository, IMapper mapper, IAccountService accountServices) : base(loanRepository, mapper)
         {
             _loanRepository = loanRepository;
             _mapper = mapper;
             _accountServices = accountServices;
+            _httpContextAccessor = httpContextAccessor;
+            userSession = _httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>("user");
+
         }
 
         public override async Task<List<LoanVM>> GetAllViewModel()
@@ -52,6 +54,17 @@ namespace NetBanking.Core.Application.Services
             }
 
             return result;
+        }
+
+        public async Task<List<LoanVM>> GetAllVMbyUserId()
+        {
+            var loanList = await _loanRepository.GetAllAsync();
+
+             loanList = loanList.Where(x => x.UserNameofOwner == userSession.Id).ToList();
+
+
+            var LoanVMs = _mapper.Map<List<LoanVM>>(loanList);
+            return LoanVMs;
         }
 
     }
