@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using NetBanking.Core.Application.Interfaces.Repositories;
 using NetBanking.Core.Application.Interfaces.Services;
+using NetBanking.Core.Application.ViewModel.SavingAccount;
 using NetBanking.Core.Application.ViewModel.Transaction;
 using NetBanking.Core.Domain.Entities;
+using System.Windows.Markup;
 
 namespace NetBanking.Core.Application.Services
 {
@@ -21,44 +23,31 @@ namespace NetBanking.Core.Application.Services
             _userService = userService;
         }
 
-        //public async Task<SCPaymentExpressVM> AddExpressPayment(SaveTransactionVM svm)
-        //{
-        //    var destinationAccount = await _savingAccountService.GetByAccountINumber(svm.DestinationAccountNumber);
-        //    var originAccount = await _savingAccountService.GetByAccountINumber(svm.OriginAccountNumber);
-        //    SCPaymentExpressVM cp = new();
-        //    if (destinationAccount != null)
-        //    {
-        //        if (originAccount.Amount >= svm.Amount)
-        //        {
-        //            var user = await _userService.GetUserDTOAsync(destinationAccount.UserNameofOwner);
-        //            SCPaymentExpressVM confirmPayment = new()
-        //            {
-        //                SaveTransactionVM = svm,
-        //                FirstName = user.FirstName,
-        //                LastName = user.LastName,
-        //            };
-        //            return confirmPayment;
-        //        }
-        //        else
-        //        {
-        //            svm.HasError = true;
-        //            svm.ErrorMessage = "No tiene el monto Suficiente para Realizar la Trasacción";
-        //            cp.SaveTransactionVM = svm;
+        public async Task ConfirmExpressPayment(SCPaymentExpressVM svm)
+        {
+            var destinationAccount = await _savingAccountService.GetByAccountINumber(svm.SaveTransactionVM.DestinationAccountNumber);
+            var originAccount = await _savingAccountService.GetByAccountINumber(svm.SaveTransactionVM.OriginAccountNumber);
 
-        //            return cp;
-        //        }
+            destinationAccount.Amount += svm.SaveTransactionVM.Amount;
+            var destinyAccount = _mapper.Map<SaveSavingAccountVM>(destinationAccount);
+            await _savingAccountService.Update(destinyAccount, destinyAccount.Id);
 
-        //    }
-        //    else
-        //    {
-        //        svm.HasError = true;
-        //        svm.ErrorMessage = "Este número de cuenta no Existe";
-        //        cp.SaveTransactionVM = svm;
+            originAccount.Amount -= svm.SaveTransactionVM.Amount;
+            var accountOrigin = _mapper.Map<SaveSavingAccountVM>(originAccount);
+            await _savingAccountService.Update(accountOrigin, accountOrigin.Id);
 
-        //        return cp;
-        //    }
-        //}
+            var transaction = new SaveTransactionVM
+            {
+                Amount = svm.SaveTransactionVM.Amount,
+                DestinationAccountNumber = svm.SaveTransactionVM.DestinationAccountNumber,
+                OriginAccountNumber = svm.SaveTransactionVM.OriginAccountNumber,
+                Description = svm.SaveTransactionVM?.Description,
+            };
 
+           await Add(transaction);
+        }
+
+           
         public async Task<SCPaymentExpressVM> AddExpressPayment(SaveTransactionVM svm)
         {
             var destinationAccount = await _savingAccountService.GetByAccountINumber(svm.DestinationAccountNumber);
