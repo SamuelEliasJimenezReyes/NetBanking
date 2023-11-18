@@ -4,6 +4,7 @@ using NetBanking.Core.Application.ViewModel.Beneficiary;
 using NetBanking.Core.Application.ViewModel.CreditCard;
 using NetBanking.Core.Application.ViewModel.Loan;
 using NetBanking.Core.Application.ViewModel.SavingAccount;
+using NetBanking.Core.Application.ViewModel.Transaction;
 using NetBanking.Core.Application.ViewModels.User;
 using NetBanking.Core.Domain.Entities;
 
@@ -37,15 +38,32 @@ namespace NetBanking.Core.Application.Mapping
 
             #region Users
 
+            #region Transaction
+            CreateMap<Transaction, SaveTransactionVM>()
+                .ForMember(x => x.ErrorMessage, opt => opt.Ignore())
+                .ForMember(x => x.HasError, opt => opt.Ignore())
+               .ReverseMap()
+               .ForMember(x => x.LastModified, opt => opt.Ignore())
+               .ForMember(x => x.LastModifiedBy, opt => opt.Ignore())
+               .ForMember(x => x.Created, opt => opt.Ignore())
+               .ForMember(x => x.CreatedBy, opt => opt.Ignore());
+
+            #endregion
+
             #region SavingAccount
 
             CreateMap<SavingAccount, SaveSavingAccountVM>()
-                 .ForMember(x => x.UserName, opt => opt.Ignore())
+                 .ForMember(x => x.users, opt => opt.Ignore())
                 .ReverseMap()
                 .ForMember(x => x.LastModified, opt => opt.Ignore())
                 .ForMember(x => x.LastModifiedBy, opt => opt.Ignore())
                 .ForMember(x => x.Created, opt => opt.Ignore())
                 .ForMember(x => x.CreatedBy, opt => opt.Ignore());
+
+            CreateMap<SavingAccountVM, SaveSavingAccountVM>()
+                .ForMember(x => x.users, opt => opt.Ignore())
+               .ReverseMap()
+               .ForMember(x => x.UserName, opt => opt.Ignore());
 
             CreateMap<SavingAccount, SavingAccountVM>()
             .ReverseMap()

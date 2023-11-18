@@ -26,12 +26,9 @@
                         </div>
                         <h5 class="fw-bold text-center">Desea Realizar el Pago</h5>
                         <div class="form-group text-center mt-4 mb-5">
-                            <button type="submit" class="btn btn-primary btn-outline-dark" style="background-color: #2f5b75; color: white;">Realizar Pago</button>
+                            <a asp-controller="Payment" asp-action="MakePaymentExpress" asp-route-AccountHolderId="@Model.SaveTransactionVM.UserNameOfAccountHolder" asp-route-OriginAccount="@Model.SaveTransactionVM.OriginAccountNumber" asp-route-TransactionTypeId="@Model.SaveTransactionVM.TransactionTypeId" asp-route-Description="@Model.SaveTransactionVM.Description" asp-route-DestinationAccount="@Model.SaveTransactionVM.DestinationAccountNumber" asp-route-Amount="@Model.SaveTransactionVM.Amount" type="submit" class="btn btn-primary btn-outline-dark" style="background-color: #2f5b75; color: white;">Realizar Pago</a>
+                           
                             <a asp-controller="Client" asp-action="Index" class="btn btn-danger">Cancelar</a>
-
-                            <input asp-for="SaveTransactionVM" type="hidden" />
-                            <input asp-for="FirstName" type="hidden" />
-                            <input asp-for="LastName" type="hidden" />
                         </div>
                         </div>
                 </form>

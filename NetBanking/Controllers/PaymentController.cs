@@ -54,22 +54,26 @@ namespace NetBanking.Controllers
             return View(ConfirmVM);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> MakePaymentExpress(SCPaymentExpressVM ConfirmVM)
+       
+
+        public async Task<IActionResult> MakePaymentExpress(string AccountHolderId, 
+            string OriginAccount,
+            string DestinationAccount,
+            decimal Amount, string Description, 
+            int TransactionTypeId)
         {
-            if (!ModelState.IsValid)
+            var saveTansactionVM = new SaveTransactionVM
             {
-                return View("ConfirmPaymentExpress",new SCPaymentExpressVM());
-            }
-            var confirm = new SaveTransactionVM
-            {
-                Amount = ConfirmVM.SaveTransactionVM.Amount,
-                DestinationAccountNumber = ConfirmVM.SaveTransactionVM.DestinationAccountNumber,
-                OriginAccountNumber = ConfirmVM.SaveTransactionVM.OriginAccountNumber
+                OriginAccountNumber = OriginAccount,
+                DestinationAccountNumber = DestinationAccount,
+                Amount = Amount,
+                Description = Description,
+                TransactionTypeId = TransactionTypeId,
+                UserNameOfAccountHolder = AccountHolderId
             };
 
-            await _transactionService.ConfirmExpressPayment(confirm);
-            return RedirectToRoute(new {controller = "Client", action = "Index"});
+            await _transactionService.ConfirmExpressPayment(saveTansactionVM);
+            return RedirectToRoute(new { controller = "Client", action = "Index" });
         }
 
         public async Task<IActionResult> PaymentBeneficiary()

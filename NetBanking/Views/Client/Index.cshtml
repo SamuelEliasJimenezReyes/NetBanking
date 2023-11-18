@@ -65,7 +65,7 @@
                                             principal = "Secundaria";
                                         }
                                         <td>@principal</td>
-                                        <td>@item.Amount</td>
+                                        <td>RD $@item.Amount</td>
                                     </tr>
 
                                 }
@@ -82,16 +82,20 @@
                                     <tr>
                                         <th scope="col">Numero de Tarjeta</th>
                                         <th scope="col">Limite</th>
+                                        <th scope="col">Disponible</th>
                                         <th scope="col">Monto Adeudado</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach (var creditCard in Model.CreditCards)
                                     {
-                                        <tr>
+                                            decimal amountToPay = @creditCard.Limit - @creditCard.CurrentAmount;
+                                            <tr>
                                             <td>@creditCard.IdentifyingNumber</td>
-                                            <td>@creditCard.Limit</td>
-                                            <td>@creditCard.CurrentAmount</td>
+                                                <td>RD $@creditCard.CurrentAmount</td>
+                                                <td>RD $@creditCard.Limit</td>
+                                                <td>RD $@amountToPay</td>
+                                            
                                         </tr>
 
                                     }
@@ -114,15 +118,18 @@
                                     <th scope="col">Numero de Préstamo</th>
                                     <th scope="col">Cantidad de Préstamo</th>
                                     <th scope="col">Monto a Pagar</th>
+                                    <th scope="col">Cantidad Pagada</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach (var item in Model.LoanVMs)
                                 {
-                                    <tr>
+                                    var AmountPaid = @item.LoanQuantity - @item.PaidQuantity;
+                                     <tr>
                                         <td>@item.IdentifyingNumber</td>
-                                        <td>@item.LoanQuantity</td>
-                                        <td>@item.PaidQuantity</td>
+                                        <td>RD $@item.LoanQuantity</td>
+                                        <td>RD $@item.PaidQuantity</td>
+                                        <td>RD $@AmountPaid</td>
                                     </tr>
 
                                 }

@@ -43,6 +43,8 @@ namespace NetBanking.Core.Application.Services
                 DestinationAccountNumber = svm.DestinationAccountNumber,
                 OriginAccountNumber = svm.OriginAccountNumber,
                 Description = svm.Description,
+                TransactionTypeId = svm.TransactionTypeId,
+                UserNameOfAccountHolder = svm.UserNameOfAccountHolder
             };
 
            await Add(transaction);
@@ -59,6 +61,7 @@ namespace NetBanking.Core.Application.Services
                 if(originAccount.Amount >= svm.Amount)
                 {
                     var user = await _userService.GetUserDTOAsync(destinationAccount.UserNameofOwner);
+                    svm.UserNameOfAccountHolder = originAccount.UserNameofOwner;
                     SCPaymentExpressVM confirmPayment = new()
                     {
                         SaveTransactionVM = svm,

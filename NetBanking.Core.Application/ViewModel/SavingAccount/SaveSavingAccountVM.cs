@@ -9,7 +9,6 @@ namespace NetBanking.Core.Application.ViewModel.SavingAccount
     {
         public int Id { get; set; }
         public string? IdentifyingNumber { get; set; }
-        public string? UserName { get; set; }
 
         [Required(ErrorMessage = "Debe Seleccionar un Usuario")]
         public string UserNameofOwner { get; set; }
