@@ -39,6 +39,7 @@ namespace NetBanking.Controllers
         public async Task<IActionResult> AddBeneficiary(string viewModel)
         {
              SaveBeneficiaryVM vm = new();
+            vm.IdentifyingNumberofProduct = viewModel;
              
             if (ModelState.IsValid)
             {

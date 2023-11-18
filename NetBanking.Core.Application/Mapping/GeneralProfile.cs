@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using NetBanking.Core.Application.Dtos.Account;
+using NetBanking.Core.Application.ViewModel.Beneficiary;
 using NetBanking.Core.Application.ViewModel.CreditCard;
 using NetBanking.Core.Application.ViewModel.Loan;
 using NetBanking.Core.Application.ViewModel.SavingAccount;
@@ -96,6 +97,22 @@ namespace NetBanking.Core.Application.Mapping
 
             #endregion
 
+            #region Beneficiary
+            CreateMap<Beneficiary, BeneficiaryVM>()
+                    .ReverseMap()
+                    .ForMember(x => x.LastModified, opt => opt.Ignore())
+                    .ForMember(x => x.LastModifiedBy, opt => opt.Ignore())
+                    .ForMember(x => x.Created, opt => opt.Ignore())
+                    .ForMember(x => x.CreatedBy, opt => opt.Ignore());
+
+            CreateMap<Beneficiary, SaveBeneficiaryVM>()
+                        .ReverseMap()
+                        .ForMember(x => x.LastModified, opt => opt.Ignore())
+                        .ForMember(x => x.LastModifiedBy, opt => opt.Ignore())
+                        .ForMember(x => x.Created, opt => opt.Ignore())
+                        .ForMember(x => x.CreatedBy, opt => opt.Ignore());
+
+            #endregion
             #endregion
         }
     }
