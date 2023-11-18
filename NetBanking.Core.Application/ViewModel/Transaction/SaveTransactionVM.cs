@@ -7,8 +7,8 @@ namespace NetBanking.Core.Application.ViewModel.Transaction
     public class SaveTransactionVM
     {
         public string OriginAccountNumber { get; set; } = null!;
-
-        [StringLength(9, ErrorMessage = "El número de cuenta debe tener exactamente 9 dígitos.")]
+        [Required(ErrorMessage = "El número de cuenta es requerido")]
+        [RegularExpression(@"^\d{9}$", ErrorMessage = "El número de cuenta debe tener 9 dígitos")]
         public string DestinationAccountNumber { get; set; } = null!;
 
         [Range(1, double.MaxValue, ErrorMessage = "El monto debe ser mayor que 1.")]

@@ -1,11 +1,11 @@
-﻿@* @using Microsoft.AspNetCore.Http;
+﻿@using Microsoft.AspNetCore.Http;
 @using NetBanking.Core.Application.Enums;
 @using NetBanking.Core.Application.ViewModel.SavingAccount;
 @using NetBanking.Core.Application.ViewModel.Transaction;
 @inject IHttpContextAccessor httpContextAccessor
 @model SCPaymentExpressVM;
 @{
-    ViewData["Title"] = "Pago Expreso";
+    ViewData["Title"] = "Confirm Pago Expreso";
 }
 <body>
     <div class="container">
@@ -15,21 +15,20 @@
                     <div class="form-group text-center pt-3">
                         <h1 class="text-light">Pago Expreso</h1>
                     </div>
-                    <div class="card">
-                        <!-- Sección para mostrar el nombre y apellido del dueño de la cuenta -->
+                    <div class="card" style="border: 2px solid black;">
                         <div class="form-group text-center pt-3">
-                            <p>Nombre del Dueño: <label>@Model.FirstName</label></p>
-                            <p>Apellido del Dueño:  <label>@Model.LastName</label></p>
-                            <p>Número de Cuenta del Dueño:  <label>@Model.LastName</label></p>
-                            <p>La Cantidad que Depositorá: <label>@Model.SaveTransactionVM.Amount</label></p>
-                            <p>Nùmero de Cuenta de Dónde Sale: <label>@Model.SaveTransactionVM.OriginAccountNumber</label></p>
+                            <p class="fw-bold">Nombre del Dueño: <label>@Model.FirstName</label></p>
+                            <p class="fw-bold">Apellido del Dueño:  <label>@Model.LastName</label></p>
+                            <p class="fw-bold">Número de Cuenta del Dueño:  <label>@Model.SaveTransactionVM.DestinationAccountNumber</label></p>
+                            <p class="fw-bold">La Cantidad que Depositará: <label>@Model.SaveTransactionVM.Amount</label></p>
+                            <p class="fw-bold">Nùmero de Cuenta de Dónde Sale: <label>@Model.SaveTransactionVM.OriginAccountNumber</label></p>
                         </div>
+                        <h5 class="fw-bold text-center">Desea Realizar el Pago</h5>
                         <div class="form-group text-center mt-4 mb-5">
                             <button type="submit" class="btn btn-primary btn-outline-dark" style="background-color: #2f5b75; color: white;">Realizar Pago</button>
-                            <a asp-controller="Client" asp-action="Index" class="btn btn-dark">Volver atrás</a>
+                            <a asp-controller="Client" asp-action="Index" class="btn btn-danger">Cancelar</a>
                         </div>
                     </div>
-                   
                 </form>
             </div>
         </div>
@@ -52,6 +51,10 @@
 
 <style>
     body {
+        background-color: #dcd2ff;
+    }
+
+    .form-group {
         background-color: #dcd2ff;
     }
 
@@ -143,4 +146,3 @@
     });
 </script>
 
- *@

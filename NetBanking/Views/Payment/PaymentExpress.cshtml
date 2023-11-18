@@ -14,7 +14,14 @@
     <div class="container ">
         <div class="row justify-content-center pt-5 mt-5 m-1">
             <div class="col-md-6 col-sm-8 col-xl-4 col-lg-5 formulario">
-
+                @if (Model.HasError)
+                {
+                    <div class="alert bg-white alert-dismissible fade show mb-2" role="alert">
+                        <h2 class="text-dark">@Model.ErrorMessage</h2>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                }
+               
                 <form method="post" asp-controller="Payment" asp-action="PaymentExpress" enctype="multipart/form-data">
 
                     <div class="form-group text-center pt-3">
