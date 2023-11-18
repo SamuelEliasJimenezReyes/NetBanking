@@ -87,6 +87,49 @@ namespace NetBanking.Core.Application.Services
             }
         }
 
-      
+        public async Task PayToBeneficiaries(SaveTransactionVM svm)
+        {
+            var originAccount = await _savingAccountService.GetByAccountINumber(svm.OriginAccountNumber);
+
+            if (originAccount == null)
+            {
+                throw new InvalidOperationException("Cuenta de origen no encontrada");
+            }
+
+            var totalAmount = svm.Amount * svm;
+
+            if (originAccount.Amount < totalAmount)
+            {
+                throw new InvalidOperationException("Saldo insuficiente para realizar los pagos");
+            }
+
+            foreach (var beneficiaryAccountNumber in svm)
+            {
+                var beneficiaryAccount = await _savingAccountService.GetByAccountINumber(beneficiaryAccountNumber);
+
+                if (beneficiaryAccount == null)
+                {
+                    throw new InvalidOperationException($"Cuenta de beneficiario {beneficiaryAccountNumber} no encontrada");
+                }
+
+                originAccount.Amount -= svm.Amount;
+                beneficiaryAccount.Amount += svm.Amount;
+
+                await _savingAccountService.Update(originAccount, originAccount.Id);
+                await _savingAccountService.Update(beneficiaryAccount, beneficiaryAccount.Id);
+
+                var transaction = new SaveTransactionVM
+                {
+                    Amount = svm.Amount,
+                    DestinationAccountNumber = beneficiaryAccountNumber,
+                    OriginAccountNumber = svm.OriginAccountNumber,
+                    Description = "Pago a beneficiario"
+                };
+
+                await Add(transaction);
+            }
+        }
+
+
     }
 }

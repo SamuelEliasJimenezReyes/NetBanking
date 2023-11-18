@@ -1,6 +1,4 @@
-﻿
-
-namespace NetBanking.Core.Application.Enums
+﻿namespace NetBanking.Core.Application.Enums
 {
    public enum TransactionType
     {
