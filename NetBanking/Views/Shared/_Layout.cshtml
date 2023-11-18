@@ -31,34 +31,53 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Admin" asp-action="DashBoard">Admin</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Admin" asp-action="Index">Lista de Usuarios</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Client" asp-action="Index">Productos</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Beneficiary" asp-action="Index">Beneficiarios</a>
-                        </li>
-                        <li class="nav-item">
-                            <div class="dropdown">
-                                <a class="nav-link text-dark dropdown-toggle" href="#" role="button" id="productDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Products
-                                </a>
-                                <ul class="dropdown-menu" aria-labelledby="productDropdown" style="background-color: #f6eaff;">
-                                    <li><a class="dropdown-item" href="@Url.Action("CreditCards", "Admin")">Tarjetas de Crédito</a></li>
-                                    <li><a class="dropdown-item" href="@Url.Action("SavingAccounts", "Admin")">Cuentas de Ahorro</a></li>
-                                    <li><a class="dropdown-item" href="@Url.Action("Loans", "Admin")">Préstamos</a></li>
-                                </ul>
-                            </div>
-                        </li>
-
+                        @if (User.Roles.Contains("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Admin" asp-action="DashBoard">Admin</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Admin" asp-action="Index">Lista de Usuarios</a>
+                            </li>
+                            <li class="nav-item">
+                                <div class="dropdown">
+                                    <a class="nav-link text-dark dropdown-toggle" href="#" role="button" id="productDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Edit Client Products
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="productDropdown" style="background-color: #f6eaff;">
+                                        <li><a class="dropdown-item" href="@Url.Action("CreditCards", "Admin")">Tarjetas de Crédito</a></li>
+                                        <li><a class="dropdown-item" href="@Url.Action("SavingAccounts", "Admin")">Cuentas de Ahorro</a></li>
+                                        <li><a class="dropdown-item" href="@Url.Action("Loans", "Admin")">Préstamos</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Client" asp-action="Index">Productos</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Beneficiary" asp-action="Index">Beneficiarios</a>
+                            </li>
+                            <li class="nav-item">
+                                <div class="dropdown">
+                                    <a class="nav-link text-dark dropdown-toggle" href="#" role="button" id="productDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Payments
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="productDropdown" style="background-color: #f6eaff;">
+                                        <li><a class="dropdown-item" href="@Url.Action("PaymentExpress", "Payment")">Pago Expreso</a></li>
+                                        <li><a class="dropdown-item" href="@Url.Action("PaymentBeneficiary", "Payment")">Pago Beneficiario</a></li>
+                                        <li><a class="dropdown-item" href="@Url.Action("PaymentCreditCard", "Payment")">Pago Tarjeta de Credito</a></li>
+                                        <li><a class="dropdown-item" href="@Url.Action("PaymentLoan", "Payment")">Pago Prestamo</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                        }
+                      
                     </ul>
 
                     <ul class="navbar-nav">

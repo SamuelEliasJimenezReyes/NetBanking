@@ -29,6 +29,11 @@ namespace NetBanking.Controllers
         }
 
 
+        public IActionResult AddBeneficiary()
+        {
+            var viewModel = new SaveBeneficiaryVM();
+            return View(viewModel);
+
 
         [HttpPost]
         public async Task<IActionResult> AddBeneficiary(string viewModel)
@@ -38,6 +43,7 @@ namespace NetBanking.Controllers
              
             if (ModelState.IsValid)
             {
+
                 try
                 {
                     var addedBeneficiary = await _service.Add(vm);

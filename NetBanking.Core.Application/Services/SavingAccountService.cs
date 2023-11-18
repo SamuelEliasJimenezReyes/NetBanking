@@ -1,7 +1,13 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using NetBanking.Application.Interfaces.Services;
+using NetBanking.Core.Application.Dtos.Account;
+using NetBanking.Core.Application.Helpers;
 using NetBanking.Core.Application.Interfaces.Repositories;
 using NetBanking.Core.Application.Interfaces.Services;
+using NetBanking.Core.Application.ViewModel.CreditCard;
+using NetBanking.Core.Application.ViewModel.Loan;
+using NetBanking.Core.Application.ViewModel.Products;
 using NetBanking.Core.Application.ViewModel.SavingAccount;
 using NetBanking.Core.Domain.Entities;
 
@@ -12,12 +18,19 @@ namespace NetBanking.Core.Application.Services
         private readonly ISavingAccountRepository _repository;
         private readonly IMapper _mapper;
         private readonly IAccountService _accountServices;
+        private readonly AuthenticationResponse userSession;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public SavingAccountService(ISavingAccountRepository repository, IMapper mapper, IAccountService accountServices) : base(repository, mapper)
+        public SavingAccountService(IHttpContextAccessor httpContextAccessor,
+            ISavingAccountRepository repository,
+            IMapper mapper, IAccountService accountServices) : base(repository, mapper)
         {
             _repository = repository;
             _mapper = mapper;
             _accountServices = accountServices;
+            _httpContextAccessor = httpContextAccessor;
+            userSession = _httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>("user");
+
         }
 
         public Task AddAmountToPrincipalSavingAccount(SaveSavingAccountVM vm)
@@ -68,6 +81,23 @@ namespace NetBanking.Core.Application.Services
             }
 
             return result;
+        }
+
+        public async Task<SavingAccountVM> GetByAccountINumber(string identifyingNumber)
+        {
+            var list = await GetAllViewModel();
+
+            return list.FirstOrDefault(x => x.IdentifyingNumber == identifyingNumber);
+        }
+
+        public async Task<List<SavingAccountVM>> GetAllVMbyUserId()
+        {
+            var savingAccountList = await _repository.GetAllAsync();
+            savingAccountList = savingAccountList.Where(x => x.UserNameofOwner == userSession.Id).ToList();
+
+            var SavingAccountsVM = _mapper.Map<List<SavingAccountVM>>(savingAccountList);
+           
+            return SavingAccountsVM;
         }
     }
 }

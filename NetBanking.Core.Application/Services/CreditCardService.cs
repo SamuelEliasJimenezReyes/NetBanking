@@ -1,15 +1,12 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using NetBanking.Application.Interfaces.Services;
+using NetBanking.Core.Application.Dtos.Account;
+using NetBanking.Core.Application.Helpers;
 using NetBanking.Core.Application.Interfaces.Repositories;
 using NetBanking.Core.Application.Interfaces.Services;
 using NetBanking.Core.Application.ViewModel.CreditCard;
-using NetBanking.Core.Application.ViewModel.SavingAccount;
 using NetBanking.Core.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NetBanking.Core.Application.Services
 {
@@ -18,12 +15,31 @@ namespace NetBanking.Core.Application.Services
         private readonly ICreditCardRepository _creditCardRepository;
         private readonly IAccountService _accountServices;
         private readonly IMapper _mapper;
+        private readonly AuthenticationResponse userSession;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public CreditCardService(ICreditCardRepository creditCardRepository, IMapper mapper, IAccountService accountServices) : base(creditCardRepository, mapper)
+
+        public CreditCardService(IHttpContextAccessor httpContextAccessor,
+            ICreditCardRepository creditCardRepository, 
+            IMapper mapper, IAccountService accountServices) : base(creditCardRepository, mapper)
         {
             _creditCardRepository = creditCardRepository;
             _mapper = mapper;
             _accountServices = accountServices;
+            _httpContextAccessor = httpContextAccessor;
+            userSession = _httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>("user");
+
+        }
+
+        public async Task<List<CreditCardVM>> GetAllVMbyUserId()
+        {
+            var credictCardList = await _creditCardRepository.GetAllAsync();
+          
+            credictCardList = credictCardList.Where(x => x.UserNameofOwner == userSession.Id).ToList();
+
+            var CreditCardsVMList = _mapper.Map<List<CreditCardVM>>(credictCardList);
+            
+            return CreditCardsVMList;
         }
 
         public override async Task<List<CreditCardVM>> GetAllViewModel()

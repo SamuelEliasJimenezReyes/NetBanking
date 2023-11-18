@@ -73,12 +73,14 @@ namespace NetBanking.Controllers
         public async Task<IActionResult> CreditCards()
         {
             var list = await  _creditCardService.GetAllViewModel() ;
+            await _userService.GetAllUsers();
             return View(list);
         }
 
         public async Task<IActionResult> Loans()
         {
             var list = await _loanService.GetAllViewModel();
+            await _userService.GetAllUsers();
             return View(list);
 
         }
@@ -115,9 +117,17 @@ namespace NetBanking.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateSavingAccounts(SaveSavingAccountVM svm)
         {
+            if (svm.UserNameofOwner == "0")
+            {
+                svm.UserNameofOwner = null!;
+            }
+
             if(!ModelState.IsValid)
             {
-                return View();
+                SaveSavingAccountVM sv = new SaveSavingAccountVM();
+
+                sv.users = await _userService.GetAllUsers();
+                return View(sv);
             }
 
             
@@ -135,11 +145,14 @@ namespace NetBanking.Controllers
                 return View();
             }
 
+            svm.CurrentAmount = svm.Limit;
+
+
 
             await _creditCardService.Add(svm);
-            var list = await _savingAccountService.GetAllViewModel();
+            var list = await _creditCardService.GetAllViewModel();
 
-            return View("SavingAccounts", list);
+            return View("CreditCards", list);
         }
 
         [HttpPost]
@@ -149,12 +162,14 @@ namespace NetBanking.Controllers
             {
                 return View();
             }
+            
+            svm.PaidQuantity = 0;
 
 
             await _loanService.Add(svm);
-            var list = await _savingAccountService.GetAllViewModel();
+            var list = await _loanService.GetAllViewModel();
 
-            return View("SavingAccounts", list);
+            return View("Loans", list);
         }
 
 
@@ -164,6 +179,22 @@ namespace NetBanking.Controllers
             await _savingAccountService.Delete(id);
             var list = await _savingAccountService.GetAllViewModel();
             return View("SavingAccounts", list);
+
+        }
+
+        public async Task<IActionResult> DeleteCreditCards(int id)
+        {
+            await _creditCardService.Delete(id);
+            var list = await _creditCardService.GetAllViewModel();
+            return View("CreditCards", list);
+
+        }
+
+        public async Task<IActionResult> DeleteLoans(int id)
+        {
+            await _loanService.Delete(id);
+            var list = await _loanService.GetAllViewModel();
+            return View("Loans", list);
 
         }
 
