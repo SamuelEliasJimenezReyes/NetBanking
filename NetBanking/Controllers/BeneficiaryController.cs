@@ -33,35 +33,38 @@ namespace NetBanking.Controllers
         {
             var viewModel = new SaveBeneficiaryVM();
             return View(viewModel);
-
         }
 
-        [HttpPost]
-        public async Task<IActionResult> AddBeneficiary(SaveBeneficiaryVM viewModel)
-        {
-            if (ModelState.IsValid)
+            [HttpPost]
+            public async Task<IActionResult> AddBeneficiary(string viewModel)
             {
-                try
-                {
-                    var addedBeneficiary = await _service.Add(viewModel);
+                SaveBeneficiaryVM vm = new();
+                vm.IdentifyingNumberofProduct = viewModel;
 
-                    return RedirectToAction("AddBeneficiary");
-                }
-                catch (Exception ex)
+                if (ModelState.IsValid)
                 {
-                    ModelState.AddModelError(string.Empty, "Hubo un error al agregar el beneficiario: " + ex.Message);
+
+                    try
+                    {
+                        var addedBeneficiary = await _service.Add(vm);
+
+                        return RedirectToAction("AddBeneficiary");
+                    }
+                    catch (Exception ex)
+                    {
+                        ModelState.AddModelError(string.Empty, "Hubo un error al agregar el beneficiario: " + ex.Message);
+                    }
                 }
+
+                return View(vm);
             }
 
-            return View(viewModel);
-        }
+            public async Task<IActionResult> DeleteBeneficiary(int ID)
+            {
+                await _service.Delete(ID);
+                return View("Beneficiary", await _service.GetAllViewModel());
+            }
 
-        [HttpPost]
-        public async Task<IActionResult> DeleteBeneficiary(int ID)
-        {
-            await _service.Delete(ID);
-            return View("Beneficiary",await _service.GetAllViewModel());
         }
+    } 
 
-    }
-}

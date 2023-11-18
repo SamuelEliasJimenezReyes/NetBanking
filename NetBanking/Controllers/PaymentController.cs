@@ -8,11 +8,15 @@ namespace NetBanking.Controllers
     {
         private readonly ISavingAccountService _savingAccountService;
         private readonly ITransactionService _transactionService;
+        private readonly ILoanService _loanService;
+        private readonly ICreditCardService _creditCardService;
 
-        public PaymentController(ISavingAccountService savingAccountService, ITransactionService transactionService)
+        public PaymentController(ISavingAccountService savingAccountService, ITransactionService transactionService, ILoanService loanService, ICreditCardService creditCardService)
         {
             _savingAccountService = savingAccountService;
             _transactionService = transactionService;
+            _loanService = loanService;
+            _creditCardService = creditCardService;
         }
 
         public async Task<IActionResult> PaymentExpress()
@@ -76,9 +80,26 @@ namespace NetBanking.Controllers
 
         public async Task<IActionResult> PaymentCreditCard()
         {
+            ViewBag.CreditCards = await _creditCardService.GetAllVMbyUserId();
             ViewBag.SavingAccounts = await _savingAccountService.GetAllVMbyUserId();
             return View(new SaveTransactionVM());
         }
+
+        [HttpPost]
+        public async Task<IActionResult> PaymentCreditCard(SaveTransactionVM svm)
+        {
+            if (!ModelState.IsValid)
+            {
+                ViewBag.CreditCards = await _creditCardService.GetAllVMbyUserId();
+                return View(new SaveTransactionVM());
+            }
+
+
+
+            return View();
+        }
+
+       
 
         public async Task<IActionResult> PaymentLoan()
         {

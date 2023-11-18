@@ -1,6 +1,8 @@
 ﻿@using NetBanking.Core.Application.ViewModel.Beneficiary;
 @model List<BeneficiaryVM>
-
+@{
+    string saveviewmodel = "";
+}
 <h1>Listado de Beneficiarios</h1>
 
 <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#agregarModal">Agregar Beneficiario</a>
@@ -25,25 +27,29 @@
                     <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#eliminarModal-@beneficiario.Id">Eliminar</button>
                 </td>
             </tr>
-            <div class="modal fade" id="eliminarModal-@beneficiario.Id" tabindex="-1" role="dialog" aria-labelledby="eliminarModalLabel-@beneficiario.Id" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="eliminarModalLabel-@beneficiario.Id">Eliminar Beneficiario</h5>
-                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Cerrar">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            ¿Está seguro que desea eliminar a este beneficiario?
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                            <a class="btn btn-danger" asp-action="EliminarBeneficiario" asp-route-id="@beneficiario.Id">Eliminar</a>
+            <tr>
+                <td colspan="4">
+                    <div class="modal fade" id="eliminarModal-@beneficiario.Id" tabindex="-1" role="dialog" aria-labelledby="eliminarModalLabel-@beneficiario.Id" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="eliminarModalLabel-@beneficiario.Id">Eliminar Beneficiario</h5>
+                                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Cerrar">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    ¿Está seguro que desea eliminar a este beneficiario?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                    <a class="btn btn-danger" asp-action="DeleteBeneficiary" asp-route-id="@beneficiario.Id">Eliminar</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
+                </td>
+            </tr>
         }
     </tbody>
 </table>
@@ -58,10 +64,10 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form asp-action="AddBeneficiary">
+                <form asp-controller="Beneficiary" asp-action="AddBeneficiary">
                     <div class="form-group">
                         <label>Número de Cuenta:</label>
-                        <input type="text" class="form-control" name="NumeroCuenta" required />
+                        <input value="@saveviewmodel" class="form-control" name="viewModel" />
                     </div>
                     <button type="submit" class="btn btn-primary">Agregar</button>
                 </form>
@@ -70,14 +76,15 @@
     </div>
 </div>
 
-            <script>
+
+<script>
     $(document).ready(function () {
         $('#agregarModal').on('shown.bs.modal', function () {
             $(this).find('input[name="NumeroCuenta"]').focus();
         });
 
         $('#agregarModal, #eliminarModal').on('hidden.bs.modal', function () {
-            $(this).find('form')[0].reset(); 
+            $(this).find('form')[0].reset();
         });
     });
 
@@ -115,5 +122,4 @@
             });
         }
     });
-
-            </script>
+</script>
