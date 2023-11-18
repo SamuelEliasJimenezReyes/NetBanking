@@ -1,6 +1,8 @@
 ﻿@using NetBanking.Core.Application.ViewModel.Beneficiary;
 @model List<BeneficiaryVM>
-
+@{
+    string saveviewmodel = "";
+}
 <h1>Listado de Beneficiarios</h1>
 
 <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#agregarModal">Agregar Beneficiario</a>
@@ -61,7 +63,7 @@
                 <form asp-action="AddBeneficiary">
                     <div class="form-group">
                         <label>Número de Cuenta:</label>
-                        <input type="text" class="form-control" name="NumeroCuenta" required />
+                        <input class="form-control" placeholder="Enter the Amount">
                     </div>
                     <button type="submit" class="btn btn-primary">Agregar</button>
                 </form>

@@ -28,21 +28,23 @@ namespace NetBanking.Controllers
             return View("Beneficiary", list);
         }
 
-        public IActionResult AddBeneficiary()
-        {
-            var viewModel = new SaveBeneficiaryVM();
-            return View(viewModel);
+        //public IActionResult AddBeneficiary()
+        //{
+        //    var viewModel = new SaveBeneficiaryVM();
+        //    return View(viewModel);
 
-        }
+        //}
 
         [HttpPost]
-        public async Task<IActionResult> AddBeneficiary(SaveBeneficiaryVM viewModel)
+        public async Task<IActionResult> AddBeneficiary(string viewModel)
         {
+             SaveBeneficiaryVM vm = new();
+             
             if (ModelState.IsValid)
             {
                 try
                 {
-                    var addedBeneficiary = await _service.Add(viewModel);
+                    var addedBeneficiary = await _service.Add(vm);
 
                     return RedirectToAction("AddBeneficiary");
                 }
@@ -52,7 +54,7 @@ namespace NetBanking.Controllers
                 }
             }
 
-            return View(viewModel);
+            return View(vm);
         }
 
         [HttpPost]
