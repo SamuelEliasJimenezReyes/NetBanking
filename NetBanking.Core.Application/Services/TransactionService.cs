@@ -23,25 +23,25 @@ namespace NetBanking.Core.Application.Services
             _userService = userService;
         }
 
-        public async Task ConfirmExpressPayment(SCPaymentExpressVM svm)
+        public async Task ConfirmExpressPayment(SaveTransactionVM svm)
         {
-            var destinationAccount = await _savingAccountService.GetByAccountINumber(svm.SaveTransactionVM.DestinationAccountNumber);
-            var originAccount = await _savingAccountService.GetByAccountINumber(svm.SaveTransactionVM.OriginAccountNumber);
+            var destinationAccount = await _savingAccountService.GetByAccountINumber(svm.DestinationAccountNumber);
+            var originAccount = await _savingAccountService.GetByAccountINumber(svm.OriginAccountNumber);
 
-            destinationAccount.Amount += svm.SaveTransactionVM.Amount;
+            destinationAccount.Amount += svm.Amount;
             var destinyAccount = _mapper.Map<SaveSavingAccountVM>(destinationAccount);
             await _savingAccountService.Update(destinyAccount, destinyAccount.Id);
 
-            originAccount.Amount -= svm.SaveTransactionVM.Amount;
+            originAccount.Amount -= svm.Amount;
             var accountOrigin = _mapper.Map<SaveSavingAccountVM>(originAccount);
             await _savingAccountService.Update(accountOrigin, accountOrigin.Id);
 
             var transaction = new SaveTransactionVM
             {
-                Amount = svm.SaveTransactionVM.Amount,
-                DestinationAccountNumber = svm.SaveTransactionVM.DestinationAccountNumber,
-                OriginAccountNumber = svm.SaveTransactionVM.OriginAccountNumber,
-                Description = svm.SaveTransactionVM?.Description,
+                Amount = svm.Amount,
+                DestinationAccountNumber = svm.DestinationAccountNumber,
+                OriginAccountNumber = svm.OriginAccountNumber,
+                Description = svm.Description,
             };
 
            await Add(transaction);

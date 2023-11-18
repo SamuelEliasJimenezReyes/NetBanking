@@ -7,32 +7,37 @@
 @{
     ViewData["Title"] = "Confirm Pago Expreso";
 }
+
 <body>
     <div class="container">
         <div class="row justify-content-center pt-5 mt-5 m-1">
             <div class="col-md-6 col-sm-8 col-xl-4 col-lg-5 formulario">
-                <form method="post" asp-controller="Payment" asp-action="PaymentExpress" enctype="multipart/form-data">
+                <form method="post" asp-controller="Payment" asp-action="MakePaymentExpress" enctype="multipart/form-data">
                     <div class="form-group text-center pt-3">
                         <h1 class="text-light">Pago Expreso</h1>
                     </div>
                     <div class="card" style="border: 2px solid black;">
-                        <div class="form-group text-center pt-3">
+                        <div class="form-group text-center pt-3" style="background-color: #dcd2ff;">
                             <p class="fw-bold">Nombre del Dueño: <label>@Model.FirstName</label></p>
                             <p class="fw-bold">Apellido del Dueño:  <label>@Model.LastName</label></p>
                             <p class="fw-bold">Número de Cuenta del Dueño:  <label>@Model.SaveTransactionVM.DestinationAccountNumber</label></p>
                             <p class="fw-bold">La Cantidad que Depositará: <label>@Model.SaveTransactionVM.Amount</label></p>
-                            <p class="fw-bold">Nùmero de Cuenta de Dónde Sale: <label>@Model.SaveTransactionVM.OriginAccountNumber</label></p>
+                            <p class="fw-bold">Número de Cuenta de Dónde Sale: <label>@Model.SaveTransactionVM.OriginAccountNumber</label></p>
                         </div>
                         <h5 class="fw-bold text-center">Desea Realizar el Pago</h5>
                         <div class="form-group text-center mt-4 mb-5">
                             <button type="submit" class="btn btn-primary btn-outline-dark" style="background-color: #2f5b75; color: white;">Realizar Pago</button>
                             <a asp-controller="Client" asp-action="Index" class="btn btn-danger">Cancelar</a>
+
+                            <input asp-for="SaveTransactionVM" type="hidden" />
+                            <input asp-for="FirstName" type="hidden" />
+                            <input asp-for="LastName" type="hidden" />
                         </div>
-                    </div>
+                        </div>
                 </form>
             </div>
         </div>
-    </div>
+        </div>
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
@@ -51,10 +56,6 @@
 
 <style>
     body {
-        background-color: #dcd2ff;
-    }
-
-    .form-group {
         background-color: #dcd2ff;
     }
 
