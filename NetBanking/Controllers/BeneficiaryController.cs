@@ -33,37 +33,38 @@ namespace NetBanking.Controllers
         {
             var viewModel = new SaveBeneficiaryVM();
             return View(viewModel);
+        }
 
-
-        [HttpPost]
-        public async Task<IActionResult> AddBeneficiary(string viewModel)
-        {
-             SaveBeneficiaryVM vm = new();
-            vm.IdentifyingNumberofProduct = viewModel;
-             
-            if (ModelState.IsValid)
+            [HttpPost]
+            public async Task<IActionResult> AddBeneficiary(string viewModel)
             {
+                SaveBeneficiaryVM vm = new();
+                vm.IdentifyingNumberofProduct = viewModel;
 
-                try
+                if (ModelState.IsValid)
                 {
-                    var addedBeneficiary = await _service.Add(vm);
 
-                    return RedirectToAction("AddBeneficiary");
+                    try
+                    {
+                        var addedBeneficiary = await _service.Add(vm);
+
+                        return RedirectToAction("AddBeneficiary");
+                    }
+                    catch (Exception ex)
+                    {
+                        ModelState.AddModelError(string.Empty, "Hubo un error al agregar el beneficiario: " + ex.Message);
+                    }
                 }
-                catch (Exception ex)
-                {
-                    ModelState.AddModelError(string.Empty, "Hubo un error al agregar el beneficiario: " + ex.Message);
-                }
+
+                return View(vm);
             }
 
-            return View(vm);
-        }
+            public async Task<IActionResult> DeleteBeneficiary(int ID)
+            {
+                await _service.Delete(ID);
+                return View("Beneficiary", await _service.GetAllViewModel());
+            }
 
-        public async Task<IActionResult> DeleteBeneficiary(int ID)
-        {
-            await _service.Delete(ID);
-            return View("Beneficiary",await _service.GetAllViewModel());
         }
+    } 
 
-    }
-}

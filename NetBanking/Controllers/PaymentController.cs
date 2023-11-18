@@ -63,6 +63,7 @@ namespace NetBanking.Controllers
         public async Task<IActionResult> PaymentCreditCard()
         {
             ViewBag.CreditCards = await _creditCardService.GetAllVMbyUserId();
+            ViewBag.SavingAccounts = await _savingAccountService.GetAllVMbyUserId();
             return View(new SaveTransactionVM());
         }
 
@@ -75,14 +76,9 @@ namespace NetBanking.Controllers
                 return View(new SaveTransactionVM());
             }
 
-            var paymentExpress = await _transactionService.AddExpressPayment(svm);
-            if (paymentExpress.SaveTransactionVM.HasError)
-            {
-                ViewBag.CreditCards = await _creditCardService.GetAllVMbyUserId();
-                return View(paymentExpress.SaveTransactionVM);
-            }
 
-            return View("ConfirmPaymentExpress", paymentExpress);
+
+            return View();
         }
 
        
