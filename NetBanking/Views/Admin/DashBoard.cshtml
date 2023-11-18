@@ -1,4 +1,5 @@
-﻿
+﻿@using NetBanking.Core.Application.ViewModel.Products;
+@model DashBoardStatitics;
 <div>
     <div class="container mt-2">
         <h1 class="text-center">DashBoard</h1>
@@ -34,7 +35,7 @@
             labels: ['Clientes Activos','Clientes Inactivos',],
             datasets: [{
                 label: 'Clientes Activos',
-                data: [90, 35],
+                data: [@Model.TotalActiveClients, @Model.TotalInactiveClients],
                 backgroundColor: [
                     '#0ffff7',
                     '#0f3047'
@@ -54,7 +55,7 @@
             labels: ['Totales', 'Hoy',],
             datasets: [{
                 label: 'Transacciones',
-                data: [350, 25],
+                data: [@Model.TotalTransactions, @Model.DayTransactions],
                 backgroundColor: [
                     '#0ffff7',
                     '#0f3047'
@@ -79,7 +80,7 @@
             ],
             datasets: [{
                 label: 'Productos',
-                data: [300, 50, 100],
+                data: [@Model.TotalCreditCards, @Model.TotalSavingAccounts, @Model.TotalLoans],
                 backgroundColor: [
                     '#06cedb ',
                     'rgb(54, 162, 235)',
@@ -99,7 +100,7 @@
                 ],
                 datasets: [{
                     label: 'Pagos',
-                    data: [300, 50],
+                    data: [@Model.TotalPayments, @Model.DayPayments],
                     backgroundColor: [
                     '#06cedb',
                         'rgb(54, 162, 235)'

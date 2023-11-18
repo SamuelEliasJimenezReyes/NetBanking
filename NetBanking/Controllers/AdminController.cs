@@ -17,14 +17,16 @@ namespace NetBanking.Controllers
         private readonly ISavingAccountService _savingAccountService;
         private readonly ICreditCardService _creditCardService;
         private readonly ILoanService _loanService;
+        private readonly IProductServices _productServices;
         
 
-        public AdminController(IUserService userService, ISavingAccountService savingAccountService, ICreditCardService creditCardService, ILoanService loanService)
+        public AdminController(IProductServices productServices,IUserService userService, ISavingAccountService savingAccountService, ICreditCardService creditCardService, ILoanService loanService)
         {
             _userService = userService;
             _savingAccountService = savingAccountService;
             _creditCardService = creditCardService;
             _loanService = loanService;
+            _productServices = productServices;
 
         }
 
@@ -34,9 +36,10 @@ namespace NetBanking.Controllers
             return View(list);
         }
 
-        public IActionResult DashBoard()
+        public async Task<IActionResult> DashBoard()
         {
-            return View();
+           var statistics = await _productServices.GetDashBoard();
+            return View(statistics);
         }
 
         public async Task<IActionResult> ChangeUserStatus(string userName)
