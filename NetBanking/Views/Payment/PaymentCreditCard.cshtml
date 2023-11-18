@@ -1,12 +1,13 @@
 ﻿@using Microsoft.AspNetCore.Http;
 @using NetBanking.Core.Application.Enums;
+@using NetBanking.Core.Application.ViewModel.CreditCard;
 @using NetBanking.Core.Application.ViewModel.SavingAccount;
 @using NetBanking.Core.Application.ViewModel.Transaction;
 @inject IHttpContextAccessor httpContextAccessor
 @model SaveTransactionVM;
 @{
     ViewData["Title"] = "Pago Tarjeta de Crédito";
-    List<SavingAccountVM> savingAccountVMs = ViewBag.SavingAccounts;
+    List<CreditCardVM> savingAccountVMs = ViewBag.CreditCards;
     Model.TransactionTypeId = (int)TransactionType.PagoDeTarjetaDeCredito;
 }
 
@@ -22,7 +23,7 @@
                     </div>
 
                     <div class="mb-3">
-                        <input asp-for="DestinationAccountNumber" class="form-control" placeholder="#Cuenta al que le realizara el Deposito">
+                        <input asp-for="DestinationAccountNumber" class="form-control" placeholder="#Tarjeta al que le realizara el Deposito">
                         @*  <span asp-validation-for="DestinationAccountNumber" class="text-danger"> </span> *@
                     </div>
                     <div class="form-group mx-sm-4 pt-3 mb-2">
