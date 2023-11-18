@@ -28,12 +28,7 @@ namespace NetBanking.Controllers
             return View("Beneficiary", list);
         }
 
-        //public IActionResult AddBeneficiary()
-        //{
-        //    var viewModel = new SaveBeneficiaryVM();
-        //    return View(viewModel);
 
-        //}
 
         [HttpPost]
         public async Task<IActionResult> AddBeneficiary(string viewModel)
@@ -58,7 +53,6 @@ namespace NetBanking.Controllers
             return View(vm);
         }
 
-        [HttpPost]
         public async Task<IActionResult> DeleteBeneficiary(int ID)
         {
             await _service.Delete(ID);
