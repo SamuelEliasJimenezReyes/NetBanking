@@ -15,7 +15,6 @@ namespace NetBanking.Controllers
 
         public BeneficiaryController(IAccountService accountService, ISavingAccountService savingAccountService, IBeneficiaryService service, IUserService userService)
         {
-
             _accountService = accountService;
             _savingAccountService = savingAccountService;
             _service = service;
@@ -43,28 +42,24 @@ namespace NetBanking.Controllers
 
                 if (ModelState.IsValid)
                 {
-
                     try
                     {
                         var addedBeneficiary = await _service.Add(vm);
-
-                        return RedirectToAction("AddBeneficiary");
+                        return RedirectToAction("Index");
                     }
                     catch (Exception ex)
                     {
                         ModelState.AddModelError(string.Empty, "Hubo un error al agregar el beneficiario: " + ex.Message);
                     }
                 }
-
                 return View(vm);
             }
 
             public async Task<IActionResult> DeleteBeneficiary(int ID)
             {
                 await _service.Delete(ID);
-                return View("Beneficiary", await _service.GetAllViewModel());
+                return RedirectToAction("Index");
             }
-
         }
     } 
 
