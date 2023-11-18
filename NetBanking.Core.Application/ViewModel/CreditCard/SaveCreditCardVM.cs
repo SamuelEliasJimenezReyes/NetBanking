@@ -1,9 +1,4 @@
 ﻿using NetBanking.Core.Application.Dtos.User;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NetBanking.Core.Application.ViewModel.CreditCard
 {
@@ -15,6 +10,7 @@ namespace NetBanking.Core.Application.ViewModel.CreditCard
 
         public string? UserName {get; set; } 
         public decimal Limit { get; set; }
+        public decimal Debt { get; set; }
         public decimal CurrentAmount { get; set; }
 
         public List<UserDTO>? users;

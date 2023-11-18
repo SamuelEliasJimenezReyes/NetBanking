@@ -69,5 +69,10 @@ namespace NetBanking.Core.Application.Services
 
             return result;
         }
+
+        public async Task<SaveCreditCardVM> GetByCardNumber(string cardNumber)
+        {
+            return _mapper.Map<SaveCreditCardVM>(await _creditCardRepository.GetByCardNumber(cardNumber));
+        }
     }
 }
