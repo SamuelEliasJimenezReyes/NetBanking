@@ -9,5 +9,6 @@ namespace NetBanking.Core.Application.Interfaces.Repositories
 {
     public interface ICreditCardRepository : IGenericRepository<CreditCard>
     {
+        Task<CreditCard> GetByNumber(string number);
     }
 }

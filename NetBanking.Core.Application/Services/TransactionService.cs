@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
+using Microsoft.Win32.SafeHandles;
 using NetBanking.Core.Application.Interfaces.Repositories;
 using NetBanking.Core.Application.Interfaces.Services;
 using NetBanking.Core.Application.ViewModel.SavingAccount;
 using NetBanking.Core.Application.ViewModel.Transaction;
 using NetBanking.Core.Domain.Entities;
+using System.Data;
 using System.Windows.Markup;
 
 namespace NetBanking.Core.Application.Services
@@ -15,13 +17,16 @@ namespace NetBanking.Core.Application.Services
         private readonly IMapper _mapper;
         private readonly ISavingAccountService _savingAccountService;
         private readonly IUserService _userService;
+        private readonly ICreditCardRepository _creditCardRepository;
 
-        public TransactionService(ITransactionRepository transactionRepository, IMapper mapper, ISavingAccountService savingAccountService, IUserService userService) : base(transactionRepository, mapper)
+        public TransactionService(ITransactionRepository transactionRepository, IMapper mapper, 
+            ISavingAccountService savingAccountService, IUserService userService, ICreditCardRepository creditCardRepository) : base(transactionRepository, mapper)
         {
             _transactionRepository = transactionRepository;
             _mapper = mapper;
             _savingAccountService = savingAccountService;
             _userService = userService;
+            _creditCardRepository = creditCardRepository;
         }
 
         public async Task ConfirmExpressPayment(SCPaymentExpressVM svm)
@@ -85,6 +90,42 @@ namespace NetBanking.Core.Application.Services
 
                 return cp;
             }
+        }
+
+        public async Task AddCreditCardPayment(SaveTransactionVM svm)
+        {
+
+            var destination = await _creditCardRepository.GetByNumber(svm.DestinationAccountNumber);
+
+            var origin = await _savingAccountService.GetByAccountINumber(svm.OriginAccountNumber);
+
+            decimal creditdeuda = destination.Limit - destination.CurrentAmount;
+
+            
+            if(svm.Amount > origin.Amount)
+            {
+                svm.HasError = true;
+                svm.ErrorMessage = "No tienes dinero suficiente para ese pago";
+            }
+
+            if (svm.Amount > creditdeuda)
+            {
+                destination.CurrentAmount = destination.Limit;
+
+                decimal excedente = svm.Amount - creditdeuda;
+                origin.Amount = excedente;
+
+                
+            
+            }
+
+
+
+           
+
+
+           
+
         }
 
       

@@ -26,5 +26,16 @@ namespace NetBanking.Infrastructure.Persistence.Repositories
             return await base.AddAsync(entity);
         }
 
+        public async Task<CreditCard> GetByNumber(string number)
+        {
+            var get = await GetAllAsync();
+
+           var creditcar = get.FirstOrDefault(a => a.IdentifyingNumber == number);
+
+            return creditcar;
+
+            
+        }
+
     }
 }
