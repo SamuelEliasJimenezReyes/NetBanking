@@ -83,6 +83,13 @@ namespace NetBanking.Core.Application.Services
             return result;
         }
 
+        public async Task<SavingAccountVM> GetByAccountINumber(string identifyingNumber)
+        {
+            var list = await GetAllViewModel();
+
+            return list.FirstOrDefault(x => x.IdentifyingNumber == identifyingNumber);
+        }
+
         public async Task<List<SavingAccountVM>> GetAllVMbyUserId()
         {
             var savingAccountList = await _repository.GetAllAsync();

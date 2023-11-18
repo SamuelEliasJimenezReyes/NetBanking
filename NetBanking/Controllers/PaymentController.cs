@@ -8,6 +8,7 @@ namespace NetBanking.Controllers
     public class PaymentController : Controller
     {
         private readonly ISavingAccountService _savingAccountService;
+       
 
         public PaymentController(ISavingAccountService savingAccountService)
         {
@@ -28,6 +29,7 @@ namespace NetBanking.Controllers
                 ViewBag.SavingAccounts = await _savingAccountService.GetAllVMbyUserId();
                 return View(new SaveTransactionVM());
             }
+
             return View();
         }
 
