@@ -112,7 +112,7 @@ namespace NetBanking.Core.Application.Services
                 Amount = accout.Amount,
                 IdentifyingNumber = identifyingNumber,
                 IsPrincipal = accout.IsPrincipal,
-                UserName = accout.UserName,
+                //UserName = accout.UserName,
                 UserNameofOwner = accout.UserNameofOwner,
             };
             return save;

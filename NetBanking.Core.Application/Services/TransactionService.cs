@@ -55,7 +55,7 @@ namespace NetBanking.Core.Application.Services
         }
 
 
-        public async Task<SaveTransactionVM> AddExpressPayment(SaveTransactionVM svm)
+        public async Task<SCPaymentExpressVM> AddExpressPayment(SaveTransactionVM svm)
         {
             var destinationAccount = await _savingAccountService.GetByAccountINumber(svm.DestinationAccountNumber);
             var originAccount = await _savingAccountService.GetByAccountINumber(svm.OriginAccountNumber);
@@ -72,16 +72,20 @@ namespace NetBanking.Core.Application.Services
                         LastName = user.LastName,
                     };
                     return confirmPayment;
-                    svm.FirstName = user.FirstName;
-                    svm.LastName = user.LastName;
-                    return svm;
+                    //svm.FirstName = user.FirstName;
+                    //svm.LastName = user.LastName;
+                    //return svm;
                 }
                 else
                 {
                     svm.HasError = true;
                     svm.ErrorMessage = "No tiene el monto Suficiente para Realizar la Trasacción";
+                    SCPaymentExpressVM confirmPayment = new()
+                    {
+                        SaveTransactionVM = svm,
 
-                    return svm;
+                    };
+                    return confirmPayment;
                 }
 
             }
@@ -90,7 +94,13 @@ namespace NetBanking.Core.Application.Services
                 svm.HasError = true;
                 svm.ErrorMessage = "Este número de cuenta no Existe";
 
-                return svm;
+                SCPaymentExpressVM confirmPayment = new()
+                {
+                    SaveTransactionVM = svm,
+
+                };
+                return confirmPayment;
+
             }
         }
 
@@ -101,20 +111,20 @@ namespace NetBanking.Core.Application.Services
             var originAccount = await _savingAccountService.GetByAccountINumber(svm.OriginAccountNumber);
             SaveLoanVM loan = new();
 
-            if(originAccount.Amount >= svm.Amount)
+            if (originAccount.Amount >= svm.Amount)
             {
                 var pay = destinationAccount.PaidQuantity + svm.Amount;
 
-                if(pay != destinationAccount.LoanQuantity)
+                if (pay != destinationAccount.LoanQuantity)
                 {
-                    var amount = 0m; 
+                    var amount = 0m;
                     if (pay < destinationAccount.LoanQuantity)
                     {
                         pay = destinationAccount.PaidQuantity += svm.Amount;
                         originAccount.Amount -= svm.Amount;
                     }
                     else
-                    {                  
+                    {
                         amount = pay - destinationAccount.LoanQuantity;
                         destinationAccount.PaidQuantity += svm.Amount - amount;
                         originAccount.Amount -= svm.Amount - amount;
@@ -126,8 +136,8 @@ namespace NetBanking.Core.Application.Services
                         IdentifyingNumber = originAccount.IdentifyingNumber,
                         Amount = originAccount.Amount,
                         IsPrincipal = originAccount.IsPrincipal,
-                        UserNameofOwner = originAccount.UserNameofOwner,    
-                        Id  = originAccount.Id
+                        UserNameofOwner = originAccount.UserNameofOwner,
+                        Id = originAccount.Id
                     };
                     await _savingAccountService.Update(accountOrigin, accountOrigin.Id);
 
@@ -139,8 +149,8 @@ namespace NetBanking.Core.Application.Services
                         LoanQuantity = destinationAccount.LoanQuantity,
                         PaidQuantity = destinationAccount.PaidQuantity,
                         Id = destinationAccount.Id
-                        
-                    };                        
+
+                    };
                     await _loanService.Update(destinyAccount, destinyAccount.Id);
 
                     var transaction = new SaveTransactionVM
@@ -168,8 +178,8 @@ namespace NetBanking.Core.Application.Services
                     loan.SaveTransactionVM = svm;
                     return loan;
                 }
-                
-              
+
+
             }
             else
             {
@@ -178,10 +188,10 @@ namespace NetBanking.Core.Application.Services
                 loan.SaveTransactionVM = svm;
                 return loan;
             }
-           
+
         }
 
-        public async Task PayToBeneficiaries(SaveTransactionVM svm)
+        public async Task<SaveTransactionVM> PayToBeneficiaries(SaveTransactionVM svm)
         {
             var destinationAccount = await _savingAccountService.GetByAccountINumber(svm.DestinationAccountNumber);
             var originAccount = await _savingAccountService.GetByAccountINumber(svm.OriginAccountNumber);
@@ -212,7 +222,7 @@ namespace NetBanking.Core.Application.Services
             }
         }
 
-        public async  Task ConfirmBeneficiaryPayment(SaveTransactionVM svm)
+        public async Task ConfirmBeneficiaryPayment(SaveTransactionVM svm)
         {
             var destinationAccount = await _savingAccountService.GetByAccountINumber(svm.DestinationAccountNumber);
             var originAccount = await _savingAccountService.GetByAccountINumber(svm.OriginAccountNumber);
@@ -233,12 +243,29 @@ namespace NetBanking.Core.Application.Services
                 Description = svm.Description,
             };
 
-        }
-    }
 
-                return svm;
-            }
-           
+        }
+
+        Task<SaveTransactionVM> ITransactionService.AddExpressPayment(SaveTransactionVM svm)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<SaveTransactionVM> AddBeneficiaryPayment(SaveTransactionVM svm)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<SaveTransactionVM> AddTransactionBetween(SaveTransactionVM svm)
+        {
+            throw new NotImplementedException();
         }
     }
 }
+
+//                return svm;
+//            }
+           
+//        }
+//    }
+//}

@@ -82,7 +82,6 @@ namespace NetBanking.Controllers
 
         public async Task<IActionResult> PaymentBeneficiary()
         {
-            ViewBag.SavingAccounts = await _savingAccountService.GetAllVMbyUserId();
             ViewBag.Beneficiary = await _beneficiaryService.GetBeneficiryByUserId();
             return View(new SaveTransactionVM());
         }
@@ -214,3 +213,4 @@ namespace NetBanking.Controllers
         }
     }
 }
+#endregion

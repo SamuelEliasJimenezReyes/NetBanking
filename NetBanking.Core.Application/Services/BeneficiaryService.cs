@@ -79,7 +79,8 @@ namespace NetBanking.Core.Application.Services
 
         public async Task<List<BeneficiaryVM>> GetBeneficiryByUserId()
         {
-            return _mapper.Map<List<BeneficiaryVM>>(await _beneficiaryRepository.GetBeneficiryByUserId(userSession.Id));
+            var beneficiaryList = await _beneficiaryRepository.GetAllAsync();
+            return _mapper.Map<List<BeneficiaryVM>>(beneficiaryList.Where(x => x.UserName == userSession.Id).ToList());
         }
     }
 }
