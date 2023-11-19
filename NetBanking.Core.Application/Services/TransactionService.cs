@@ -339,9 +339,59 @@ namespace NetBanking.Core.Application.Services
             throw new NotImplementedException();
         }
 
-        public Task<SaveTransactionVM> AddTransactionBetween(SaveTransactionVM svm)
+        public async Task<SaveTransactionVM> AddTransactionBetween(SaveTransactionVM svm)
         {
-            throw new NotImplementedException();
+            var destinationAccount = await _savingAccountService.GetByAccountINumber(svm.DestinationAccountNumber);
+            var originAccount = await _savingAccountService.GetByAccountINumber(svm.OriginAccountNumber);
+
+            if (originAccount.Id != destinationAccount.Id)
+            {
+                if (originAccount.Amount >= svm.Amount)
+                {
+
+                    destinationAccount.Amount += svm.Amount;
+
+                    var destinyAccount = new SaveSavingAccountVM()
+                    {
+                        IdentifyingNumber = destinationAccount.IdentifyingNumber,
+                        Amount = destinationAccount.Amount,
+                        IsPrincipal = destinationAccount.IsPrincipal,
+                        UserNameofOwner = destinationAccount.UserNameofOwner,
+                        Id = destinationAccount.Id
+                    };
+                    await _savingAccountService.Update(destinyAccount, destinyAccount.Id);
+
+                    originAccount.Amount -= svm.Amount;
+
+
+                    var accountOrigin = new SaveSavingAccountVM()
+                    {
+                        IdentifyingNumber = originAccount.IdentifyingNumber,
+                        Amount = originAccount.Amount,
+                        IsPrincipal = originAccount.IsPrincipal,
+                        UserNameofOwner = originAccount.UserNameofOwner,
+                        Id = originAccount.Id
+                    };
+                    await _savingAccountService.Update(accountOrigin, accountOrigin.Id);
+
+                    return svm;
+                }
+                else
+                {
+                    svm.HasError = true;
+                    svm.ErrorMessage = "No tiene el monto Suficiente para Realizar la Trasacción";
+
+                    return svm;
+                }
+            }
+            else
+            {
+                svm.HasError = true;
+                svm.ErrorMessage = "No puede realizar una transferencia a la misma cuenta";
+
+                return svm;
+            }
+
         }
     }
 }
