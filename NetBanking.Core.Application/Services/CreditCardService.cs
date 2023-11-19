@@ -58,6 +58,8 @@ namespace NetBanking.Core.Application.Services
                     Limit = item.Limit,
                     CurrentAmount = item.CurrentAmount,
                     IdentifyingNumber = item.IdentifyingNumber,
+                    Debt = item.Debt
+                    
                 };
 
                 var a = await _accountServices.GetUserById(item.UserNameofOwner);

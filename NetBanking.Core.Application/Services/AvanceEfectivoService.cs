@@ -21,7 +21,7 @@ namespace NetBanking.Core.Application.Services
         public async Task<SaveAvanceDeEfectivo> MakeAvance(SaveAvanceDeEfectivo model)
         {
             var credicard = await _creditCardService.GetByCardNumber(model.CardNumber);
-            var savingAccount = _mapper.Map<SaveSavingAccountVM>(await _savingAccountService.GetByAccountINumber(model.DestinationAccount));
+            var savingAccount = await _savingAccountService.GetVmByAccountNumber(model.DestinationAccount);
 
             if(model.Amount > credicard.CurrentAmount)
             {

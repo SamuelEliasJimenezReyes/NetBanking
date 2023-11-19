@@ -45,18 +45,18 @@ namespace NetBanking.Core.Application.Services
                 Description = svm.Description,
             };
 
-           await Add(transaction);
+            await Add(transaction);
         }
 
-           
+
         public async Task<SCPaymentExpressVM> AddExpressPayment(SaveTransactionVM svm)
         {
             var destinationAccount = await _savingAccountService.GetByAccountINumber(svm.DestinationAccountNumber);
             var originAccount = await _savingAccountService.GetByAccountINumber(svm.OriginAccountNumber);
             SCPaymentExpressVM cp = new();
-            if (destinationAccount != null) 
+            if (destinationAccount != null)
             {
-                if(originAccount.Amount >= svm.Amount)
+                if (originAccount.Amount >= svm.Amount)
                 {
                     var user = await _userService.GetUserDTOAsync(destinationAccount.UserNameofOwner);
                     SCPaymentExpressVM confirmPayment = new()
@@ -64,7 +64,7 @@ namespace NetBanking.Core.Application.Services
                         SaveTransactionVM = svm,
                         FirstName = user.FirstName,
                         LastName = user.LastName,
-                };
+                    };
                     return confirmPayment;
                 }
                 else
@@ -89,7 +89,7 @@ namespace NetBanking.Core.Application.Services
 
         public async Task PayToBeneficiaries(SaveTransactionVM svm)
         {
-            var originAccount = await _savingAccountService.GetByAccountINumber(svm.OriginAccountNumber);
+            /*var originAccount = await _savingAccountService.GetByAccountINumber(svm.OriginAccountNumber);
 
             if (originAccount == null)
             {
@@ -124,12 +124,12 @@ namespace NetBanking.Core.Application.Services
                     DestinationAccountNumber = beneficiaryAccountNumber,
                     OriginAccountNumber = svm.OriginAccountNumber,
                     Description = "Pago a beneficiario"
-                };
+                };*/
 
-                await Add(transaction);
-            }
+            //await Add(transaction);
+
         }
-
-
     }
+
+
 }

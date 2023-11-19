@@ -99,5 +99,25 @@ namespace NetBanking.Core.Application.Services
            
             return SavingAccountsVM;
         }
+
+        public async Task<SaveSavingAccountVM> GetVmByAccountNumber(string identifyingNumber)
+        {
+            var list = await GetAllViewModel();
+
+             var accout = list.FirstOrDefault(x => x.IdentifyingNumber == identifyingNumber);
+
+            var save = new SaveSavingAccountVM()
+            {
+                Id = accout.Id,
+                Amount = accout.Amount,
+                IdentifyingNumber = identifyingNumber,
+                IsPrincipal = accout.IsPrincipal,
+                UserName = accout.UserName,
+                UserNameofOwner = accout.UserNameofOwner,
+            };
+            return save;
+
+            
+        }
     }
 }
