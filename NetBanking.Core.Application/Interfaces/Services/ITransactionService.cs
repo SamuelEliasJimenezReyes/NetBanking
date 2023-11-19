@@ -1,4 +1,5 @@
-﻿using NetBanking.Core.Application.ViewModel.Loan;
+﻿using NetBanking.Core.Application.ViewModel.CreditCard;
+using NetBanking.Core.Application.ViewModel.Loan;
 using NetBanking.Core.Application.ViewModel.Transaction;
 
 namespace NetBanking.Core.Application.Interfaces.Services
@@ -11,6 +12,8 @@ namespace NetBanking.Core.Application.Interfaces.Services
         Task<SaveTransactionVM> AddBeneficiaryPayment(SaveTransactionVM svm);
         Task<SaveLoanVM> AddLoanPayment(SaveTransactionVM svm);
         Task<SaveTransactionVM> AddTransactionBetween(SaveTransactionVM svm);
-        
+        Task<SaveCreditCardVM> AddCreditCard(SaveTransactionVM svm);
+
+
     }
 }

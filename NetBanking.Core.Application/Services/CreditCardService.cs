@@ -6,6 +6,7 @@ using NetBanking.Core.Application.Helpers;
 using NetBanking.Core.Application.Interfaces.Repositories;
 using NetBanking.Core.Application.Interfaces.Services;
 using NetBanking.Core.Application.ViewModel.CreditCard;
+using NetBanking.Core.Application.ViewModel.Loan;
 using NetBanking.Core.Domain.Entities;
 
 namespace NetBanking.Core.Application.Services
@@ -75,6 +76,14 @@ namespace NetBanking.Core.Application.Services
         public async Task<SaveCreditCardVM> GetByCardNumber(string cardNumber)
         {
             return _mapper.Map<SaveCreditCardVM>(await _creditCardRepository.GetByCardNumber(cardNumber));
+        }
+
+
+        public async Task<CreditCardVM> GetByCardIdentifyinNumber(string identifyingNumber)
+        {
+            var list = await GetAllViewModel();
+
+            return list.FirstOrDefault(x => x.IdentifyingNumber == identifyingNumber);
         }
     }
 }
