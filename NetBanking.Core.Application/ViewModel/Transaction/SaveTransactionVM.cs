@@ -17,6 +17,8 @@ namespace NetBanking.Core.Application.ViewModel.Transaction
         public DateTime? Date { get; set; }
         public string? Description { get; set; } = null!;
         public int? TransactionTypeId { get; set; }
+        public string? FirstName { get; set; } = null!;
+        public string? LastName { get; set; } = null!;
         public bool HasError { get; set; } = false; 
         public string? ErrorMessage { get; set; }
     }
