@@ -139,6 +139,7 @@ namespace NetBanking.Controllers
             return View(new SaveTransactionVM());
         }
 
+
         [HttpPost]
         public async Task<IActionResult> PaymentCreditCard(SaveTransactionVM svm)
         {
