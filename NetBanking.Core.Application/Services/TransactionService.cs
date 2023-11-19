@@ -246,11 +246,7 @@ namespace NetBanking.Core.Application.Services
 
         }
 
-        Task<SaveTransactionVM> ITransactionService.AddExpressPayment(SaveTransactionVM svm)
-        {
-            throw new NotImplementedException();
-        }
-
+      
         public Task<SaveTransactionVM> AddBeneficiaryPayment(SaveTransactionVM svm)
         {
             throw new NotImplementedException();

@@ -38,7 +38,7 @@ namespace NetBanking.Controllers
             }
 
             var paymentExpress = await _transactionService.AddExpressPayment(svm);
-            if (paymentExpress.HasError)
+            if (paymentExpress.SaveTransactionVM.HasError)
             {
                 ViewBag.SavingAccounts = await _savingAccountService.GetAllVMbyUserId();
                 return View(paymentExpress);
