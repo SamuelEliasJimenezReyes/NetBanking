@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NetBanking.Infrastructure.Persistence.Context;
 
@@ -11,9 +12,11 @@ using NetBanking.Infrastructure.Persistence.Context;
 namespace NetBanking.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(NetBankingContext))]
-    partial class NetBankingContextModelSnapshot : ModelSnapshot
+    [Migration("20231118223903_AddDebt")]
+    partial class AddDebt
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

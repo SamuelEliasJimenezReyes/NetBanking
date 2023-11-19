@@ -11,6 +11,7 @@ namespace NetBanking.Core.Domain.Entities
     {
         public decimal Limit { get; set; } 
         public decimal CurrentAmount { get; set; }
+        public decimal Debt { get; set; }
 
 
     }

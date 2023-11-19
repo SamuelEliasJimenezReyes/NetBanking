@@ -10,5 +10,6 @@ namespace NetBanking.Core.Application.Interfaces.Services
         Task<bool> AddAmountToSavingAccount(string userName, decimal amount);
         Task<List<SavingAccountVM>> GetAllVMbyUserId();
         Task<SavingAccountVM> GetByAccountINumber(string identifyingNumber);
+        Task<SaveSavingAccountVM> GetVmByAccountNumber(string identifyingNumber);
     }
 }
