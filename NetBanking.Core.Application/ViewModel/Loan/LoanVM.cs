@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NetBanking.Core.Application.ViewModel.Transaction;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,7 +15,6 @@ namespace NetBanking.Core.Application.ViewModel.Loan
         public string UserNameofOwner { get; set; } = null!;
         public decimal LoanQuantity { get; set; }
         public decimal PaidQuantity { get; set; }
-
 
     }
 }
