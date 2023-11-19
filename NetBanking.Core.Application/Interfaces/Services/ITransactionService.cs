@@ -1,4 +1,5 @@
-﻿using NetBanking.Core.Application.ViewModel.Transaction;
+﻿using NetBanking.Core.Application.ViewModel.Loan;
+using NetBanking.Core.Application.ViewModel.Transaction;
 
 namespace NetBanking.Core.Application.Interfaces.Services
 {
@@ -8,5 +9,8 @@ namespace NetBanking.Core.Application.Interfaces.Services
         Task ConfirmExpressPayment(SaveTransactionVM svm);
         Task ConfirmBeneficiaryPayment(SaveTransactionVM svm);
         Task<SaveTransactionVM> AddBeneficiaryPayment(SaveTransactionVM svm);
+        Task<SaveLoanVM> AddLoanPayment(SaveTransactionVM svm);
+        Task<SaveTransactionVM> AddTransactionBetween(SaveTransactionVM svm);
+        
     }
 }

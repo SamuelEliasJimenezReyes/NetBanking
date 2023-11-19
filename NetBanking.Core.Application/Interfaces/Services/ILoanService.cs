@@ -7,5 +7,6 @@ namespace NetBanking.Core.Application.Interfaces.Services
     public interface ILoanService : IGenericService<SaveLoanVM, LoanVM, Loan>
     {
         Task<List<LoanVM>> GetAllVMbyUserId();
+        Task<LoanVM> GetByLoanINumber(string identifyingNumber);
     }
 }
