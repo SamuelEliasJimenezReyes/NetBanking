@@ -10,15 +10,18 @@ namespace NetBanking.Controllers
         private readonly ITransactionService _transactionService;
         private readonly ILoanService _loanService;
         private readonly ICreditCardService _creditCardService;
+        private readonly IBeneficiaryService _beneficiaryService;
 
-        public PaymentController(ISavingAccountService savingAccountService, ITransactionService transactionService, ILoanService loanService, ICreditCardService creditCardService)
+        public PaymentController(ISavingAccountService savingAccountService, ITransactionService transactionService, ILoanService loanService, ICreditCardService creditCardService, IBeneficiaryService beneficiaryService)
         {
             _savingAccountService = savingAccountService;
             _transactionService = transactionService;
             _loanService = loanService;
             _creditCardService = creditCardService;
+            _beneficiaryService = beneficiaryService;
         }
 
+        #region Express
         public async Task<IActionResult> PaymentExpress()
         {
             ViewBag.SavingAccounts = await _savingAccountService.GetAllVMbyUserId();
@@ -35,10 +38,10 @@ namespace NetBanking.Controllers
             }
 
             var paymentExpress = await _transactionService.AddExpressPayment(svm);
-            if (paymentExpress.SaveTransactionVM.HasError)
+            if (paymentExpress.HasError)
             {
                 ViewBag.SavingAccounts = await _savingAccountService.GetAllVMbyUserId();
-                return View(paymentExpress.SaveTransactionVM);
+                return View(paymentExpress);
             }
 
             return View("ConfirmPaymentExpress", paymentExpress);
@@ -75,12 +78,64 @@ namespace NetBanking.Controllers
             await _transactionService.ConfirmExpressPayment(saveTansactionVM);
             return RedirectToRoute(new { controller = "Client", action = "Index" });
         }
+        #endregion
 
         public async Task<IActionResult> PaymentBeneficiary()
         {
             ViewBag.SavingAccounts = await _savingAccountService.GetAllVMbyUserId();
+            ViewBag.Beneficiary = await _beneficiaryService.GetBeneficiryByUserId();
             return View(new SaveTransactionVM());
         }
+
+        [HttpPost]
+        public async Task<IActionResult> PaymentBeneficiary(SaveTransactionVM svm)
+        {
+            if (!ModelState.IsValid)
+            {
+                ViewBag.SavingAccounts = await _savingAccountService.GetAllVMbyUserId();
+                return View(new SaveTransactionVM());
+            }
+
+            var paymentExpress = await _transactionService.AddBeneficiaryPayment(svm);
+            if (paymentExpress.HasError)
+            {
+                ViewBag.SavingAccounts = await _savingAccountService.GetAllVMbyUserId();
+                return View(paymentExpress);
+            }
+
+            return View("ConfirmBeneficiaryExpress", paymentExpress);
+        }
+
+        public IActionResult ConfirmBeneficiaryExpress(SaveTransactionVM ConfirmVM)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(ConfirmVM);
+            }
+
+            return View(ConfirmVM);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> MakeBeneficiaryExpress(SaveTransactionVM ConfirmVM)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("ConfirmPaymentExpress", ConfirmVM);
+            }
+          
+            await _transactionService.ConfirmBeneficiaryPayment(ConfirmVM);
+            return RedirectToRoute(new { controller = "Client", action = "Index" });
+        }
+
+
+
+
+
+
+
+
+        #region CreditCard
 
         public async Task<IActionResult> PaymentCreditCard()
         {

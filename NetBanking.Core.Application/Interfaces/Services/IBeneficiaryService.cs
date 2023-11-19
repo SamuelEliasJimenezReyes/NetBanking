@@ -11,5 +11,6 @@ namespace NetBanking.Core.Application.Interfaces.Services
     public interface IBeneficiaryService : IGenericService<SaveBeneficiaryVM, BeneficiaryVM, Beneficiary>
     {
         Task<bool> AddBeneficiary(string identifyingNumber);
+        Task<List<BeneficiaryVM>> GetBeneficiryByUserId();
     }
 }

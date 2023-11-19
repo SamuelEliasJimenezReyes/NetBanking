@@ -55,11 +55,10 @@ namespace NetBanking.Core.Application.Services
         }
 
 
-        public async Task<SCPaymentExpressVM> AddExpressPayment(SaveTransactionVM svm)
+        public async Task<SaveTransactionVM> AddExpressPayment(SaveTransactionVM svm)
         {
             var destinationAccount = await _savingAccountService.GetByAccountINumber(svm.DestinationAccountNumber);
             var originAccount = await _savingAccountService.GetByAccountINumber(svm.OriginAccountNumber);
-            SCPaymentExpressVM cp = new();
             if (destinationAccount != null)
             {
                 if (originAccount.Amount >= svm.Amount)
@@ -73,14 +72,16 @@ namespace NetBanking.Core.Application.Services
                         LastName = user.LastName,
                     };
                     return confirmPayment;
+                    svm.FirstName = user.FirstName;
+                    svm.LastName = user.LastName;
+                    return svm;
                 }
                 else
                 {
                     svm.HasError = true;
                     svm.ErrorMessage = "No tiene el monto Suficiente para Realizar la Trasacción";
-                    cp.SaveTransactionVM = svm;
 
-                    return cp;
+                    return svm;
                 }
 
             }
@@ -88,9 +89,8 @@ namespace NetBanking.Core.Application.Services
             {
                 svm.HasError = true;
                 svm.ErrorMessage = "Este número de cuenta no Existe";
-                cp.SaveTransactionVM = svm;
 
-                return cp;
+                return svm;
             }
         }
 
@@ -183,86 +183,15 @@ namespace NetBanking.Core.Application.Services
 
         public async Task PayToBeneficiaries(SaveTransactionVM svm)
         {
-            /*var originAccount = await _savingAccountService.GetByAccountINumber(svm.OriginAccountNumber);
-
-            if (originAccount == null)
-            {
-                throw new InvalidOperationException("Cuenta de origen no encontrada");
-            }
-
-            var totalAmount = svm.Amount * svm;
-
-            if (originAccount.Amount < totalAmount)
-            {
-                throw new InvalidOperationException("Saldo insuficiente para realizar los pagos");
-            }
-
-            foreach (var beneficiaryAccountNumber in svm)
-            {
-                var beneficiaryAccount = await _savingAccountService.GetByAccountINumber(beneficiaryAccountNumber);
-
-                if (beneficiaryAccount == null)
-                {
-                    throw new InvalidOperationException($"Cuenta de beneficiario {beneficiaryAccountNumber} no encontrada");
-                }
-
-                originAccount.Amount -= svm.Amount;
-                beneficiaryAccount.Amount += svm.Amount;
-
-                await _savingAccountService.Update(originAccount, originAccount.Id);
-                await _savingAccountService.Update(beneficiaryAccount, beneficiaryAccount.Id);
-
-                var transaction = new SaveTransactionVM
-                {
-                    Amount = svm.Amount,
-                    DestinationAccountNumber = beneficiaryAccountNumber,
-                    OriginAccountNumber = svm.OriginAccountNumber,
-                    Description = "Pago a beneficiario"
-                };*/
-
-            //await Add(transaction);
-
-        }
-    }
-
-
-
-
-        public async Task<SaveTransactionVM> AddTransactionBetween(SaveTransactionVM svm)
-        {
             var destinationAccount = await _savingAccountService.GetByAccountINumber(svm.DestinationAccountNumber);
             var originAccount = await _savingAccountService.GetByAccountINumber(svm.OriginAccountNumber);
-
-            if(originAccount.Id != destinationAccount.Id)
+            if (destinationAccount != null)
             {
                 if (originAccount.Amount >= svm.Amount)
                 {
-
-                    destinationAccount.Amount += svm.Amount;
-
-                    var destinyAccount = new SaveSavingAccountVM()
-                    {
-                        IdentifyingNumber = destinationAccount.IdentifyingNumber,
-                        Amount = destinationAccount.Amount,
-                        IsPrincipal = destinationAccount.IsPrincipal,
-                        UserNameofOwner = destinationAccount.UserNameofOwner,
-                        Id = destinationAccount.Id
-                    };
-                    await _savingAccountService.Update(destinyAccount, destinyAccount.Id);
-
-                    originAccount.Amount -= svm.Amount;
-
-
-                    var accountOrigin = new SaveSavingAccountVM()
-                    {
-                        IdentifyingNumber = originAccount.IdentifyingNumber,
-                        Amount = originAccount.Amount,
-                        IsPrincipal = originAccount.IsPrincipal,
-                        UserNameofOwner = originAccount.UserNameofOwner,
-                        Id = originAccount.Id
-                    };
-                    await _savingAccountService.Update(accountOrigin, accountOrigin.Id);
-
+                    var user = await _userService.GetUserDTOAsync(destinationAccount.UserNameofOwner);
+                    svm.FirstName = user.FirstName;
+                    svm.LastName = user.LastName;
                     return svm;
                 }
                 else
@@ -272,11 +201,40 @@ namespace NetBanking.Core.Application.Services
 
                     return svm;
                 }
+
             }
             else
             {
                 svm.HasError = true;
-                svm.ErrorMessage = "No puede realizar una transferencia a la misma cuenta";
+                svm.ErrorMessage = "Este número de cuenta no Existe";
+
+                return svm;
+            }
+        }
+
+        public async  Task ConfirmBeneficiaryPayment(SaveTransactionVM svm)
+        {
+            var destinationAccount = await _savingAccountService.GetByAccountINumber(svm.DestinationAccountNumber);
+            var originAccount = await _savingAccountService.GetByAccountINumber(svm.OriginAccountNumber);
+
+            destinationAccount.Amount += svm.Amount;
+            var destinyAccount = _mapper.Map<SaveSavingAccountVM>(destinationAccount);
+            await _savingAccountService.Update(destinyAccount, destinyAccount.Id);
+
+            originAccount.Amount -= svm.Amount;
+            var accountOrigin = _mapper.Map<SaveSavingAccountVM>(originAccount);
+            await _savingAccountService.Update(accountOrigin, accountOrigin.Id);
+
+            var transaction = new SaveTransactionVM
+            {
+                Amount = svm.Amount,
+                DestinationAccountNumber = svm.DestinationAccountNumber,
+                OriginAccountNumber = svm.OriginAccountNumber,
+                Description = svm.Description,
+            };
+
+        }
+    }
 
                 return svm;
             }
