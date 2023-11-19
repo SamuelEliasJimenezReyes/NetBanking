@@ -44,9 +44,9 @@ namespace NetBanking.Core.Application.Services
             var savingAccountList = await _savingAccountService.GetAllViewModel();
             var loanList = await _loanService.GetAllViewModel();
             var transactionsList = await _transactionRepository.GetAllAsync();
-            var dayTransactions = transactionsList.Where(x => x.Date == DateTime.Now).ToList();
-            var paymentList = transactionsList.Where(x => x.TransactionTypeId == 1 && x.TransactionTypeId == 2 && x.TransactionTypeId == 3 && x.TransactionTypeId == 4).ToList();
-            var dayPayment = paymentList.Where(x => x.Date == DateTime.Now).ToList();
+            var dayTransactions = transactionsList.Where(x => x.Date == DateTime.Today).ToList();
+            var paymentList = transactionsList.Where(x => x.TransactionTypeId == 1 || x.TransactionTypeId == 2 || x.TransactionTypeId == 3 || x.TransactionTypeId == 4).ToList();
+            var dayPayment = paymentList.Where(x => x.Date == DateTime.Today).ToList();
             var userList = await _userService.GetAllUsers();
             var clientList = userList.Where(x => x.Roles.Contains("Client")).ToList();
             var activeClient = clientList.Where(x => x.IsActive == true).ToList();

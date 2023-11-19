@@ -14,7 +14,7 @@ namespace NetBanking.Core.Application.ViewModel.Transaction
         [Range(1, double.MaxValue, ErrorMessage = "El monto debe ser mayor que 1.")]
         public decimal Amount { get; set; }
         public string? UserNameOfAccountHolder { get; set; } = null!;
-        public DateTime? Date { get; set; }
+        public DateTime? Date { get; set; } = DateTime.Today;
         public string? Description { get; set; } = null!;
         public int? TransactionTypeId { get; set; }
         public string? FirstName { get; set; } = null!;
