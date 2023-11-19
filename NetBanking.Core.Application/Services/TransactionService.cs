@@ -74,9 +74,7 @@ namespace NetBanking.Core.Application.Services
                         LastName = user.LastName,
                     };
                     return confirmPayment;
-                    //svm.FirstName = user.FirstName;
-                    //svm.LastName = user.LastName;
-                    //return svm;
+                  
                 }
                 else
                 {
@@ -161,7 +159,8 @@ namespace NetBanking.Core.Application.Services
                         DestinationAccountNumber = svm.DestinationAccountNumber,
                         OriginAccountNumber = svm.OriginAccountNumber,
                         Description = svm.Description,
-                        TransactionTypeId = (int)TransactionType.PagoExpreso
+                        TransactionTypeId = (int)TransactionType.PagoExpreso,
+                        UserNameOfAccountHolder = originAccount.UserNameofOwner
                     };
 
                     SaveLoanVM saveLoanVM = new()
@@ -171,6 +170,7 @@ namespace NetBanking.Core.Application.Services
                     };
 
                     await Add(transaction);
+                    saveLoanVM.SaveTransactionVM = new();
                     return saveLoanVM;
                 }
                 else
@@ -229,7 +229,8 @@ namespace NetBanking.Core.Application.Services
                     Amount = originAccount.Amount,
                     IsPrincipal = originAccount.IsPrincipal,
                     UserNameofOwner = originAccount.UserNameofOwner,
-                    Id = originAccount.Id
+                    Id = originAccount.Id,
+                    
                 };
                 await _savingAccountService.Update(accountOrigin, accountOrigin.Id);
 
@@ -251,7 +252,8 @@ namespace NetBanking.Core.Application.Services
                     DestinationAccountNumber = svm.DestinationAccountNumber,
                     OriginAccountNumber = svm.OriginAccountNumber,
                     Description = svm.Description,
-                    TransactionTypeId = (int)TransactionType.PagoExpreso
+                    TransactionTypeId = (int)TransactionType.PagoExpreso,
+                    UserNameOfAccountHolder = originAccount.UserNameofOwner
                 };
 
                 SaveCreditCardVM savecardVM = new()
@@ -260,6 +262,7 @@ namespace NetBanking.Core.Application.Services
                 };
 
                 await Add(transaction);
+                savecardVM.SaveTransactionVM = new();
                 return savecardVM;
 
             }

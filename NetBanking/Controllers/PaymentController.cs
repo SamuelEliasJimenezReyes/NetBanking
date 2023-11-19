@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using NetBanking.Core.Application.Interfaces.Services;
 using NetBanking.Core.Application.ViewModel.Transaction;
 
 namespace NetBanking.Controllers
 {
+    [Authorize(Roles = "Client")]
     public class PaymentController : Controller
     {
         private readonly ISavingAccountService _savingAccountService;
@@ -41,7 +43,7 @@ namespace NetBanking.Controllers
             if (paymentExpress.SaveTransactionVM.HasError)
             {
                 ViewBag.SavingAccounts = await _savingAccountService.GetAllVMbyUserId();
-                return View(paymentExpress);
+                return View(paymentExpress.SaveTransactionVM);
             }
 
             return View("ConfirmPaymentExpress", paymentExpress);
