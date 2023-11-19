@@ -6,11 +6,7 @@ using NetBanking.Core.Application.Dtos.Account;
 using NetBanking.Core.Application.Helpers;
 using NetBanking.Core.Application.Interfaces.Repositories;
 using NetBanking.Core.Application.Interfaces.Services;
-using NetBanking.Core.Application.ViewModel.CreditCard;
-using NetBanking.Core.Application.ViewModel.Loan;
 using NetBanking.Core.Application.ViewModel.Products;
-using NetBanking.Core.Application.ViewModel.SavingAccount;
-using NetBanking.Core.Domain.Common;
 
 namespace NetBanking.Core.Application.Services
 {
