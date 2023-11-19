@@ -23,7 +23,7 @@ namespace NetBanking.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var list = await _service.GetAllViewModel();
+            var list = await _service.GetBeneficiryByUserId();
             return View("Beneficiary", list);
         }
 
