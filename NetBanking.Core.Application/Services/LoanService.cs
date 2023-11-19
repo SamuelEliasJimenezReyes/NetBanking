@@ -6,6 +6,7 @@ using NetBanking.Core.Application.Helpers;
 using NetBanking.Core.Application.Interfaces.Repositories;
 using NetBanking.Core.Application.Interfaces.Services;
 using NetBanking.Core.Application.ViewModel.Loan;
+using NetBanking.Core.Application.ViewModel.SavingAccount;
 using NetBanking.Core.Domain.Entities;
 
 namespace NetBanking.Core.Application.Services
@@ -67,5 +68,12 @@ namespace NetBanking.Core.Application.Services
             return LoanVMs;
         }
 
+
+        public async Task<LoanVM> GetByLoanINumber(string identifyingNumber)
+        {
+            var list = await GetAllViewModel();
+
+            return list.FirstOrDefault(x => x.IdentifyingNumber == identifyingNumber);
+        }
     }
 }

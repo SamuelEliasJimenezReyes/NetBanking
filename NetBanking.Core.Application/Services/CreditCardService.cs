@@ -58,6 +58,8 @@ namespace NetBanking.Core.Application.Services
                     Limit = item.Limit,
                     CurrentAmount = item.CurrentAmount,
                     IdentifyingNumber = item.IdentifyingNumber,
+                    Debt = item.Debt
+                    
                 };
 
                 var a = await _accountServices.GetUserById(item.UserNameofOwner);
@@ -68,6 +70,11 @@ namespace NetBanking.Core.Application.Services
             }
 
             return result;
+        }
+
+        public async Task<SaveCreditCardVM> GetByCardNumber(string cardNumber)
+        {
+            return _mapper.Map<SaveCreditCardVM>(await _creditCardRepository.GetByCardNumber(cardNumber));
         }
     }
 }

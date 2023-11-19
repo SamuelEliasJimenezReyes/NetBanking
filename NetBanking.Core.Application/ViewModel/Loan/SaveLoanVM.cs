@@ -1,5 +1,5 @@
 ﻿using NetBanking.Core.Application.Dtos.User;
-
+using NetBanking.Core.Application.ViewModel.Transaction;
 
 namespace NetBanking.Core.Application.ViewModel.Loan
 {
@@ -14,5 +14,7 @@ namespace NetBanking.Core.Application.ViewModel.Loan
         public decimal? PaidQuantity { get; set; }
 
         public List<UserDTO>? users;
+        public SaveTransactionVM? SaveTransactionVM { get; set; }
+        public int Status { get; set; }
     }
 }

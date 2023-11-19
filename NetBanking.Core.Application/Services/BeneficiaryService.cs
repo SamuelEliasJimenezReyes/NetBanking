@@ -17,7 +17,7 @@ namespace NetBanking.Core.Application.Services
     public class BeneficiaryService : GenericService<SaveBeneficiaryVM, BeneficiaryVM, Beneficiary>, IBeneficiaryService
     {
         private readonly IBeneficiaryRepository _beneficiaryRepository;
-        private readonly  ISavingAccountService _savingAccountService;
+        private readonly ISavingAccountService _savingAccountService;
         private readonly AuthenticationResponse userSession;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IMapper _mapper;
@@ -41,7 +41,10 @@ namespace NetBanking.Core.Application.Services
         {
             var beneficiary = new Beneficiary();
 
+            var destinationAccount = await _savingAccountService.GetByAccountINumber(vm.IdentifyingNumberofProduct);
+
             var savingAccounts = await _savingAccountService.GetAllViewModel();
+
             var matchingSavingAccount = savingAccounts.FirstOrDefault(x => x.IdentifyingNumber == vm.IdentifyingNumberofProduct);
 
             if (matchingSavingAccount != null)
@@ -73,5 +76,8 @@ namespace NetBanking.Core.Application.Services
                 throw new InvalidOperationException("El número de cuenta de ahorro no existe");
             }
         }
+
+
+
     }
 }

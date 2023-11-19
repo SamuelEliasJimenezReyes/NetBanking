@@ -52,7 +52,7 @@ namespace NetBanking.Infrastructure.Persistence.Context
             #endregion
 
             #region Properties Configuration
-
+            modelBuilder.Entity<CreditCard>().Property(x => x.Debt).HasColumnType("Decimal").HasPrecision(16, 2);
             #region Transaction Type
 
             #region Data Insertion in Transaction Type

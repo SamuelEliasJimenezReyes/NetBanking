@@ -108,7 +108,54 @@ namespace NetBanking.Controllers
         public async Task<IActionResult> PaymentLoan()
         {
             ViewBag.SavingAccounts = await _savingAccountService.GetAllVMbyUserId();
+            ViewBag.Loans = await _loanService.GetAllVMbyUserId();
             return View(new SaveTransactionVM());
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> PaymentLoan(SaveTransactionVM svm)
+        {
+            if (!ModelState.IsValid)
+            {
+                ViewBag.SavingAccounts = await _savingAccountService.GetAllVMbyUserId();
+                ViewBag.Loans = await _loanService.GetAllVMbyUserId();
+                return View(new SaveTransactionVM());
+            }
+
+            var paymentLoan = await _transactionService.AddLoanPayment(svm);
+            if (paymentLoan.SaveTransactionVM.HasError )
+            {
+                ViewBag.SavingAccounts = await _savingAccountService.GetAllVMbyUserId();
+                ViewBag.Loans = await _loanService.GetAllVMbyUserId();
+                return View(paymentLoan.SaveTransactionVM);
+            }
+
+            return RedirectToRoute(new { controller = "Client", action = "Index" });
+        }
+
+        public async Task<IActionResult> Transaction()
+        {
+            ViewBag.SavingAccounts = await _savingAccountService.GetAllVMbyUserId();
+            return View(new SaveTransactionVM());
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Transaction(SaveTransactionVM svm)
+        {
+            if (!ModelState.IsValid)
+            {
+                ViewBag.SavingAccounts = await _savingAccountService.GetAllVMbyUserId();
+                return View(new SaveTransactionVM());
+            }
+
+            var transaction = await _transactionService.AddTransactionBetween(svm);
+            if (transaction.HasError)
+            {
+                ViewBag.SavingAccounts = await _savingAccountService.GetAllVMbyUserId();
+                return View(svm);
+            }
+
+            return RedirectToRoute(new { controller = "Client", action = "Index" });
         }
     }
 }
