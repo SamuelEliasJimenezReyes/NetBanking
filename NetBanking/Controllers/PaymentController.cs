@@ -129,12 +129,6 @@ namespace NetBanking.Controllers
         }
 
 
-
-
-
-
-
-
         #region CreditCard
 
         public async Task<IActionResult> PaymentCreditCard()
@@ -153,9 +147,15 @@ namespace NetBanking.Controllers
                 return View(new SaveTransactionVM());
             }
 
+            var paymentCard = await _transactionService.AddCreditCard(svm);
+            if (paymentCard.SaveTransactionVM.HasError)
+            {
+                ViewBag.SavingAccounts = await _savingAccountService.GetAllVMbyUserId();
+                ViewBag.Loans = await _loanService.GetAllVMbyUserId();
+                return View(paymentCard.SaveTransactionVM);
+            }
 
-
-            return View();
+            return RedirectToRoute(new { controller = "Client", action = "Index" });
         }
 
        
