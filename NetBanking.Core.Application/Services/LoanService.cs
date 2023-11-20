@@ -18,15 +18,16 @@ namespace NetBanking.Core.Application.Services
         private readonly IAccountService _accountServices;
         private readonly AuthenticationResponse userSession;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly ISavingAccountService _savingAccountService;
 
-        public LoanService(IHttpContextAccessor httpContextAccessor,ILoanRepository loanRepository, IMapper mapper, IAccountService accountServices) : base(loanRepository, mapper)
+        public LoanService(ISavingAccountService savingAccountService,IHttpContextAccessor httpContextAccessor,ILoanRepository loanRepository, IMapper mapper, IAccountService accountServices) : base(loanRepository, mapper)
         {
             _loanRepository = loanRepository;
             _mapper = mapper;
             _accountServices = accountServices;
             _httpContextAccessor = httpContextAccessor;
             userSession = _httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>("user");
-
+            _savingAccountService = savingAccountService;
         }
 
         public override async Task<List<LoanVM>> GetAllViewModel()
@@ -75,5 +76,17 @@ namespace NetBanking.Core.Application.Services
 
             return list.FirstOrDefault(x => x.IdentifyingNumber == identifyingNumber);
         }
+
+        //public override async Task Delete(int id)
+        //{
+        //  var savingAccountVM = await _savingAccountService.GetByIdSaveViewModel(id);
+            
+        //    if(savingAccountVM.Amount > 0)
+        //    {
+
+        //    }
+
+        //    return  base.Delete(id);
+        //}
     }
 }
