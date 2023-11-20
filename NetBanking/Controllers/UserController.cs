@@ -76,7 +76,7 @@ namespace WebApp.NetBanking.Controllers
             if (ModelState.IsValid)
             {
                 response = await _userService.RegisterAsync(vm, origin);
-                return RedirectToRoute(new { controller = "User", action = "Index" });
+                return RedirectToRoute(new { controller = "Admin", action = "Index" });
             }
 
             return View(vm);
