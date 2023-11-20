@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 using NetBanking.Core.Application.Interfaces.Repositories;
 using NetBanking.Core.Application.Interfaces.Services;
 using NetBanking.Core.Application.ViewModel.CreditCard;
@@ -7,7 +6,6 @@ using NetBanking.Core.Application.ViewModel.Loan;
 using NetBanking.Core.Application.ViewModel.SavingAccount;
 using NetBanking.Core.Application.ViewModel.Transaction;
 using NetBanking.Core.Domain.Entities;
-using System.ComponentModel.Design;
 using TransactionType = NetBanking.Core.Application.Enums.TransactionType;
 
 namespace NetBanking.Core.Application.Services
