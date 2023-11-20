@@ -40,7 +40,11 @@ namespace WebApp.NetBanking.Controllers
             if (userVm != null && userVm.HasError != true)
             {
                 HttpContext.Session.Set<AuthenticationResponse>("user", userVm);
-                return RedirectToRoute(new { controller = "Home", action = "Index" });
+                if (userVm.Roles.Contains("Client"))
+                {
+                    return RedirectToRoute(new { controller = "Client", action = "Index" });
+                }
+                return RedirectToRoute(new { controller = "Admin", action = "Dashboard" });
             }
             else
             {
