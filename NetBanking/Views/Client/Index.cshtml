@@ -89,13 +89,11 @@
                                 <tbody>
                                     @foreach (var creditCard in Model.CreditCards)
                                     {
-                                            decimal amountToPay = @creditCard.Limit - @creditCard.CurrentAmount;
                                             <tr>
                                             <td>@creditCard.IdentifyingNumber</td>
-                                                <td>RD $@creditCard.CurrentAmount</td>
                                                 <td>RD $@creditCard.Limit</td>
-                                                <td>RD $@amountToPay</td>
-                                            
+                                                <td>RD $@creditCard.CurrentAmount</td>
+                                                <td>RD $@creditCard.Debt</td>
                                         </tr>
 
                                     }
@@ -124,12 +122,12 @@
                             <tbody>
                                 @foreach (var item in Model.LoanVMs)
                                 {
-                                    var AmountPaid = @item.LoanQuantity - @item.PaidQuantity;
+                                    var AmountToPaid = @item.LoanQuantity - @item.PaidQuantity;
                                      <tr>
                                         <td>@item.IdentifyingNumber</td>
                                         <td>RD $@item.LoanQuantity</td>
+                                        <td>RD $@AmountToPaid</td>
                                         <td>RD $@item.PaidQuantity</td>
-                                        <td>RD $@AmountPaid</td>
                                     </tr>
 
                                 }
