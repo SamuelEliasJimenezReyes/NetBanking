@@ -150,8 +150,6 @@ namespace NetBanking.Controllers
 
             svm.CurrentAmount = svm.Limit;
 
-
-
             await _creditCardService.Add(svm);
             var list = await _creditCardService.GetAllViewModel();
 
@@ -167,7 +165,6 @@ namespace NetBanking.Controllers
             }
             
             svm.PaidQuantity = 0;
-
 
             await _loanService.Add(svm);
             var list = await _loanService.GetAllViewModel();

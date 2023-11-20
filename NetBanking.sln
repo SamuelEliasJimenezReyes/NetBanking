@@ -19,11 +19,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetBanking.Core.Application
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetBanking.Core.Domain", "NetBanking.Core.Domain\NetBanking.Core.Domain.csproj", "{BDCDE918-93AB-4A1E-93F9-EDBAAD53810F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetBanking.Infrastructure.Persistence", "NetBanking.Infrastructure.Persistence\NetBanking.Infrastructure.Persistence.csproj", "{4E5A6117-F832-4EEC-97B3-CE1662D06314}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetBanking.Infrastructure.Persistence", "NetBanking.Infrastructure.Persistence\NetBanking.Infrastructure.Persistence.csproj", "{4E5A6117-F832-4EEC-97B3-CE1662D06314}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetBanking.Infrastructure.Identity", "NetBanking.Infrastructure.Identity\NetBanking.Infrastructure.Identity.csproj", "{E60D70A1-DCAE-4A86-96C4-1994BB1DCB4B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetBanking.Infrastructure.Identity", "NetBanking.Infrastructure.Identity\NetBanking.Infrastructure.Identity.csproj", "{E60D70A1-DCAE-4A86-96C4-1994BB1DCB4B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetBanking.Infrastructure.Shared", "NetBanking.Infrastructure.Shared\NetBanking.Infrastructure.Shared.csproj", "{2109A568-FA9A-4527-BFDB-37EF0EDB34D8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetBanking.Infrastructure.Shared", "NetBanking.Infrastructure.Shared\NetBanking.Infrastructure.Shared.csproj", "{2109A568-FA9A-4527-BFDB-37EF0EDB34D8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

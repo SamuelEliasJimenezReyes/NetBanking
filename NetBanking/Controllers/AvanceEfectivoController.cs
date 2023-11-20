@@ -43,7 +43,7 @@ namespace NetBanking.Controllers
             {
                 return View(model);
             }
-            return RedirectToRoute(new { controller = "Home", action = "Index" });
+            return RedirectToRoute(new { controller = "User", action = "Index" });
         }
     }
 }
