@@ -166,6 +166,7 @@ namespace WebApp.NetBanking.Controllers
         {
             UserDTO value = new();
 
+
             value.Cedula = vm.Cedula;
             value.Phone = vm.Phone;
             value.Email = vm.Email;
