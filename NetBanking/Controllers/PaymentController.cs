@@ -97,9 +97,9 @@ namespace NetBanking.Controllers
                 ViewBag.SavingAccounts = await _savingAccountService.GetAllVMbyUserId();
                 return View(new SaveTransactionVM());
             }
-
-            var paymentExpress = await _transactionService.AddBeneficiaryPayment(svm);
-            if (paymentExpress.HasError)
+          
+            var paymentExpress = await _transactionService.PayToBeneficiaries(svm);
+            if (paymentExpress.SaveTransactionVM.HasError)
             {
                 ViewBag.SavingAccounts = await _savingAccountService.GetAllVMbyUserId();
                 return View(paymentExpress);
@@ -108,7 +108,7 @@ namespace NetBanking.Controllers
             return View("ConfirmBeneficiaryExpress", paymentExpress);
         }
 
-        public IActionResult ConfirmBeneficiaryExpress(SaveTransactionVM ConfirmVM)
+        public IActionResult ConfirmBeneficiaryExpress(SCPaymentExpressVM ConfirmVM)
         {
             if (!ModelState.IsValid)
             {
@@ -118,16 +118,23 @@ namespace NetBanking.Controllers
             return View(ConfirmVM);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> MakeBeneficiaryExpress(SaveTransactionVM ConfirmVM)
+        public async Task<IActionResult> MakeBeneficiaryExpress(string AccountHolderId,
+            string OriginAccount,
+            string DestinationAccount,
+            decimal Amount, string Description,
+            int TransactionTypeId)
         {
-
-            if (!ModelState.IsValid)
+            var saveTansactionVM = new SaveTransactionVM
             {
-                return View("ConfirmPaymentExpress", ConfirmVM);
-            }
+                OriginAccountNumber = OriginAccount,
+                DestinationAccountNumber = DestinationAccount,
+                Amount = Amount,
+                Description = Description,
+                TransactionTypeId = TransactionTypeId,
+                UserNameOfAccountHolder = AccountHolderId
+            };
           
-            await _transactionService.ConfirmBeneficiaryPayment(ConfirmVM);
+            await _transactionService.ConfirmBeneficiaryPayment(saveTansactionVM);
             return RedirectToRoute(new { controller = "Client", action = "Index" });
         }
 

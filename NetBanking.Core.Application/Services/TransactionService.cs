@@ -7,6 +7,7 @@ using NetBanking.Core.Application.ViewModel.Loan;
 using NetBanking.Core.Application.ViewModel.SavingAccount;
 using NetBanking.Core.Application.ViewModel.Transaction;
 using NetBanking.Core.Domain.Entities;
+using System.ComponentModel.Design;
 using TransactionType = NetBanking.Core.Application.Enums.TransactionType;
 
 namespace NetBanking.Core.Application.Services
@@ -281,36 +282,34 @@ namespace NetBanking.Core.Application.Services
 
         }
 
-        public async Task<SaveTransactionVM> PayToBeneficiaries(SaveTransactionVM svm)
+        public async Task<SCPaymentExpressVM> PayToBeneficiaries(SaveTransactionVM svm)
         {
             var destinationAccount = await _savingAccountService.GetByAccountINumber(svm.DestinationAccountNumber);
             var originAccount = await _savingAccountService.GetByAccountINumber(svm.OriginAccountNumber);
-            if (destinationAccount != null)
-            {
+      
                 if (originAccount.Amount >= svm.Amount)
                 {
                     var user = await _userService.GetUserDTOAsync(destinationAccount.UserNameofOwner);
-                    svm.FirstName = user.FirstName;
-                    svm.LastName = user.LastName;
-                    return svm;
-                }
-                else
-                {
-                    svm.HasError = true;
-                    svm.ErrorMessage = "No tiene el monto Suficiente para Realizar la Trasacción";
+                    svm.UserNameOfAccountHolder = originAccount.UserNameofOwner;
+                    SCPaymentExpressVM confirmBeneficiaryPayment = new()
+                    {
+                        SaveTransactionVM = svm,
+                        FirstName = user.FirstName,
+                        LastName = user.LastName,
+                    };
+                    return confirmBeneficiaryPayment;
 
-                    return svm;
                 }
 
-            }
-            else
-            {
                 svm.HasError = true;
-                svm.ErrorMessage = "Este número de cuenta no Existe";
+                svm.ErrorMessage = "No tiene el monto Suficiente para Realizar la Trasacción";
+                SCPaymentExpressVM confirmPayment = new()
+                {
+                    SaveTransactionVM = svm,
 
-                return svm;
+                };
+                return confirmPayment;
             }
-        }
 
         public async Task ConfirmBeneficiaryPayment(SaveTransactionVM svm)
         {
@@ -331,12 +330,11 @@ namespace NetBanking.Core.Application.Services
                 DestinationAccountNumber = svm.DestinationAccountNumber,
                 OriginAccountNumber = svm.OriginAccountNumber,
                 Description = svm.Description,
+                UserNameOfAccountHolder = svm.UserNameOfAccountHolder,
+                TransactionTypeId = svm.TransactionTypeId
             };
-        }
 
-        public Task<SaveTransactionVM> AddBeneficiaryPayment(SaveTransactionVM svm)
-        {
-            throw new NotImplementedException();
+            await Add(transaction);
         }
 
         public async Task<SaveTransactionVM> AddTransactionBetween(SaveTransactionVM svm)

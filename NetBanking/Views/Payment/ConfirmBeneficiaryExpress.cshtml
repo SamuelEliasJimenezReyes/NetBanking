@@ -3,7 +3,7 @@
 @using NetBanking.Core.Application.ViewModel.SavingAccount;
 @using NetBanking.Core.Application.ViewModel.Transaction;
 @inject IHttpContextAccessor httpContextAccessor
-@model SaveTransactionVM;
+@model SCPaymentExpressVM;
 @{
     ViewData["Title"] = "Confirm Pago Expreso";
 }
@@ -12,28 +12,32 @@
     <div class="container">
         <div class="row justify-content-center pt-5 mt-5 m-1">
             <div class="col-md-6 col-sm-8 col-xl-4 col-lg-5 formulario">
-                <form method="post" asp-controller="Payment" asp-action="MakeBeneficiaryExpress" enctype="multipart/form-data">
-                    <div class="form-group text-center pt-3">
+                 <div class="form-group text-center pt-3">
                         <h1 class="text-light">Pago Beneficiario</h1>
                     </div>
                     <div class="card" style="border: 2px solid black;">
                         <div class="form-group text-center pt-3" style="background-color: #dcd2ff;">
                             <p class="fw-bold">Nombre del Dueño: <label>@Model.FirstName</label></p>
                             <p class="fw-bold">Apellido del Dueño:  <label>@Model.LastName</label></p>
-                            <p class="fw-bold">Número de Cuenta del Dueño:  <label>@Model.DestinationAccountNumber</label></p>
-                            <p class="fw-bold">La Cantidad que Depositará: <label>@Model.Amount</label></p>
-                            <p class="fw-bold">Número de Cuenta de Dónde Sale: <label>@Model.OriginAccountNumber</label></p>
+                            <p class="fw-bold">Número de Cuenta del Dueño:  <label>@Model.SaveTransactionVM.DestinationAccountNumber</label></p>
+                            <p class="fw-bold">La Cantidad que Depositará: <label>@Model.SaveTransactionVM.Amount</label></p>
+                            <p class="fw-bold">Número de Cuenta de Dónde Sale: <label>@Model.SaveTransactionVM.OriginAccountNumber</label></p>
                         </div>
                         <h5 class="fw-bold text-center">Desea Realizar el Pago</h5>
                         <div class="form-group text-center mt-4 mb-5">
-                            <button type="submit" class="btn btn-primary btn-outline-dark" style="background-color: #2f5b75; color: white;">Realizar Pago</button>
+                            <a asp-controller="Payment" asp-action="MakeBeneficiaryExpress" 
+                            asp-route-AccountHolderId="@Model.SaveTransactionVM.UserNameOfAccountHolder"
+                            asp-route-OriginAccount="@Model.SaveTransactionVM.OriginAccountNumber"
+                            asp-route-TransactionTypeId="@Model.SaveTransactionVM.TransactionTypeId"
+                            asp-route-Description="@Model.SaveTransactionVM.Description"
+                            asp-route-DestinationAccount="@Model.SaveTransactionVM.DestinationAccountNumber"
+                            asp-route-Amount="@Model.SaveTransactionVM.Amount" 
+                            class="btn btn-primary btn-outline-dark" style="background-color: #2f5b75; color: white;">Realizar Pago</a>
                             <a asp-controller="Client" asp-action="Index" class="btn btn-danger">Cancelar</a>
-
                             <input asp-for="FirstName" type="hidden" />
                             <input asp-for="LastName" type="hidden" />
                         </div>
                     </div>
-                </form>
             </div>
         </div>
     </div>
