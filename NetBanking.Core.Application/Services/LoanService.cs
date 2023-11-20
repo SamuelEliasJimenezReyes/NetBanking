@@ -77,16 +77,5 @@ namespace NetBanking.Core.Application.Services
             return list.FirstOrDefault(x => x.IdentifyingNumber == identifyingNumber);
         }
 
-        //public override async Task Delete(int id)
-        //{
-        //  var savingAccountVM = await _savingAccountService.GetByIdSaveViewModel(id);
-            
-        //    if(savingAccountVM.Amount > 0)
-        //    {
-
-        //    }
-
-        //    return  base.Delete(id);
-        //}
     }
 }

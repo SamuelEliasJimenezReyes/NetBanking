@@ -1,6 +1,4 @@
-﻿
-
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using NetBanking.Core.Application.Dtos.Account;
 using NetBanking.Core.Application.Helpers;

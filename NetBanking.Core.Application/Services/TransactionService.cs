@@ -60,6 +60,19 @@ namespace NetBanking.Core.Application.Services
         {
             var destinationAccount = await _savingAccountService.GetByAccountINumber(svm.DestinationAccountNumber);
             var originAccount = await _savingAccountService.GetByAccountINumber(svm.OriginAccountNumber);
+            if(destinationAccount.UserNameofOwner == originAccount.UserNameofOwner)
+            {
+                svm.HasError = true;
+                svm.ErrorMessage = "No puede realizar un pago Express a su misma cuenta";
+
+                SCPaymentExpressVM confirmPayment = new()
+                {
+                    SaveTransactionVM = svm,
+
+                };
+                return confirmPayment;
+
+            }
             if (destinationAccount != null)
             {
                 if (originAccount.Amount >= svm.Amount)
@@ -73,7 +86,7 @@ namespace NetBanking.Core.Application.Services
                         LastName = user.LastName,
                     };
                     return confirmPayment;
-                  
+
                 }
                 else
                 {

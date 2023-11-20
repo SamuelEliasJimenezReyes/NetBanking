@@ -37,6 +37,7 @@
                         <select asp-for="DestinationAccountNumber" asp-items="@(new SelectList(beneficiaryVMs,"IdentifyingNumberofProduct", "Name"))" type="text" class="form-select mb-3" required>
                             <option value="0">Seleccione Beneficiario</option>
                         </select>
+                        <span asp-validation-for="DestinationAccountNumber" class="text-danger"> </span>
                     </div>
                   
                     <div class="form-group mx-sm-4 pt-3 mb-2">
