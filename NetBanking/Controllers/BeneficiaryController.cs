@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using NetBanking.Application.Interfaces.Services;
 using NetBanking.Core.Application.Interfaces.Services;
 using NetBanking.Core.Application.Services;
@@ -6,6 +7,7 @@ using NetBanking.Core.Application.ViewModel.Beneficiary;
 
 namespace NetBanking.Controllers
 {
+    [Authorize(Roles = "Client")]
     public class BeneficiaryController : Controller
     {
         private readonly IBeneficiaryService _service;
@@ -23,7 +25,7 @@ namespace NetBanking.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var list = await _service.GetAllViewModel();
+            var list = await _service.GetBeneficiryByUserId();
             return View("Beneficiary", list);
         }
 

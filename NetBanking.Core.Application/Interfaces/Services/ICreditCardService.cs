@@ -8,5 +8,6 @@ namespace NetBanking.Core.Application.Interfaces.Services
         Task<List<CreditCardVM>> GetAllVMbyUserId();
 
         Task<SaveCreditCardVM> GetByCardNumber(string cardNumber);
+        Task<CreditCardVM> GetByCardIdentifyinNumber(string identifyingNumber);
     }
 }

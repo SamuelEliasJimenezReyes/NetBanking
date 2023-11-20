@@ -3,9 +3,11 @@ using NetBanking.Core.Application.Dtos.Account;
 using NetBanking.Core.Application.Interfaces.Services;
 using NetBanking.Core.Application.ViewModel.AvancedeEfectivo;
 using NetBanking.Core.Application.Helpers;
+using Microsoft.AspNetCore.Authorization;
 
 namespace NetBanking.Controllers
 {
+    [Authorize(Roles = "Client")]
     public class AvanceEfectivoController : Controller
     {
         private readonly IAvancedeEfectivo _avancedeEfectivo;

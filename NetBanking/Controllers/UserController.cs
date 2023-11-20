@@ -6,6 +6,7 @@ using NetBanking.Core.Application.Dtos.Account;
 using NetBanking.NetBanking.Middlewares;
 using NetBanking.Core.Application.Dtos.User;
 using NetBanking.Core.Application.ViewModel.User;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApp.NetBanking.Controllers
 {
@@ -57,11 +58,14 @@ namespace WebApp.NetBanking.Controllers
             return RedirectToRoute(new { controller = "User", action = "Index" });
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult Register()
         {
             return View(new SaveUserViewModel());
         }
 
+
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Register(SaveUserViewModel vm)
         {

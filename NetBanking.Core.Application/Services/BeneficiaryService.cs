@@ -21,14 +21,16 @@ namespace NetBanking.Core.Application.Services
         private readonly AuthenticationResponse userSession;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IMapper _mapper;
+        private readonly IUserService _userService;
 
-        public BeneficiaryService(IBeneficiaryRepository beneficiaryRepository, IMapper mapper, ISavingAccountService savingAccountService, IHttpContextAccessor httpContextAccessor) : base(beneficiaryRepository, mapper)
+        public BeneficiaryService(IUserService userService,IBeneficiaryRepository beneficiaryRepository, IMapper mapper, ISavingAccountService savingAccountService, IHttpContextAccessor httpContextAccessor) : base(beneficiaryRepository, mapper)
         {
             _beneficiaryRepository = beneficiaryRepository;
             _mapper = mapper;
             _savingAccountService = savingAccountService;
             _httpContextAccessor = httpContextAccessor;
             userSession = _httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>("user");
+            _userService = userService;
         }
 
         public async Task<bool> AddBeneficiary(string identifyingNumber)
@@ -36,6 +38,8 @@ namespace NetBanking.Core.Application.Services
             var addedSuccessfully = await _beneficiaryRepository.AddBeneficiary(identifyingNumber);
             return addedSuccessfully;
         }
+
+       
 
         public override async Task<SaveBeneficiaryVM> Add(SaveBeneficiaryVM vm)
         {
@@ -54,13 +58,13 @@ namespace NetBanking.Core.Application.Services
                 if (userId != null)
                 {
                     beneficiary.IdentifyingNumberofProduct = matchingSavingAccount.IdentifyingNumber;
-                    beneficiary.UserName = userId;
+                    beneficiary.UserName = userSession.Id;
 
                     beneficiary.IdentifyingNumberofProduct = vm.IdentifyingNumberofProduct;
-                    beneficiary.BeneficiaryUserName = vm.BeneficiaryUserName ?? string.Empty;
-                    beneficiary.UserName = vm.UserName ?? string.Empty;
+                    beneficiary.BeneficiaryUserName = matchingSavingAccount.UserNameofOwner;
+                    //beneficiary.UserName = vm.UserName ?? string.Empty;
 
-                    beneficiary.UserName = matchingSavingAccount.UserName; 
+                    //beneficiary.UserName = matchingSavingAccount.UserName; 
 
                     var addedBeneficiary = await _beneficiaryRepository.AddAsync(beneficiary);
 
@@ -80,7 +84,24 @@ namespace NetBanking.Core.Application.Services
         public async Task<List<BeneficiaryVM>> GetBeneficiryByUserId()
         {
             var beneficiaryList = await _beneficiaryRepository.GetAllAsync();
-            return _mapper.Map<List<BeneficiaryVM>>(beneficiaryList.Where(x => x.UserName == userSession.Id).ToList());
+            List<BeneficiaryVM> listBeneficiaryVM = new List<BeneficiaryVM>();
+            foreach (var list in beneficiaryList)
+            {
+                var userBeneficiary = await _userService.GetUserDTOAsync(list.BeneficiaryUserName);
+                var beneficiary = new BeneficiaryVM
+                {
+                    Id = list.Id,
+                    Name = userBeneficiary.FirstName,
+                    IdentifyingNumberofProduct = list.IdentifyingNumberofProduct,
+                    UserName = list.UserName,
+                    BeneficiaryUserName = userBeneficiary.UserName,
+                    LastName = userBeneficiary.LastName,
+                };
+
+                listBeneficiaryVM.Add(beneficiary);
+            }
+
+            return _mapper.Map<List<BeneficiaryVM>>(listBeneficiaryVM);
         }
     }
 }

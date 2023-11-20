@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using NetBanking.Models;
 using System.Diagnostics;
 
 namespace NetBanking.Controllers
 {
+    [Authorize(Roles = "Client")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

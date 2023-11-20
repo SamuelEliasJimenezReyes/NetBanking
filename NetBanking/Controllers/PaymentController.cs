@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using NetBanking.Core.Application.Interfaces.Services;
 using NetBanking.Core.Application.ViewModel.Transaction;
 
 namespace NetBanking.Controllers
 {
+    [Authorize(Roles = "Client")]
     public class PaymentController : Controller
     {
         private readonly ISavingAccountService _savingAccountService;
@@ -38,10 +40,10 @@ namespace NetBanking.Controllers
             }
 
             var paymentExpress = await _transactionService.AddExpressPayment(svm);
-            if (paymentExpress.HasError)
+            if (paymentExpress.SaveTransactionVM.HasError)
             {
                 ViewBag.SavingAccounts = await _savingAccountService.GetAllVMbyUserId();
-                return View(paymentExpress);
+                return View(paymentExpress.SaveTransactionVM);
             }
 
             return View("ConfirmPaymentExpress", paymentExpress);
@@ -55,6 +57,7 @@ namespace NetBanking.Controllers
             }
 
             return View(ConfirmVM);
+
         }
 
        
@@ -83,6 +86,7 @@ namespace NetBanking.Controllers
         public async Task<IActionResult> PaymentBeneficiary()
         {
             ViewBag.Beneficiary = await _beneficiaryService.GetBeneficiryByUserId();
+            ViewBag.SavingAccounts = await _savingAccountService.GetAllVMbyUserId();
             return View(new SaveTransactionVM());
         }
 
@@ -129,12 +133,6 @@ namespace NetBanking.Controllers
         }
 
 
-
-
-
-
-
-
         #region CreditCard
 
         public async Task<IActionResult> PaymentCreditCard()
@@ -143,6 +141,7 @@ namespace NetBanking.Controllers
             ViewBag.SavingAccounts = await _savingAccountService.GetAllVMbyUserId();
             return View(new SaveTransactionVM());
         }
+
 
         [HttpPost]
         public async Task<IActionResult> PaymentCreditCard(SaveTransactionVM svm)
@@ -153,9 +152,15 @@ namespace NetBanking.Controllers
                 return View(new SaveTransactionVM());
             }
 
+            var paymentCard = await _transactionService.AddCreditCard(svm);
+            if (paymentCard.SaveTransactionVM.HasError)
+            {
+                ViewBag.SavingAccounts = await _savingAccountService.GetAllVMbyUserId();
+                ViewBag.Loans = await _loanService.GetAllVMbyUserId();
+                return View(paymentCard.SaveTransactionVM);
+            }
 
-
-            return View();
+            return RedirectToRoute(new { controller = "Client", action = "Index" });
         }
 
        
