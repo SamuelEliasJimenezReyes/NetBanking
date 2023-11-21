@@ -7,6 +7,7 @@ namespace NetBanking.Core.Application.ViewModel.CreditCard
     public class SaveCreditCardVM
     {
         public int Id { get; set; }
+
         public string? IdentifyingNumber { get; set; }
         [Required(ErrorMessage = "Debe elegir al usuario al que le creara la cuenta")]
         [Range(1, double.MaxValue, ErrorMessage = "El Numero de Cuenta debe ser Seleccionado")]
