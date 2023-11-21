@@ -5,7 +5,7 @@
 @using NetBanking.Core.Application.ViewModel.SavingAccount;
 @using NetBanking.Core.Application.ViewModel.Transaction;
 @inject IHttpContextAccessor httpContextAccessor
-@model SaveAvanceDeEfectivo;
+@model SaveCashOutViewModel;
 @{
     ViewData["Title"] = "Avance Efectivo";
     List<CreditCardVM> creditCardVMs = ViewBag.CreditCard;
@@ -19,7 +19,7 @@
         <div class="row justify-content-center pt-5 mt-5 m-1">
             <div class="col-md-6 col-sm-8 col-xl-4 col-lg-5 formulario">
 
-                <form method="post" asp-controller="AvanceEfectivo" asp-action="Index" enctype="multipart/form-data">
+                <form method="post" asp-controller="CashOut" asp-action="Index" enctype="multipart/form-data">
 
                     <div class="form-group text-center pt-3">
                         <h1 class="text-light">Avance Efectivo</h1>

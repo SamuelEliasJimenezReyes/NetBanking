@@ -2,8 +2,8 @@
 
 namespace NetBanking.Core.Application.Interfaces.Services
 {
-    public interface IAvancedeEfectivo
+    public interface ICashOutService
     {
-        Task<SaveAvanceDeEfectivo> MakeAvance(SaveAvanceDeEfectivo model);
+        Task<SaveCashOutViewModel> MakeAvance(SaveCashOutViewModel model);
     }
 }
