@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NetBanking.Core.Application.Interfaces.Services;
-using NetBanking.Core.Application.ViewModel.Products;
 
 namespace NetBanking.Controllers
 {

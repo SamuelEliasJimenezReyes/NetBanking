@@ -8,6 +8,7 @@ namespace NetBanking.Core.Domain.Common
 {
     public interface IsStatusEntity
     {
+        public  int Id { get; set; }
         public bool Status { get; set; }
     }
 }

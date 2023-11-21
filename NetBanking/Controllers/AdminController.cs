@@ -1,12 +1,10 @@
 ﻿
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using NetBanking.Core.Application.Helpers;
 using NetBanking.Core.Application.Interfaces.Services;
 using NetBanking.Core.Application.ViewModel.CreditCard;
 using NetBanking.Core.Application.ViewModel.Loan;
 using NetBanking.Core.Application.ViewModel.SavingAccount;
-using NetBanking.Core.Domain.Entities;
 
 namespace NetBanking.Controllers
 {
@@ -143,7 +141,7 @@ namespace NetBanking.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateCreditCards(SaveCreditCardVM svm)
         {
-            if (!ModelState.IsValid)
+            if (svm.Limit <= 0|| svm.UserNameofOwner == "0")
             {
                 svm.users = await _userService.GetAllUsers();
                 return View(svm);
@@ -160,7 +158,7 @@ namespace NetBanking.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateLoans(SaveLoanVM svm)
         {
-            if (!ModelState.IsValid)
+            if (svm.LoanQuantity <= 0 || svm.UserNameofOwner == "0")
             {
 
                 svm.users = await _userService.GetAllUsers();
@@ -169,7 +167,6 @@ namespace NetBanking.Controllers
             }
             
             svm.PaidQuantity = 0;
-
 
             await _loanService.Add(svm);
             var list = await _loanService.GetAllViewModel();

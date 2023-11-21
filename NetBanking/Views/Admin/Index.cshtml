@@ -109,16 +109,20 @@
                                     </td>
 
                                     }
-                                    <td>
-                                     @if (user.Roles.Contains("Client"))
-                                      {
-                                          <a class="btn btn-outline-info" asp-controller="User" asp-action="UpdateClient" asp-route-userId="@user.UserId">Editar</a>
-                                      }
-                                     else
-                                       {
-                                          <a class="btn btn-outline-info" asp-controller="User" asp-action="UpdateUser" asp-route-userId="@user.UserId">Editar</a>
-                                       }
-                                    </td>
+                                        <td>
+
+                                            @if (user.UserName != userInSession.UserName)
+                                            {
+                                                @if (user.Roles.Contains("Client"))
+                                                {
+                                                    <a class="btn btn-outline-info" asp-controller="User" asp-action="UpdateClient" asp-route-userId="@user.UserId">Editar</a>
+                                                }
+                                                else
+                                                {
+                                                    <a class="btn btn-outline-info" asp-controller="User" asp-action="UpdateUser" asp-route-userId="@user.UserId">Editar</a>
+                                                }
+                                            }
+                                        </td>
                                     }
                                 </tr>
                             }

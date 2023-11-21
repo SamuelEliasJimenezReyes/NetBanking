@@ -7,9 +7,10 @@ namespace NetBanking.Core.Application.ViewModel.Loan
     public class SaveLoanVM
     {
         public int Id {get; set;}
-        public string? IdentifyingNumber { get; set; } = null!;
+        public string? IdentifyingNumber { get; set; } 
         [Required(ErrorMessage = "Debe elegir al usuario al que le creara la cuenta")]
         [Range(1, double.MaxValue, ErrorMessage = "El Numero de Cuenta debe ser Seleccionado")]
+
         public string UserNameofOwner { get; set; } = null!;
 
         public string? UserName {get; set; } =null!;
@@ -20,6 +21,6 @@ namespace NetBanking.Core.Application.ViewModel.Loan
         public List<UserDTO>? users;
         [Required(ErrorMessage = "Es requerido")]
         public SaveTransactionVM? SaveTransactionVM { get; set; }
-        public bool Status { get; set; } = true;
+        public bool? Status { get; set; } = true;
     }
 }

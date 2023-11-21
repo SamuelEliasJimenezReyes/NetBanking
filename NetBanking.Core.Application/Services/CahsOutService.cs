@@ -5,20 +5,20 @@ using NetBanking.Core.Application.ViewModel.SavingAccount;
 
 namespace NetBanking.Core.Application.Services
 {
-    public class AvanceEfectivoService : IAvancedeEfectivo
+    public class CahsOutService : ICashOutService
     {
         private readonly ISavingAccountService _savingAccountService;
         private readonly ICreditCardService _creditCardService;
         private readonly IMapper _mapper;
 
-        public AvanceEfectivoService(ISavingAccountService savingAccountService, ICreditCardService creditCardService, IMapper mapper)
+        public CahsOutService(ISavingAccountService savingAccountService, ICreditCardService creditCardService, IMapper mapper)
         {
             _savingAccountService = savingAccountService;
             _creditCardService = creditCardService;
             _mapper = mapper;
         }
 
-        public async Task<SaveAvanceDeEfectivo> MakeAvance(SaveAvanceDeEfectivo model)
+        public async Task<SaveCashOutViewModel> MakeAvance(SaveCashOutViewModel model)
         {
             var credicard = await _creditCardService.GetByCardNumber(model.CardNumber);
             var savingAccount = await _savingAccountService.GetVmByAccountNumber(model.DestinationAccount);

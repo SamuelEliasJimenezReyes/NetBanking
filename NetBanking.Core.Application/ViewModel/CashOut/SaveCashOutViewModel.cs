@@ -2,7 +2,7 @@
 
 namespace NetBanking.Core.Application.ViewModel.AvancedeEfectivo
 {
-    public class SaveAvanceDeEfectivo
+    public class SaveCashOutViewModel
     {
         public string? IdUser {  get; set; }
         [Required(ErrorMessage = "Debe elegir la Tarjeta de Credito de donde pagara")]

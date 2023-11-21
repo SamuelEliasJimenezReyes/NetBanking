@@ -46,7 +46,7 @@ namespace NetBanking.Core.Application.Services
             var paymentList = transactionsList.Where(x => x.TransactionTypeId == 1 || x.TransactionTypeId == 2 || x.TransactionTypeId == 3 || x.TransactionTypeId == 4).ToList();
             var dayPayment = paymentList.Where(x => x.Date == DateTime.Today).ToList();
             var userList = await _userService.GetAllUsers();
-            var clientList = userList.Where(x => x.Roles.ToString().Contains("Client")).ToList();
+            var clientList = userList.Where(x => x.Roles.Contains("Client")).ToList();
             var activeClient = clientList.Where(x => x.IsActive == true).ToList();
             var inActiveClient = clientList.Where(x => x.IsActive == false).ToList();
 
