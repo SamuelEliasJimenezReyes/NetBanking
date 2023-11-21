@@ -47,7 +47,7 @@ namespace NetBanking.Controllers
                 ViewBag.Account = await _savingAccountService.GetAllVMbyUserId();
                 return View(model);
             }
-            return RedirectToRoute(new { controller = "Home", action = "Index" });
+            return RedirectToRoute(new { controller = "User", action = "Index" });
         }
     }
 }

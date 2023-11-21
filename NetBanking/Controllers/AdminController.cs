@@ -170,7 +170,6 @@ namespace NetBanking.Controllers
             
             svm.PaidQuantity = 0;
 
-
             await _loanService.Add(svm);
             var list = await _loanService.GetAllViewModel();
 
