@@ -10,7 +10,7 @@ namespace NetBanking.Core.Application.ViewModel.SavingAccount
         public int Id { get; set; }
         public string? IdentifyingNumber { get; set; }
         [Required(ErrorMessage = "Debe elegir al usuario al que le creara la cuenta")]
-        [Range(1, double.MaxValue, ErrorMessage = "El Numero de Cuenta debe ser Seleccionado")]
+        [RegularExpression(@"^\d{4}$", ErrorMessage = "El número de cuenta debe ser seleccionado")]
         public string UserNameofOwner { get; set; }
         public bool IsPrincipal { get; set; } = false;
         [Range(1, double.MaxValue, ErrorMessage = "0 no es un monto Valido")]

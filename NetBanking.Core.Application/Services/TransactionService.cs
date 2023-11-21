@@ -215,9 +215,9 @@ namespace NetBanking.Core.Application.Services
 
             if (originAccount.Amount >= svm.Amount)
             {
-                if(destinationAccount.Debt > decimal.Zero)
+                if (destinationAccount.Debt > decimal.Zero)
                 {
-                    if (destinationAccount.Debt < svm.Amount)
+                    if (destinationAccount.Debt >= svm.Amount)
                     {
                         destinationAccount.Debt -= svm.Amount;
                         destinationAccount.CurrentAmount += svm.Amount;
@@ -225,15 +225,14 @@ namespace NetBanking.Core.Application.Services
                     }
                     else
                     {
-                        pay = destinationAccount.Debt = -svm.Amount;
-                        destinationAccount.CurrentAmount += svm.Amount;
+                        pay = destinationAccount.Debt;
+                        destinationAccount.Debt = decimal.Zero;
+                        destinationAccount.CurrentAmount += pay;
+
                         if (pay != decimal.Zero)
                         {
-                            originAccount.Amount -= svm.Amount;
-                            amount = originAccount.Amount += pay;
-
+                            originAccount.Amount -= pay;
                         }
-                        originAccount.Amount -= svm.Amount;
                     }
 
                     var accountOrigin = new SaveSavingAccountVM()
@@ -243,10 +242,8 @@ namespace NetBanking.Core.Application.Services
                         IsPrincipal = originAccount.IsPrincipal,
                         UserNameofOwner = originAccount.UserNameofOwner,
                         Id = originAccount.Id,
-
                     };
                     await _savingAccountService.Update(accountOrigin, accountOrigin.Id);
-
 
                     var destinyAccount = new SaveCreditCardVM()
                     {
@@ -254,8 +251,8 @@ namespace NetBanking.Core.Application.Services
                         UserNameofOwner = destinationAccount.UserNameofOwner,
                         CurrentAmount = destinationAccount.CurrentAmount,
                         Limit = destinationAccount.Limit,
-                        Id = destinationAccount.Id
-
+                        Id = destinationAccount.Id,
+                        Debt = destinationAccount.Debt
                     };
                     await _creditCardService.Update(destinyAccount, destinyAccount.Id);
 
@@ -278,10 +275,13 @@ namespace NetBanking.Core.Application.Services
                     savecardVM.SaveTransactionVM = new();
                     return savecardVM;
                 }
-                svm.HasError = true;
-                svm.ErrorMessage = "La Deuda ha sido Saldada gracias por ser responsable";
-                card.SaveTransactionVM = svm;
-                return card;
+                else
+                {
+                    svm.HasError = true;
+                    svm.ErrorMessage = "La Deuda ha sido Saldada gracias por ser responsable";
+                    card.SaveTransactionVM = svm;
+                    return card;
+                }
             }
             else
             {
@@ -290,8 +290,8 @@ namespace NetBanking.Core.Application.Services
                 card.SaveTransactionVM = svm;
                 return card;
             }
-
         }
+
 
         public async Task<SCPaymentExpressVM> PayToBeneficiaries(SaveTransactionVM svm)
         {
