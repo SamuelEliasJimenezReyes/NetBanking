@@ -47,11 +47,11 @@ namespace NetBanking.Controllers
                     try
                     {
                         var addedBeneficiary = await _service.Add(vm);
-                    if(addedBeneficiary.HasError == true)
-                    {
-                        var list = await _service.GetBeneficiryByUserId();
-                        return View("Beneficiary",list);
-                    }
+                       if(addedBeneficiary.HasError == true)
+                        {
+                            var list = await _service.GetBeneficiryByUserId();
+                            return View("Beneficiary",list);
+                        }
                         return RedirectToAction("Index");
                     }
                     catch (Exception ex)
