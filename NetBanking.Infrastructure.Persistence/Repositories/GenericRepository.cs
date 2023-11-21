@@ -24,8 +24,8 @@ namespace NetBanking.Infrastructure.Persistence.Repositories
 
         public virtual async Task<T> GetByIdAsync(int id)
         {
-            return await _dbContext.Set<T>().FindAsync(id);
-
+            var entity = await _dbContext.Set<T>().Where(e => e.Id == id).FirstOrDefaultAsync();
+            return entity;
         }
 
         public virtual async Task<List<T>> GetAllAsync()
