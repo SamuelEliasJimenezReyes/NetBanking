@@ -7,7 +7,7 @@
 @inject IHttpContextAccessor httpContextAccessor
 @model SaveTransactionVM;
 @{
-    ViewData["Title"] = "Pago Tarjeta de Crédito";
+    ViewData["Title"] = "Pago Beneficiario";
     List<BeneficiaryVM> beneficiaryVMs = ViewBag.Beneficiaries;
     List<SavingAccountVM> savingAccountVMs = ViewBag.SavingAccounts;
 
@@ -37,17 +37,20 @@
                         <select asp-for="DestinationAccountNumber" asp-items="@(new SelectList(beneficiaryVMs,"IdentifyingNumberofProduct", "Name"))" type="text" class="form-select mb-3" required>
                             <option value="0">Seleccione Beneficiario</option>
                         </select>
-                        <span asp-validation-for="DestinationAccountNumber" class="text-danger"> </span>
+                        <span asp-validation-for="DestinationAccountNumber" class="text-white"> </span>
                     </div>
                   
                     <div class="form-group mx-sm-4 pt-3 mb-2">
                         <select asp-for="OriginAccountNumber" asp-items="@(new SelectList(savingAccountVMs,"IdentifyingNumber", "IdentifyingNumber"))" type="text" class="form-select mb-3" required>
                             <option value="0">Seleccione la Cuenta donde pagará</option>
                         </select>
+                        <span asp-validation-for="OriginAccountNumber" class="text-white"> </span>
                     </div>
+
 
                     <div class="form-group mx-sm-4 pt-3 mb-2">
                         <input asp-for="Amount" class="form-control" placeholder="Ingrese la Cantidad">
+                        <span asp-validation-for="Amount" class="text-white"> </span>
                     </div>
                   
                     <input asp-for="TransactionTypeId" class="form-control" hidden>

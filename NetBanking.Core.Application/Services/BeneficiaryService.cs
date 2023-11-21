@@ -47,38 +47,46 @@ namespace NetBanking.Core.Application.Services
 
             var destinationAccount = await _savingAccountService.GetByAccountINumber(vm.IdentifyingNumberofProduct);
 
+            var beneficiaries = await GetBeneficiryByUserId();
+            var beneficiaryalreadyExits = beneficiaries.Exists(x => x.IdentifyingNumberofProduct == vm.IdentifyingNumberofProduct);
+
             var savingAccounts = await _savingAccountService.GetAllViewModel();
 
-            var matchingSavingAccount = savingAccounts.FirstOrDefault(x => x.IdentifyingNumber == vm.IdentifyingNumberofProduct);
 
-            if (matchingSavingAccount != null)
+            if (userSession.Id != destinationAccount.UserNameofOwner && beneficiaryalreadyExits == false)
             {
-                var userId = userSession?.Id;
+                var matchingSavingAccount = savingAccounts.FirstOrDefault(x => x.IdentifyingNumber == vm.IdentifyingNumberofProduct);
 
-                if (userId != null)
+                if (matchingSavingAccount != null)
                 {
-                    beneficiary.IdentifyingNumberofProduct = matchingSavingAccount.IdentifyingNumber;
-                    beneficiary.UserName = userSession.Id;
+                    var userId = userSession?.Id;
 
-                    beneficiary.IdentifyingNumberofProduct = vm.IdentifyingNumberofProduct;
-                    beneficiary.BeneficiaryUserName = matchingSavingAccount.UserNameofOwner;
-                    //beneficiary.UserName = vm.UserName ?? string.Empty;
+                    if (userId != null)
+                    {
+                        beneficiary.IdentifyingNumberofProduct = matchingSavingAccount.IdentifyingNumber;
+                        beneficiary.UserName = userSession.Id;
 
-                    //beneficiary.UserName = matchingSavingAccount.UserName; 
+                        beneficiary.IdentifyingNumberofProduct = vm.IdentifyingNumberofProduct;
+                        beneficiary.BeneficiaryUserName = matchingSavingAccount.UserNameofOwner;
 
-                    var addedBeneficiary = await _beneficiaryRepository.AddAsync(beneficiary);
+                        var addedBeneficiary = await _beneficiaryRepository.AddAsync(beneficiary);
 
-                    return _mapper.Map<SaveBeneficiaryVM>(addedBeneficiary);
+                        return _mapper.Map<SaveBeneficiaryVM>(addedBeneficiary);
+                    }
+                    else
+                    {
+                        throw new InvalidOperationException("No se pudo obtener el ID del usuario en sesión");
+                    }
                 }
                 else
                 {
-                    throw new InvalidOperationException("No se pudo obtener el ID del usuario en sesión");
+                    throw new InvalidOperationException("El número de cuenta de ahorro no existe");
                 }
             }
-            else
-            {
-                throw new InvalidOperationException("El número de cuenta de ahorro no existe");
-            }
+            vm.HasError = true;
+            vm.ErrorMessage = "No se puede agregar a usted mismo como Beneficiario";
+            return vm;
+               
         }
 
         public async Task<List<BeneficiaryVM>> GetBeneficiryByUserId()

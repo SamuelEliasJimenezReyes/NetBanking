@@ -96,6 +96,7 @@ namespace NetBanking.Controllers
             if (!ModelState.IsValid)
             {
                 ViewBag.SavingAccounts = await _savingAccountService.GetAllVMbyUserId();
+                ViewBag.Beneficiaries = await _beneficiaryService.GetBeneficiryByUserId();
                 return View(new SaveTransactionVM());
             }
           
@@ -103,6 +104,7 @@ namespace NetBanking.Controllers
             if (paymentExpress.SaveTransactionVM.HasError)
             {
                 ViewBag.SavingAccounts = await _savingAccountService.GetAllVMbyUserId();
+                ViewBag.Beneficiaries = await _beneficiaryService.GetBeneficiryByUserId();
                 return View(paymentExpress);
             }
 
@@ -156,6 +158,7 @@ namespace NetBanking.Controllers
             if (!ModelState.IsValid)
             {
                 ViewBag.CreditCards = await _creditCardService.GetAllVMbyUserId();
+                ViewBag.SavingAccounts = await _savingAccountService.GetAllVMbyUserId();
                 return View(new SaveTransactionVM());
             }
 
@@ -163,7 +166,7 @@ namespace NetBanking.Controllers
             if (paymentCard.SaveTransactionVM.HasError)
             {
                 ViewBag.SavingAccounts = await _savingAccountService.GetAllVMbyUserId();
-                ViewBag.Loans = await _loanService.GetAllVMbyUserId();
+                ViewBag.CreditCards = await _creditCardService.GetAllVMbyUserId();
                 return View(paymentCard.SaveTransactionVM);
             }
 

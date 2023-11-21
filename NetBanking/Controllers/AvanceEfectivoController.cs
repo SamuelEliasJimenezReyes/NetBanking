@@ -36,11 +36,15 @@ namespace NetBanking.Controllers
         {
             if(!ModelState.IsValid)
             {
+                ViewBag.CreditCard = await _creditCardService.GetAllVMbyUserId();
+                ViewBag.Account = await _savingAccountService.GetAllVMbyUserId();
                 return View(model);
             }
             var avance = await _avancedeEfectivo.MakeAvance(model);
             if (avance.HasError)
             {
+                ViewBag.CreditCard = await _creditCardService.GetAllVMbyUserId();
+                ViewBag.Account = await _savingAccountService.GetAllVMbyUserId();
                 return View(model);
             }
             return RedirectToRoute(new { controller = "Home", action = "Index" });

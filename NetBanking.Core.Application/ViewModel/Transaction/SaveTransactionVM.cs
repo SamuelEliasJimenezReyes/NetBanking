@@ -6,7 +6,8 @@ namespace NetBanking.Core.Application.ViewModel.Transaction
 {
     public class SaveTransactionVM
     {
-        [Range(1, double.MaxValue, ErrorMessage = "El monto debe ser mayor que 1.")]
+        [Required(ErrorMessage = "Debe elegir una Cuenta de Origen")]
+        [Range(1, double.MaxValue, ErrorMessage = "El Numero de Cuenta debe ser Seleccionado")]
         public string OriginAccountNumber { get; set; } = null!;
         [Required(ErrorMessage = "El número de cuenta es requerido")]
         [RegularExpression(@"^\d{9}$", ErrorMessage = "El número de cuenta debe tener 9 dígitos")]

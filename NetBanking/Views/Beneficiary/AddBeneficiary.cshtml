@@ -1,4 +1,4 @@
-﻿@using NetBanking.Core.Application.ViewModel.Beneficiary;
+﻿@* @using NetBanking.Core.Application.ViewModel.Beneficiary;
 @model SaveBeneficiaryVM 
 
 <h1>Agregar Beneficiario</h1>
@@ -13,6 +13,7 @@
                 </button>
             </div>
             <div class="modal-body">
+              
                 <form asp-action="AgregarBeneficiario">
                     <div class="form-group">
                         <label>Número de Cuenta:</label>
@@ -56,3 +57,4 @@
         });
     </script>
 }
+ *@

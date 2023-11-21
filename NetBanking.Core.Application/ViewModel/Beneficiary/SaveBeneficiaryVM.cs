@@ -10,5 +10,7 @@ namespace NetBanking.Core.Application.ViewModel.Beneficiary
         [Required(ErrorMessage = "El número de cuenta es requerido")]
         [RegularExpression(@"^\d{9}$", ErrorMessage = "El número de cuenta debe tener 9 dígitos")]
         public string IdentifyingNumberofProduct { get; set; }
+        public bool HasError { get; set; }
+        public string? ErrorMessage { get; set; } 
     }
 }

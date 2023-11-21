@@ -125,7 +125,7 @@ namespace NetBanking.Controllers
                 svm.UserNameofOwner = null!;
             }
 
-            if(!ModelState.IsValid)
+            if(!ModelState.IsValid || svm.UserNameofOwner == null)
             {
                 SaveSavingAccountVM sv = new SaveSavingAccountVM();
 
@@ -145,12 +145,11 @@ namespace NetBanking.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View();
+                svm.users = await _userService.GetAllUsers();
+                return View(svm);
             }
 
             svm.CurrentAmount = svm.Limit;
-
-
 
             await _creditCardService.Add(svm);
             var list = await _creditCardService.GetAllViewModel();
@@ -163,7 +162,10 @@ namespace NetBanking.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View();
+
+                svm.users = await _userService.GetAllUsers();
+
+                return View(svm);
             }
             
             svm.PaidQuantity = 0;

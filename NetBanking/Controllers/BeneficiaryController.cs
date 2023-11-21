@@ -47,6 +47,11 @@ namespace NetBanking.Controllers
                     try
                     {
                         var addedBeneficiary = await _service.Add(vm);
+                    if(addedBeneficiary.HasError == true)
+                    {
+                        var list = await _service.GetBeneficiryByUserId();
+                        return View("Beneficiary",list);
+                    }
                         return RedirectToAction("Index");
                     }
                     catch (Exception ex)
@@ -54,6 +59,7 @@ namespace NetBanking.Controllers
                         ModelState.AddModelError(string.Empty, "Hubo un error al agregar el beneficiario: " + ex.Message);
                     }
                 }
+               
                 return View(vm);
             }
 

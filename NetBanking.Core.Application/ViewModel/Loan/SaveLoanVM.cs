@@ -8,7 +8,8 @@ namespace NetBanking.Core.Application.ViewModel.Loan
     {
         public int Id {get; set;}
         public string? IdentifyingNumber { get; set; } = null!;
-        [Required(ErrorMessage = "El monto debe ser mayor que 1.")]
+        [Required(ErrorMessage = "Debe elegir al usuario al que le creara la cuenta")]
+        [Range(1, double.MaxValue, ErrorMessage = "El Numero de Cuenta debe ser Seleccionado")]
         public string UserNameofOwner { get; set; } = null!;
 
         public string? UserName {get; set; } =null!;
