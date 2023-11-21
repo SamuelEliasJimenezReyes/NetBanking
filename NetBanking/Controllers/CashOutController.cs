@@ -8,15 +8,15 @@ using Microsoft.AspNetCore.Authorization;
 namespace NetBanking.Controllers
 {
     [Authorize(Roles = "Client")]
-    public class AvanceEfectivoController : Controller
+    public class CashOutController : Controller
     {
-        private readonly IAvancedeEfectivo _avancedeEfectivo;
+        private readonly ICashOutService _avancedeEfectivo;
         private readonly ISavingAccountService _savingAccountService;
         private readonly ICreditCardService _creditCardService;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly AuthenticationResponse? user;
 
-        public AvanceEfectivoController(IAvancedeEfectivo avancedeEfectivo, ISavingAccountService savingAccountService, ICreditCardService creditCardService, IHttpContextAccessor httpContextAccessor)
+        public CashOutController(ICashOutService avancedeEfectivo, ISavingAccountService savingAccountService, ICreditCardService creditCardService, IHttpContextAccessor httpContextAccessor)
         {
             _avancedeEfectivo = avancedeEfectivo;
             _savingAccountService = savingAccountService;
@@ -32,7 +32,7 @@ namespace NetBanking.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Index(SaveAvanceDeEfectivo model)
+        public async Task<IActionResult> Index(SaveCashOutViewModel model)
         {
             if(!ModelState.IsValid)
             {

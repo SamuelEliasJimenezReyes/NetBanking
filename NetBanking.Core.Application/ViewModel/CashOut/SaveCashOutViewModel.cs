@@ -1,6 +1,6 @@
 ﻿namespace NetBanking.Core.Application.ViewModel.AvancedeEfectivo
 {
-    public class SaveAvanceDeEfectivo
+    public class SaveCashOutViewModel
     {
         public string? IdUser {  get; set; }
         public string CardNumber {  get; set; }

@@ -23,7 +23,7 @@ namespace NetBanking.Core.Application
             services.AddTransient<ILoanService, LoanService>();
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IProductServices, ProductServices>();
-            services.AddTransient<IAvancedeEfectivo, AvanceEfectivoService>();
+            services.AddTransient<ICashOutService, CahsOutService>();
             
             #endregion
         }
