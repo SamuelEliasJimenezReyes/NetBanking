@@ -24,7 +24,7 @@ namespace NetBanking.Controllers
             _httpContextAccessor = httpContextAccessor;
             user = _httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>("user");
         }
-
+        
         public async Task< IActionResult> Index()
         {
             ViewBag.CreditCard = await _creditCardService.GetAllVMbyUserId();

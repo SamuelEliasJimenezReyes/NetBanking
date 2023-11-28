@@ -9,9 +9,7 @@
 @{
     ViewData["Title"] = "Avance Efectivo";
     List<CreditCardVM> creditCardVMs = ViewBag.CreditCard;
-    List<SavingAccountVM> savingAccountVMs = ViewBag.Account;
-
-   
+    List<SavingAccountVM> savingAccountVMs = ViewBag.Account;   
 }
 
 <body>
@@ -25,7 +23,7 @@
                         <h1 class="text-light">Avance Efectivo</h1>
                     </div>
 
-
+                    
 
                     <div class="form-group mx-sm-4 pt-3 mb-2">
                         <select asp-for="CardNumber" asp-items="@(new SelectList(creditCardVMs,"IdentifyingNumber", "IdentifyingNumber"))" type="text" class="form-select mb-3">
