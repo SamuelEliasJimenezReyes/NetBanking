@@ -123,86 +123,96 @@ namespace NetBanking.Core.Application.Services
             var originAccount = await _savingAccountService.GetByAccountINumber(svm.OriginAccountNumber);
             SaveLoanVM loan = new();
 
-            if (originAccount.Amount >= svm.Amount)
+            if (destinationAccount.PaidQuantity != destinationAccount.LoanQuantity)
             {
-                var pay = destinationAccount.PaidQuantity + svm.Amount;
-
-                if (pay != destinationAccount.LoanQuantity)
+                if (originAccount.Amount >= svm.Amount)
                 {
-                    var amount = 0m;
-                    if (pay < destinationAccount.LoanQuantity)
+                    var pay = destinationAccount.PaidQuantity + svm.Amount;
+
+                    if (pay != destinationAccount.LoanQuantity)
                     {
-                        pay = destinationAccount.PaidQuantity += svm.Amount;
-                        originAccount.Amount -= svm.Amount;
+                        var amount = 0m;
+                        if (pay < destinationAccount.LoanQuantity)
+                        {
+                            pay = destinationAccount.PaidQuantity += svm.Amount;
+                            originAccount.Amount -= svm.Amount;
+                        }
+                        else
+                        {
+                            amount = pay - destinationAccount.LoanQuantity;
+                            destinationAccount.PaidQuantity += svm.Amount - amount;
+                            originAccount.Amount -= svm.Amount - amount;
+                        }
+
+
+                        var accountOrigin = new SaveSavingAccountVM()
+                        {
+                            IdentifyingNumber = originAccount.IdentifyingNumber,
+                            Amount = originAccount.Amount,
+                            IsPrincipal = originAccount.IsPrincipal,
+                            UserNameofOwner = originAccount.UserNameofOwner,
+                            Id = originAccount.Id
+                        };
+                        await _savingAccountService.Update(accountOrigin, accountOrigin.Id);
+
+
+                        var destinyAccount = new SaveLoanVM()
+                        {
+                            IdentifyingNumber = destinationAccount.IdentifyingNumber,
+                            UserNameofOwner = destinationAccount.UserNameofOwner,
+                            LoanQuantity = destinationAccount.LoanQuantity,
+                            PaidQuantity = destinationAccount.PaidQuantity,
+                            Id = destinationAccount.Id
+
+                        };
+                        await _loanService.Update(destinyAccount, destinyAccount.Id);
+
+                        var transaction = new SaveTransactionVM
+                        {
+                            Amount = destinationAccount.PaidQuantity,
+                            DestinationAccountNumber = svm.DestinationAccountNumber,
+                            OriginAccountNumber = svm.OriginAccountNumber,
+                            Description = svm.Description,
+                            TransactionTypeId = (int)TransactionType.PagoExpreso,
+                            UserNameOfAccountHolder = originAccount.UserNameofOwner
+                        };
+
+                        SaveLoanVM saveLoanVM = new()
+                        {
+                            PaidQuantity = pay,
+                            LoanQuantity = amount
+                        };
+
+                        await Add(transaction);
+                        saveLoanVM.SaveTransactionVM = new();
+                        return saveLoanVM;
                     }
                     else
                     {
-                        amount = pay - destinationAccount.LoanQuantity;
-                        destinationAccount.PaidQuantity += svm.Amount - amount;
-                        originAccount.Amount -= svm.Amount - amount;
+                        svm.HasError = true;
+                        svm.ErrorMessage = "El prestamo ya ha sido saldado";
+                        loan.SaveTransactionVM = svm;
+                        return loan;
                     }
 
 
-                    var accountOrigin = new SaveSavingAccountVM()
-                    {
-                        IdentifyingNumber = originAccount.IdentifyingNumber,
-                        Amount = originAccount.Amount,
-                        IsPrincipal = originAccount.IsPrincipal,
-                        UserNameofOwner = originAccount.UserNameofOwner,
-                        Id = originAccount.Id
-                    };
-                    await _savingAccountService.Update(accountOrigin, accountOrigin.Id);
-
-
-                    var destinyAccount = new SaveLoanVM()
-                    {
-                        IdentifyingNumber = destinationAccount.IdentifyingNumber,
-                        UserNameofOwner = destinationAccount.UserNameofOwner,
-                        LoanQuantity = destinationAccount.LoanQuantity,
-                        PaidQuantity = destinationAccount.PaidQuantity,
-                        Id = destinationAccount.Id
-
-                    };
-                    await _loanService.Update(destinyAccount, destinyAccount.Id);
-
-                    var transaction = new SaveTransactionVM
-                    {
-                        Amount = destinationAccount.PaidQuantity,
-                        DestinationAccountNumber = svm.DestinationAccountNumber,
-                        OriginAccountNumber = svm.OriginAccountNumber,
-                        Description = svm.Description,
-                        TransactionTypeId = (int)TransactionType.PagoExpreso,
-                        UserNameOfAccountHolder = originAccount.UserNameofOwner
-                    };
-
-                    SaveLoanVM saveLoanVM = new()
-                    {
-                        PaidQuantity = pay,
-                        LoanQuantity = amount
-                    };
-
-                    await Add(transaction);
-                    saveLoanVM.SaveTransactionVM = new();
-                    return saveLoanVM;
                 }
                 else
                 {
                     svm.HasError = true;
-                    svm.ErrorMessage = "El prestamo ya ha sido saldado";
+                    svm.ErrorMessage = "No tiene el monto Suficiente para Realizar la Trasacción";
                     loan.SaveTransactionVM = svm;
                     return loan;
                 }
-
 
             }
             else
             {
                 svm.HasError = true;
-                svm.ErrorMessage = "No tiene el monto Suficiente para Realizar la Trasacción";
+                svm.ErrorMessage = "La deuda ha sido paga";
                 loan.SaveTransactionVM = svm;
                 return loan;
             }
-
         }
 
         public async Task<SaveCreditCardVM> AddCreditCard(SaveTransactionVM svm)
@@ -215,9 +225,9 @@ namespace NetBanking.Core.Application.Services
 
             if (originAccount.Amount >= svm.Amount)
             {
-                if(destinationAccount.Debt > decimal.Zero)
+                if (destinationAccount.Debt > decimal.Zero)
                 {
-                    if (destinationAccount.Debt < svm.Amount)
+                    if (destinationAccount.Debt >= svm.Amount)
                     {
                         destinationAccount.Debt -= svm.Amount;
                         destinationAccount.CurrentAmount += svm.Amount;
@@ -225,15 +235,14 @@ namespace NetBanking.Core.Application.Services
                     }
                     else
                     {
-                        pay = destinationAccount.Debt = -svm.Amount;
-                        destinationAccount.CurrentAmount += svm.Amount;
+                        pay = destinationAccount.Debt;
+                        destinationAccount.Debt = decimal.Zero;
+                        destinationAccount.CurrentAmount += pay;
+
                         if (pay != decimal.Zero)
                         {
-                            originAccount.Amount -= svm.Amount;
-                            amount = originAccount.Amount += pay;
-
+                            originAccount.Amount -= pay;
                         }
-                        originAccount.Amount -= svm.Amount;
                     }
 
                     var accountOrigin = new SaveSavingAccountVM()
@@ -243,10 +252,8 @@ namespace NetBanking.Core.Application.Services
                         IsPrincipal = originAccount.IsPrincipal,
                         UserNameofOwner = originAccount.UserNameofOwner,
                         Id = originAccount.Id,
-
                     };
                     await _savingAccountService.Update(accountOrigin, accountOrigin.Id);
-
 
                     var destinyAccount = new SaveCreditCardVM()
                     {
@@ -254,8 +261,8 @@ namespace NetBanking.Core.Application.Services
                         UserNameofOwner = destinationAccount.UserNameofOwner,
                         CurrentAmount = destinationAccount.CurrentAmount,
                         Limit = destinationAccount.Limit,
-                        Id = destinationAccount.Id
-
+                        Id = destinationAccount.Id,
+                        Debt = destinationAccount.Debt
                     };
                     await _creditCardService.Update(destinyAccount, destinyAccount.Id);
 
@@ -278,10 +285,13 @@ namespace NetBanking.Core.Application.Services
                     savecardVM.SaveTransactionVM = new();
                     return savecardVM;
                 }
-                svm.HasError = true;
-                svm.ErrorMessage = "La Deuda ha sido Saldada gracias por ser responsable";
-                card.SaveTransactionVM = svm;
-                return card;
+                else
+                {
+                    svm.HasError = true;
+                    svm.ErrorMessage = "La Deuda ha sido Saldada gracias por ser responsable";
+                    card.SaveTransactionVM = svm;
+                    return card;
+                }
             }
             else
             {
@@ -290,8 +300,8 @@ namespace NetBanking.Core.Application.Services
                 card.SaveTransactionVM = svm;
                 return card;
             }
-
         }
+
 
         public async Task<SCPaymentExpressVM> PayToBeneficiaries(SaveTransactionVM svm)
         {

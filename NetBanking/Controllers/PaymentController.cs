@@ -173,7 +173,7 @@ namespace NetBanking.Controllers
             return RedirectToRoute(new { controller = "Client", action = "Index" });
         }
 
-       
+        #endregion
 
         public async Task<IActionResult> PaymentLoan()
         {
@@ -229,4 +229,3 @@ namespace NetBanking.Controllers
         }
     }
 }
-#endregion
